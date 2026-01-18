@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laslo Reifen - Premium Reifen & Felgen Vermittlung</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#FF5722', // Vibrant Orange
+                            dark: '#0a0a0a',   // Almost Black
+                            gray: '#1f1f1f',   // Dark Gray
+                            light: '#f3f4f6'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Barlow', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF5722;
+        }
+        
+        .hero-bg {
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1580273916550-e323be2ed5fa?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .glass-panel {
+            background: rgba(31, 31, 31, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Background Animation */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+
+        /* Modal Styles */
+        .modal {
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .modal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-gray-300 font-sans antialiased overflow-x-hidden selection:bg-brand-orange selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 glass-panel" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <i class="fa-solid fa-tire text-brand-orange text-3xl animate-spin-slow"></i>
+                    <span class="text-white text-2xl font-bold tracking-tighter">LASLO <span class="text-brand-orange">REIFEN</span></span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-brand-orange text-white px-3 py-2 rounded-md text-sm font-medium transition-colors" data-i18n="nav_home">Home</a>
+                        <a href="#about" class="hover:text-brand-orange text-gray-300 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-i18n="nav_about">Über uns</a>
+                        <a href="#services" class="hover:text-brand-orange text-gray-300 px-3 py-2 rounded-md text-sm font-medium transition-colors" data-i18n="nav_services">Dienstleistungen</a>
+                        <a href="#contact" class="bg-brand-orange hover:bg-orange-600 text-white px-5 py-2 rounded-full text-sm font-bold transition-all transform hover:scale-105" data-i18n="nav_contact">Kontakt</a>
+                        
+                        <!-- Language Switcher -->
+                        <div class="relative inline-block text-left ml-4 group">
+                            <button class="flex items-center text-gray-300 hover:text-white focus:outline-none">
+                                <i class="fa-solid fa-globe mr-1"></i> <span id="current-lang">DE</span>
+                            </button>
+                            <div class="absolute right-0 mt-2 w-32 bg-brand-gray border border-gray-700 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right">
+                                <div class="py-1">
+                                    <button onclick="setLanguage('de')" class="block w-full text-left px-4 py-2 text-sm hover:bg-brand-dark text-gray-300 hover:text-brand-orange">Deutsch</button>
+                                    <button onclick="setLanguage('en')" class="block w-full text-left px-4 py-2 text-sm hover:bg-brand-dark text-gray-300 hover:text-brand-orange">English</button>
+                                    <button onclick="setLanguage('hu')" class="block w-full text-left px-4 py-2 text-sm hover:bg-brand-dark text-gray-300 hover:text-brand-orange">Magyar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="-mr-2 flex md:hidden gap-4">
+                     <!-- Mobile Lang Switcher (Simplified) -->
+                     <button onclick="cycleLanguage()" class="text-gray-300 hover:text-brand-orange font-bold">
+                        <span id="mobile-lang-display">DE</span>
+                    </button>
+                    <button onclick="toggleMobileMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-brand-gray border-t border-gray-800" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="text-white block px-3 py-2 rounded-md text-base font-medium" onclick="toggleMobileMenu()" data-i18n="nav_home">Home</a>
+                <a href="#about" class="text-gray-300 hover:text-brand-orange block px-3 py-2 rounded-md text-base font-medium" onclick="toggleMobileMenu()" data-i18n="nav_about">Über uns</a>
+                <a href="#services" class="text-gray-300 hover:text-brand-orange block px-3 py-2 rounded-md text-base font-medium" onclick="toggleMobileMenu()" data-i18n="nav_services">Dienstleistungen</a>
+                <a href="#contact" class="text-brand-orange font-bold block px-3 py-2 rounded-md text-base font-medium" onclick="toggleMobileMenu()" data-i18n="nav_contact">Kontakt</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg h-screen flex items-center justify-center relative overflow-hidden">
+        <!-- Animated Background Elements -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+            <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-brand-orange rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob"></div>
+            <div class="absolute top-1/3 right-1/4 w-72 h-72 bg-orange-600 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-1/3 w-72 h-72 bg-brand-orange rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+        </div>
+
+        <div class="absolute bottom-0 w-full h-24 bg-gradient-to-t from-brand-dark to-transparent z-10"></div>
+        <div class="text-center px-4 max-w-5xl mx-auto z-10 relative">
+            <h2 class="reveal text-brand-orange text-lg md:text-xl font-bold uppercase tracking-widest mb-4" data-i18n="hero_subtitle">Qualität rollt besser</h2>
+            <h1 class="reveal delay-100 text-5xl md:text-7xl lg:text-8xl font-extrabold text-white mb-8 leading-tight">
+                <span data-i18n="hero_title_1">PERFEKTE</span> <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-orange-400" data-i18n="hero_title_2">FELGEN & REIFEN</span>
+            </h1>
+            <p class="reveal delay-200 text-gray-300 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light" data-i18n="hero_desc">
+                Ihr Premium-Vermittler für exklusive Radsätze, Hochleistungsreifen und professionelle Felgenveredelung. Wir verbinden Sie mit den besten Händlern.
+            </p>
+            <div class="reveal delay-300 flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#services" class="bg-brand-orange hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:-translate-y-1 shadow-lg shadow-orange-900/50" data-i18n="cta_primary">
+                    Angebote ansehen
+                </a>
+                <a href="#contact" class="border border-white hover:bg-white hover:text-brand-dark text-white font-bold py-4 px-8 rounded-full transition-all" data-i18n="cta_secondary">
+                    Kontakt aufnehmen
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-brand-dark relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-brand-orange opacity-5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal relative">
+                    <div class="absolute -top-4 -left-4 w-24 h-24 border-t-4 border-l-4 border-brand-orange z-0"></div>
+                    <img src="https://images.unsplash.com/photo-1548611716-ad276b5c3258?q=80&w=1000&auto=format&fit=crop" alt="Luxury Car Wheel" class="relative z-10 rounded-lg shadow-2xl grayscale hover:grayscale-0 transition-all duration-700 w-full object-cover h-[500px]">
+                    <div class="absolute -bottom-4 -right-4 w-24 h-24 border-b-4 border-r-4 border-brand-orange z-0"></div>
+                </div>
+                
+                <div class="reveal delay-200">
+                    <h3 class="text-brand-orange font-bold uppercase tracking-wider mb-2" data-i18n="about_badge">Über uns</h3>
+                    <h2 class="text-4xl font-bold text-white mb-6" data-i18n="about_title">Leidenschaft für Performance und Design</h2>
+                    <p class="text-gray-400 mb-6 leading-relaxed" data-i18n="about_text_1">
+                        Wir sind keine gewöhnliche Werkstatt. Wir sind eine spezialisierte Vermittlungsplattform, die Autoliebhaber mit den hochwertigsten Reifen- und Felgenanbietern in Europa verbindet.
+                    </p>
+                    <p class="text-gray-400 mb-8 leading-relaxed" data-i18n="about_text_2">
+                        Egal ob Sie seltene Design-Felgen suchen oder den sichersten Winterreifen für Ihr Familienfahrzeug benötigen – unser Netzwerk deckt alle Bedürfnisse ab. Wir sprechen Ihre Sprache und sorgen für reibungslose Transaktionen.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-brand-gray p-4 rounded-lg border border-gray-800">
+                            <i class="fa-solid fa-check text-brand-orange text-xl mb-2"></i>
+                            <h4 class="text-white font-bold" data-i18n="feature_1_title">Top Netzwerk</h4>
+                            <p class="text-sm text-gray-500" data-i18n="feature_1_desc">Zugang zu Premium-Herstellern</p>
+                        </div>
+                        <div class="bg-brand-gray p-4 rounded-lg border border-gray-800">
+                            <i class="fa-solid fa-language text-brand-orange text-xl mb-2"></i>
+                            <h4 class="text-white font-bold" data-i18n="feature_2_title">International</h4>
+                            <p class="text-sm text-gray-500" data-i18n="feature_2_desc">DE / EN / HU Support</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-brand-gray">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal text-center mb-16">
+                <h3 class="text-brand-orange font-bold uppercase tracking-wider mb-2" data-i18n="services_badge">Was wir bieten</h3>
+                <h2 class="text-4xl font-bold text-white" data-i18n="services_title">Unsere Dienstleistungen</h2>
+                <div class="w-24 h-1 bg-brand-orange mx-auto mt-6"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="reveal delay-100 group bg-brand-dark p-8 rounded-xl border border-gray-800 hover:border-brand-orange transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,87,34,0.15)] relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fa-solid fa-cart-shopping text-9xl text-white"></i>
+                    </div>
+                    <div class="w-14 h-14 bg-brand-orange rounded-lg flex items-center justify-center mb-6 text-white text-2xl">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4" data-i18n="srv_1_title">Reifenvermittlung</h3>
+                    <p class="text-gray-400" data-i18n="srv_1_desc">
+                        Wir finden für Sie die besten Preise für Sommer-, Winter- und Ganzjahresreifen namhafter Hersteller.
+                    </p>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="reveal delay-200 group bg-brand-dark p-8 rounded-xl border border-gray-800 hover:border-brand-orange transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,87,34,0.15)] relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fa-solid fa-shapes text-9xl text-white"></i>
+                    </div>
+                    <div class="w-14 h-14 bg-brand-orange rounded-lg flex items-center justify-center mb-6 text-white text-2xl">
+                        <i class="fa-solid fa-compact-disc"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4" data-i18n="srv_2_title">Felgenkonfiguration</h3>
+                    <p class="text-gray-400" data-i18n="srv_2_desc">
+                        Beratung zu Einpresstiefen, Lochkreisen und Design. Wir vermitteln komplette Radsätze, die garantiert passen.
+                    </p>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="reveal delay-300 group bg-brand-dark p-8 rounded-xl border border-gray-800 hover:border-brand-orange transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,87,34,0.15)] relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fa-solid fa-truck text-9xl text-white"></i>
+                    </div>
+                    <div class="w-14 h-14 bg-brand-orange rounded-lg flex items-center justify-center mb-6 text-white text-2xl">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4" data-i18n="srv_3_title">Logistik & Support</h3>
+                    <p class="text-gray-400" data-i18n="srv_3_desc">
+                        Wir kümmern uns um die Kommunikation zwischen Händler und Kunde, inklusive Versandorganisation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-brand-dark relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 bg-brand-gray rounded-2xl overflow-hidden border border-gray-800 shadow-2xl">
+                
+                <!-- Contact Info -->
+                <div class="reveal p-10 md:p-12 flex flex-col justify-between bg-gradient-to-br from-gray-900 to-black relative">
+                   <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+                   
+                   <div class="relative z-10">
+                        <h3 class="text-brand-orange font-bold uppercase tracking-wider mb-2" data-i18n="contact_badge">Kontakt</h3>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-8" data-i18n="contact_title">Lassen Sie uns sprechen</h2>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-orange shrink-0">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-sm text-gray-500 uppercase tracking-wide">Phone</p>
+                                    <p class="text-white text-lg font-semibold hover:text-brand-orange cursor-pointer">+49 123 456 789</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-orange shrink-0">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-sm text-gray-500 uppercase tracking-wide">Email</p>
+                                    <p class="text-white text-lg font-semibold hover:text-brand-orange cursor-pointer">info@laslo-reifen.de</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-orange shrink-0">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-sm text-gray-500 uppercase tracking-wide" data-i18n="address_label">Standort</p>
+                                    <p class="text-white text-lg font-semibold">München, Deutschland</p>
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+
+                   <div class="mt-12 relative z-10">
+                       <p class="text-gray-500 text-sm mb-4" data-i18n="social_label">Folgen Sie uns</p>
+                       <div class="flex space-x-4">
+                           <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                           <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                           <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
+                       </div>
+                   </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="reveal delay-200 p-10 md:p-12">
+                    <form id="contactForm" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-2" data-i18n="form_name">Name</label>
+                                <input type="text" class="w-full bg-brand-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all" placeholder="John Doe">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-2" data-i18n="form_email">Email</label>
+                                <input type="email" class="w-full bg-brand-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all" placeholder="john@example.com">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2" data-i18n="form_subject">Betreff</label>
+                            <select class="w-full bg-brand-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-orange transition-all">
+                                <option data-i18n="opt_general">Allgemeine Anfrage</option>
+                                <option data-i18n="opt_tires">Reifen Angebot</option>
+                                <option data-i18n="opt_rims">Felgen Beratung</option>
+                                <option data-i18n="opt_partner">Händler werden</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2" data-i18n="form_message">Nachricht</label>
+                            <textarea rows="4" class="w-full bg-brand-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all" placeholder="..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-4 rounded-lg transition-all shadow-lg hover:shadow-orange-900/50 flex justify-center items-center gap-2">
+                            <span data-i18n="form_submit">Nachricht senden</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-gray-900 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-tire text-brand-orange text-2xl"></i>
+                        <span class="text-white text-xl font-bold tracking-tighter">LASLO <span class="text-brand-orange">REIFEN</span></span>
+                    </div>
+                    <p class="text-gray-500 max-w-sm" data-i18n="footer_desc">
+                        Ihr zuverlässiger Partner für die Vermittlung von hochwertigen Reifen und Felgen in Europa. 
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase text-sm tracking-wider" data-i18n="footer_links">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-500 hover:text-brand-orange transition-colors text-sm">Home</a></li>
+                        <li><a href="#about" class="text-gray-500 hover:text-brand-orange transition-colors text-sm" data-i18n="nav_about">Über uns</a></li>
+                        <li><a href="#services" class="text-gray-500 hover:text-brand-orange transition-colors text-sm" data-i18n="nav_services">Dienstleistungen</a></li>
+                        <li><a href="#contact" class="text-gray-500 hover:text-brand-orange transition-colors text-sm" data-i18n="nav_contact">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase text-sm tracking-wider" data-i18n="footer_legal">Rechtliches</h4>
+                    <ul class="space-y-2">
+                        <!-- Popups trigger -->
+                        <li><button onclick="toggleModal('modal-impressum')" class="text-gray-500 hover:text-brand-orange transition-colors text-sm text-left">Impressum</button></li>
+                        <li><button onclick="toggleModal('modal-privacy')" class="text-gray-500 hover:text-brand-orange transition-colors text-sm text-left">Datenschutz</button></li>
+                        <li><button onclick="toggleModal('modal-contact')" class="text-gray-500 hover:text-brand-orange transition-colors text-sm text-left">Kontakt Popup</button></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-900 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-600 text-sm">&copy; 2023 Laslo Reifen. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0 text-gray-600 text-sm">
+                    <span>Designed for Excellence</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification / Toast (Hidden by default) -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-brand-gray border-l-4 border-brand-orange text-white px-6 py-4 rounded shadow-2xl transform translate-y-24 transition-transform duration-300 z-50 flex items-center">
+        <i class="fa-solid fa-circle-check text-green-500 mr-3 text-xl"></i>
+        <div>
+            <h4 class="font-bold" id="toast-title">Gesendet!</h4>
+            <p class="text-sm text-gray-400" id="toast-message">Wir melden uns in Kürze.</p>
+        </div>
+    </div>
+
+    <!-- MODALS -->
+
+    <!-- Impressum Modal -->
+    <div id="modal-impressum" class="modal fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModal('modal-impressum')"></div>
+        <div class="bg-brand-gray border border-gray-700 rounded-xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl">
+            <button onclick="toggleModal('modal-impressum')" class="absolute top-4 right-4 text-gray-400 hover:text-brand-orange">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+            <h2 class="text-2xl font-bold text-white mb-6 border-b border-gray-700 pb-2">Impressum</h2>
+            <div class="text-gray-300 space-y-4 text-sm">
+                <h3 class="font-bold text-white">Angaben gemäß § 5 TMG</h3>
+                <p>Laslo Reifen GmbH (Muster)<br>
+                Reifenstraße 123<br>
+                80331 München<br>
+                Deutschland</p>
+
+                <h3 class="font-bold text-white">Vertreten durch:</h3>
+                <p>Max Mustermann (Geschäftsführer)</p>
+
+                <h3 class="font-bold text-white">Kontakt</h3>
+                <p>Telefon: +49 123 456 789<br>
+                E-Mail: info@laslo-reifen.de</p>
+
+                <h3 class="font-bold text-white">Registereintrag</h3>
+                <p>Eintragung im Handelsregister.<br>
+                Registergericht: Amtsgericht München<br>
+                Registernummer: HRB 12345</p>
+
+                <h3 class="font-bold text-white">Umsatzsteuer-ID</h3>
+                <p>Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br>
+                DE 123 456 789</p>
+                
+                <h3 class="font-bold text-white">EU-Streitschlichtung</h3>
+                <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: https://ec.europa.eu/consumers/odr/.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Datenschutz Modal -->
+    <div id="modal-privacy" class="modal fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModal('modal-privacy')"></div>
+        <div class="bg-brand-gray border border-gray-700 rounded-xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl">
+            <button onclick="toggleModal('modal-privacy')" class="absolute top-4 right-4 text-gray-400 hover:text-brand-orange">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+            <h2 class="text-2xl font-bold text-white mb-6 border-b border-gray-700 pb-2">Datenschutzerklärung</h2>
+            <div class="text-gray-300 space-y-4 text-sm">
+                <h3 class="font-bold text-white">1. Datenschutz auf einen Blick</h3>
+                <p><strong>Allgemeine Hinweise:</strong> Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen.</p>
+                
+                <h3 class="font-bold text-white">2. Datenerfassung auf dieser Website</h3>
+                <p><strong>Cookies:</strong> Unsere Internetseiten verwenden so genannte „Cookies“. Cookies sind kleine Textdateien und richten auf Ihrem Endgerät keinen Schaden an. Sie dienen dazu, unser Angebot nutzerfreundlicher, effektiver und sicherer zu machen.</p>
+                <p><strong>Kontaktformular:</strong> Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert.</p>
+                <p><strong>Server-Log-Dateien:</strong> Der Provider der Seiten erhebt und speichert automatisch Informationen in so genannten Server-Log-Dateien, die Ihr Browser automatisch an uns übermittelt.</p>
+                
+                <h3 class="font-bold text-white">3. Analyse-Tools und Tools von Drittanbietern</h3>
+                <p>Beim Besuch dieser Website kann Ihr Surf-Verhalten statistisch ausgewertet werden. Das geschieht vor allem mit Cookies und mit sogenannten Analyseprogrammen.</p>
+                
+                <h3 class="font-bold text-white">4. SSL- bzw. TLS-Verschlüsselung</h3>
+                <p>Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte, wie zum Beispiel Bestellungen oder Anfragen, die Sie an uns als Seitenbetreiber senden, eine SSL- bzw. TLS-Verschlüsselung.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kontakt Popup Modal -->
+    <div id="modal-contact" class="modal fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModal('modal-contact')"></div>
+        <div class="bg-brand-gray border border-gray-700 rounded-xl p-8 max-w-md w-full relative shadow-2xl text-center">
+            <button onclick="toggleModal('modal-contact')" class="absolute top-4 right-4 text-gray-400 hover:text-brand-orange">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+            <i class="fa-solid fa-headset text-brand-orange text-5xl mb-4"></i>
+            <h2 class="text-2xl font-bold text-white mb-2">Kontaktieren Sie uns</h2>
+            <p class="text-gray-400 mb-6 text-sm">Wir sind für Sie da.</p>
+            
+            <div class="space-y-4 text-left bg-black/20 p-4 rounded-lg">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-phone text-brand-orange w-5"></i>
+                    <span class="text-white">+49 123 456 789</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-envelope text-brand-orange w-5"></i>
+                    <span class="text-white">info@laslo-reifen.de</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-location-dot text-brand-orange w-5"></i>
+                    <span class="text-white">München, Deutschland</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-clock text-brand-orange w-5"></i>
+                    <span class="text-white">Mo-Fr: 08:00 - 18:00 Uhr</span>
+                </div>
+            </div>
+            
+            <button onclick="document.getElementById('modal-contact').classList.remove('open'); window.location.href='#contact'" class="mt-6 w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-2 rounded transition-colors">
+                Zum Formular
+            </button>
+        </div>
+    </div>
+
+    <!-- Logic Script -->
+    <script>
+        // --- Translations ---
+        const translations = {
+            de: {
+                nav_home: "Home",
+                nav_about: "Über uns",
+                nav_services: "Dienstleistungen",
+                nav_contact: "Kontakt",
+                hero_subtitle: "QUALITÄT ROLLT BESSER",
+                hero_title_1: "PERFEKTE",
+                hero_title_2: "FELGEN & REIFEN",
+                hero_desc: "Ihr Premium-Vermittler für exklusive Radsätze, Hochleistungsreifen und professionelle Felgenveredelung. Wir verbinden Sie mit den besten Händlern.",
+                cta_primary: "Angebote ansehen",
+                cta_secondary: "Kontakt aufnehmen",
+                about_badge: "Über uns",
+                about_title: "Leidenschaft für Performance",
+                about_text_1: "Wir sind keine gewöhnliche Werkstatt. Wir sind eine spezialisierte Vermittlungsplattform, die Autoliebhaber mit den hochwertigsten Reifen- und Felgenanbietern in Europa verbindet.",
+                about_text_2: "Egal ob Sie seltene Design-Felgen suchen oder den sichersten Winterreifen für Ihr Familienfahrzeug benötigen – unser Netzwerk deckt alle Bedürfnisse ab.",
+                feature_1_title: "Top Netzwerk",
+                feature_1_desc: "Zugang zu Premium-Herstellern",
+                feature_2_title: "International",
+                feature_2_desc: "DE / EN / HU Support",
+                services_badge: "Was wir bieten",
+                services_title: "Unsere Dienstleistungen",
+                srv_1_title: "Reifenvermittlung",
+                srv_1_desc: "Wir finden für Sie die besten Preise für Sommer-, Winter- und Ganzjahresreifen namhafter Hersteller.",
+                srv_2_title: "Felgenkonfiguration",
+                srv_2_desc: "Beratung zu Einpresstiefen, Lochkreisen und Design. Wir vermitteln komplette Radsätze, die garantiert passen.",
+                srv_3_title: "Logistik & Support",
+                srv_3_desc: "Wir kümmern uns um die Kommunikation zwischen Händler und Kunde, inklusive Versandorganisation.",
+                contact_badge: "Kontakt",
+                contact_title: "Lassen Sie uns sprechen",
+                address_label: "Standort",
+                social_label: "Folgen Sie uns",
+                form_name: "Name",
+                form_email: "Email",
+                form_subject: "Betreff",
+                form_message: "Nachricht",
+                opt_general: "Allgemeine Anfrage",
+                opt_tires: "Reifen Angebot",
+                opt_rims: "Felgen Beratung",
+                opt_partner: "Händler werden",
+                form_submit: "Nachricht senden",
+                footer_desc: "Ihr zuverlässiger Partner für die Vermittlung von hochwertigen Reifen und Felgen in Europa.",
+                footer_links: "Quick Links",
+                footer_legal: "Rechtliches",
+                toast_success: "Erfolgreich gesendet!",
+                toast_msg: "Vielen Dank für Ihre Anfrage."
+            },
+            en: {
+                nav_home: "Home",
+                nav_about: "About Us",
+                nav_services: "Services",
+                nav_contact: "Contact",
+                hero_subtitle: "QUALITY ROLLS BETTER",
+                hero_title_1: "PERFECT",
+                hero_title_2: "RIMS & TIRES",
+                hero_desc: "Your premium intermediary for exclusive wheel sets, high-performance tires, and professional rim finishing. We connect you with the best dealers.",
+                cta_primary: "View Offers",
+                cta_secondary: "Contact Us",
+                about_badge: "About Us",
+                about_title: "Passion for Performance",
+                about_text_1: "We are not an ordinary workshop. We are a specialized intermediary platform connecting car enthusiasts with the highest quality tire and rim suppliers in Europe.",
+                about_text_2: "Whether you are looking for rare designer rims or the safest winter tires for your family vehicle – our network covers all needs.",
+                feature_1_title: "Top Network",
+                feature_1_desc: "Access to premium manufacturers",
+                feature_2_title: "International",
+                feature_2_desc: "DE / EN / HU Support",
+                services_badge: "What We Offer",
+                services_title: "Our Services",
+                srv_1_title: "Tire Brokerage",
+                srv_1_desc: "We find the best prices for summer, winter, and all-season tires from renowned manufacturers for you.",
+                srv_2_title: "Rim Configuration",
+                srv_2_desc: "Advice on offsets, bolt circles, and design. We arrange complete wheel sets that are guaranteed to fit.",
+                srv_3_title: "Logistics & Support",
+                srv_3_desc: "We handle communication between dealer and customer, including shipping organization.",
+                contact_badge: "Contact",
+                contact_title: "Let's Talk",
+                address_label: "Location",
+                social_label: "Follow Us",
+                form_name: "Name",
+                form_email: "Email",
+                form_subject: "Subject",
+                form_message: "Message",
+                opt_general: "General Inquiry",
+                opt_tires: "Tire Offer",
+                opt_rims: "Rim Consultation",
+                opt_partner: "Become a Dealer",
+                form_submit: "Send Message",
+                footer_desc: "Your reliable partner for brokering high-quality tires and rims in Europe.",
+                footer_links: "Quick Links",
+                footer_legal: "Legal",
+                toast_success: "Sent Successfully!",
+                toast_msg: "Thank you for your inquiry."
+            },
+            hu: {
+                nav_home: "Főoldal",
+                nav_about: "Rólunk",
+                nav_services: "Szolgáltatások",
+                nav_contact: "Kapcsolat",
+                hero_subtitle: "A MINŐSÉG JOBBAN GURUL",
+                hero_title_1: "TÖKÉLETES",
+                hero_title_2: "FELNIK ÉS GUMIK",
+                hero_desc: "Prémium közvetítő exkluzív kerékszettekhez, nagy teljesítményű gumiabroncsokhoz és professzionális felni felújításhoz. Összekötjük a legjobb kereskedőkkel.",
+                cta_primary: "Ajánlatok",
+                cta_secondary: "Kapcsolatfelvétel",
+                about_badge: "Rólunk",
+                about_title: "Szenvedély a teljesítményért",
+                about_text_1: "Nem egy átlagos szerviz vagyunk. Speciális közvetítő platformként működünk, amely összeköti az autórajongókat Európa legkiválóbb gumiabroncs- és felniszállítóival.",
+                about_text_2: "Legyen szó ritka design felnikről vagy a legbiztonságosabb téli gumikról családi autójához – hálózatunk minden igényt lefed.",
+                feature_1_title: "Top Hálózat",
+                feature_1_desc: "Hozzáférés prémium gyártókhoz",
+                feature_2_title: "Nemzetközi",
+                feature_2_desc: "DE / EN / HU Támogatás",
+                services_badge: "Amit Kínálunk",
+                services_title: "Szolgáltatásaink",
+                srv_1_title: "Gumiabroncs Közvetítés",
+                srv_1_desc: "Megtaláljuk Önnek a legjobb árakat nyári, téli és négyévszakos gumikra neves gyártóktól.",
+                srv_2_title: "Felni Konfigurálás",
+                srv_2_desc: "Tanácsadás ET számokról, osztókörökről és dizájnról. Garantáltan illeszkedő komplett kerekeket közvetítünk.",
+                srv_3_title: "Logisztika & Support",
+                srv_3_desc: "Intézzük a kommunikációt a kereskedő és az ügyfél között, beleértve a szállítás megszervezését is.",
+                contact_badge: "Kapcsolat",
+                contact_title: "Beszéljünk",
+                address_label: "Helyszín",
+                social_label: "Kövessen minket",
+                form_name: "Név",
+                form_email: "Email",
+                form_subject: "Tárgy",
+                form_message: "Üzenet",
+                opt_general: "Általános érdeklődés",
+                opt_tires: "Gumi ajánlat",
+                opt_rims: "Felni tanácsadás",
+                opt_partner: "Viszonteladó",
+                form_submit: "Üzenet küldése",
+                footer_desc: "Megbízható partnere a minőségi gumiabroncsok és felnik közvetítésében Európában.",
+                footer_links: "Gyorslinkek",
+                footer_legal: "Jogi nyilatkozat",
+                toast_success: "Sikeresen elküldve!",
+                toast_msg: "Köszönjük megkeresését."
+            }
+        };
+
+        let currentLanguage = 'de';
+
+        // --- Functions ---
+        
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('current-lang').innerText = lang.toUpperCase();
+            document.getElementById('mobile-lang-display').innerText = lang.toUpperCase();
+            
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+        }
+
+        // Cycle language for mobile button
+        function cycleLanguage() {
+            if(currentLanguage === 'de') setLanguage('en');
+            else if(currentLanguage === 'en') setLanguage('hu');
+            else setLanguage('de');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Modal Logic
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal.classList.contains('open')) {
+                modal.classList.remove('open');
+                document.body.style.overflow = 'auto'; // Enable scroll
+            } else {
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden'; // Disable scroll
+            }
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                document.querySelectorAll('.modal.open').forEach(modal => {
+                    modal.classList.remove('open');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+        });
+
+        // Handle Contact Form
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show Success Toast
+            const toast = document.getElementById('toast');
+            const title = document.getElementById('toast-title');
+            const msg = document.getElementById('toast-message');
+
+            title.innerText = translations[currentLanguage].toast_success;
+            msg.innerText = translations[currentLanguage].toast_msg;
+
+            toast.classList.remove('translate-y-24'); // Slide up
+            
+            // Reset form
+            this.reset();
+
+            // Hide after 3 seconds
+            setTimeout(() => {
+                toast.classList.add('translate-y-24'); // Slide down
+            }, 3000);
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-black/90', 'shadow-lg');
+                nav.classList.remove('glass-panel');
+            } else {
+                nav.classList.remove('bg-black/90', 'shadow-lg');
+                nav.classList.add('glass-panel');
+            }
+        });
+
+        // --- Scroll Animation Observer ---
+        const observerOptions = {
+            threshold: 0.1 // Trigger when 10% of the element is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Init
+        setLanguage('de');
+
+    </script>
+</body>
+</html>
