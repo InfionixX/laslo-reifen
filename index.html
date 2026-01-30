@@ -102,6 +102,10 @@
             opacity: 1;
             pointer-events: auto;
         }
+
+        .tire-card:hover .tire-img, .rim-card:hover .rim-img {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body class="bg-brand-dark text-gray-300 font-sans antialiased overflow-x-hidden selection:bg-brand-orange selection:text-white">
@@ -113,7 +117,10 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
                     <i class="fa-solid fa-tire text-brand-orange text-3xl animate-spin-slow"></i>
-                    <span class="text-white text-2xl font-bold tracking-tighter">LASLO <span class="text-brand-orange">REIFEN</span></span>
+                    <span class="text-white text-2xl font-bold tracking-tighter">
+                        <span data-i18n="brand_1">LASLO</span> 
+                        <span class="text-brand-orange" data-i18n="brand_2">REIFEN</span>
+                    </span>
                 </div>
                 
                 <!-- Desktop Menu -->
@@ -132,7 +139,6 @@
                             <div class="absolute right-0 mt-2 w-32 bg-brand-gray border border-gray-700 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right">
                                 <div class="py-1">
                                     <button onclick="setLanguage('de')" class="block w-full text-left px-4 py-2 text-sm hover:bg-brand-dark text-gray-300 hover:text-brand-orange">Deutsch</button>
-                                    <button onclick="setLanguage('en')" class="block w-full text-left px-4 py-2 text-sm hover:bg-brand-dark text-gray-300 hover:text-brand-orange">English</button>
                                     <button onclick="setLanguage('hu')" class="block w-full text-left px-4 py-2 text-sm hover:bg-brand-dark text-gray-300 hover:text-brand-orange">Magyar</button>
                                 </div>
                             </div>
@@ -175,17 +181,17 @@
 
         <div class="absolute bottom-0 w-full h-24 bg-gradient-to-t from-brand-dark to-transparent z-10"></div>
         <div class="text-center px-4 max-w-5xl mx-auto z-10 relative">
-            <h2 class="reveal text-brand-orange text-lg md:text-xl font-bold uppercase tracking-widest mb-4" data-i18n="hero_subtitle">Qualität rollt besser</h2>
-            <h1 class="reveal delay-100 text-5xl md:text-7xl lg:text-8xl font-extrabold text-white mb-8 leading-tight">
-                <span data-i18n="hero_title_1">PERFEKTE</span> <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-orange-400" data-i18n="hero_title_2">FELGEN & REIFEN</span>
+            <h2 class="reveal text-white text-lg md:text-2xl font-bold mb-4" data-i18n="hero_subtitle">Für den wichtigsten Weg des Tages: Den nach Hause</h2>
+            <h1 class="reveal delay-100 font-extrabold mb-8 leading-tight">
+                <span class="text-3xl md:text-5xl text-brand-orange block mb-2 tracking-wide" data-i18n="hero_title_1">PERFEKTE</span> 
+                <span class="text-5xl md:text-7xl lg:text-8xl text-white" data-i18n="hero_title_2">FELGEN & REIFEN</span>
             </h1>
             <p class="reveal delay-200 text-gray-300 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light" data-i18n="hero_desc">
-                Ihr Premium-Vermittler für exklusive Radsätze, Hochleistungsreifen und professionelle Felgenveredelung. Wir verbinden Sie mit den besten Händlern.
+                Fragen Sie direkt auf Ungarisch an, verhandeln Sie mit zuverlässigen Fachleuten und bestellen Sie bequem online per Versand. Wichtig: Für genauere Informationen lesen Sie bitte die Hinweise unter „Dienstleistungen“.
             </p>
             <div class="reveal delay-300 flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="#services" class="bg-brand-orange hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:-translate-y-1 shadow-lg shadow-orange-900/50" data-i18n="cta_primary">
-                    Angebote ansehen
+                    Angebot anfragen
                 </a>
                 <a href="#contact" class="border border-white hover:bg-white hover:text-brand-dark text-white font-bold py-4 px-8 rounded-full transition-all" data-i18n="cta_secondary">
                     Kontakt aufnehmen
@@ -217,7 +223,8 @@
                         Egal ob Sie seltene Design-Felgen suchen oder den sichersten Winterreifen für Ihr Familienfahrzeug benötigen – unser Netzwerk deckt alle Bedürfnisse ab. Wir sprechen Ihre Sprache und sorgen für reibungslose Transaktionen.
                     </p>
                     
-                    <div class="grid grid-cols-2 gap-6">
+                    <!-- Updated Grid to include delivery options -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div class="bg-brand-gray p-4 rounded-lg border border-gray-800">
                             <i class="fa-solid fa-check text-brand-orange text-xl mb-2"></i>
                             <h4 class="text-white font-bold" data-i18n="feature_1_title">Top Netzwerk</h4>
@@ -226,7 +233,13 @@
                         <div class="bg-brand-gray p-4 rounded-lg border border-gray-800">
                             <i class="fa-solid fa-language text-brand-orange text-xl mb-2"></i>
                             <h4 class="text-white font-bold" data-i18n="feature_2_title">International</h4>
-                            <p class="text-sm text-gray-500" data-i18n="feature_2_desc">DE / EN / HU Support</p>
+                            <p class="text-sm text-gray-500" data-i18n="feature_2_desc">DE / HU Support</p>
+                        </div>
+                         <!-- New Delivery Options Feature -->
+                         <div class="bg-brand-gray p-4 rounded-lg border border-gray-800 sm:col-span-2 lg:col-span-1 xl:col-span-2">
+                            <i class="fa-solid fa-truck-fast text-brand-orange text-xl mb-2"></i>
+                            <h4 class="text-white font-bold" data-i18n="feature_3_title">Zuverlässiger Versand</h4>
+                            <p class="text-sm text-gray-500" data-i18n="feature_3_desc">GLS, DPD, DHL</p>
                         </div>
                     </div>
                 </div>
@@ -243,47 +256,140 @@
                 <div class="w-24 h-1 bg-brand-orange mx-auto mt-6"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Service 1 -->
-                <div class="reveal delay-100 group bg-brand-dark p-8 rounded-xl border border-gray-800 hover:border-brand-orange transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,87,34,0.15)] relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <i class="fa-solid fa-cart-shopping text-9xl text-white"></i>
+            <!-- TIRE SELECTION GRID -->
+            <div class="reveal delay-100 mb-16">
+                <h3 class="text-2xl font-bold text-white mb-8 border-l-4 border-brand-orange pl-4" data-i18n="tire_overview_title">Reifenübersicht & Hersteller</h3>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Summer Tires -->
+                    <div class="tire-card group cursor-pointer relative rounded-xl overflow-hidden h-64 border border-gray-700 hover:border-brand-orange transition-all" onclick="openTireModal('summer')">
+                        <img src="https://images.unsplash.com/photo-1543465077-db45d34b88a5?q=80&w=600&auto=format&fit=crop" alt="Summer Tire" class="tire-img w-full h-full object-cover transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent flex flex-col justify-end p-6">
+                            <div class="w-10 h-10 bg-brand-orange rounded-full flex items-center justify-center mb-3 text-white">
+                                <i class="fa-solid fa-sun"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-white" data-i18n="tire_summer_title">Sommerreifen</h4>
+                            <p class="text-xs text-gray-400 mt-1"><i class="fa-solid fa-circle-info mr-1"></i> <span data-i18n="click_info">Details anzeigen</span></p>
+                        </div>
                     </div>
-                    <div class="w-14 h-14 bg-brand-orange rounded-lg flex items-center justify-center mb-6 text-white text-2xl">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-4" data-i18n="srv_1_title">Reifenvermittlung</h3>
-                    <p class="text-gray-400" data-i18n="srv_1_desc">
-                        Wir finden für Sie die besten Preise für Sommer-, Winter- und Ganzjahresreifen namhafter Hersteller.
-                    </p>
-                </div>
 
-                <!-- Service 2 -->
-                <div class="reveal delay-200 group bg-brand-dark p-8 rounded-xl border border-gray-800 hover:border-brand-orange transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,87,34,0.15)] relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <i class="fa-solid fa-shapes text-9xl text-white"></i>
+                    <!-- Winter Tires -->
+                    <div class="tire-card group cursor-pointer relative rounded-xl overflow-hidden h-64 border border-gray-700 hover:border-brand-orange transition-all" onclick="openTireModal('winter')">
+                        <img src="https://images.unsplash.com/photo-1483304528321-0674f0040030?q=80&w=600&auto=format&fit=crop" alt="Winter Tire" class="tire-img w-full h-full object-cover transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent flex flex-col justify-end p-6">
+                            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mb-3 text-white">
+                                <i class="fa-solid fa-snowflake"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-white" data-i18n="tire_winter_title">Winterreifen</h4>
+                            <p class="text-xs text-gray-400 mt-1"><i class="fa-solid fa-circle-info mr-1"></i> <span data-i18n="click_info">Details anzeigen</span></p>
+                        </div>
                     </div>
-                    <div class="w-14 h-14 bg-brand-orange rounded-lg flex items-center justify-center mb-6 text-white text-2xl">
-                        <i class="fa-solid fa-compact-disc"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-4" data-i18n="srv_2_title">Felgenkonfiguration</h3>
-                    <p class="text-gray-400" data-i18n="srv_2_desc">
-                        Beratung zu Einpresstiefen, Lochkreisen und Design. Wir vermitteln komplette Radsätze, die garantiert passen.
-                    </p>
-                </div>
 
-                <!-- Service 3 -->
-                <div class="reveal delay-300 group bg-brand-dark p-8 rounded-xl border border-gray-800 hover:border-brand-orange transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,87,34,0.15)] relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <i class="fa-solid fa-truck text-9xl text-white"></i>
+                    <!-- All Season Tires -->
+                    <div class="tire-card group cursor-pointer relative rounded-xl overflow-hidden h-64 border border-gray-700 hover:border-brand-orange transition-all" onclick="openTireModal('allseason')">
+                        <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=600&auto=format&fit=crop" alt="All Season Tire" class="tire-img w-full h-full object-cover transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent flex flex-col justify-end p-6">
+                            <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center mb-3 text-white">
+                                <i class="fa-solid fa-cloud-sun-rain"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-white" data-i18n="tire_allseason_title">Allwetterreifen</h4>
+                            <p class="text-xs text-gray-400 mt-1"><i class="fa-solid fa-circle-info mr-1"></i> <span data-i18n="click_info">Details anzeigen</span></p>
+                        </div>
                     </div>
-                    <div class="w-14 h-14 bg-brand-orange rounded-lg flex items-center justify-center mb-6 text-white text-2xl">
-                        <i class="fa-solid fa-handshake"></i>
+
+                    <!-- Offroad Tires -->
+                    <div class="tire-card group cursor-pointer relative rounded-xl overflow-hidden h-64 border border-gray-700 hover:border-brand-orange transition-all" onclick="openTireModal('offroad')">
+                        <img src="https://images.unsplash.com/photo-1578844251758-2f71da645217?q=80&w=600&auto=format&fit=crop" alt="Offroad Tire" class="tire-img w-full h-full object-cover transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent flex flex-col justify-end p-6">
+                            <div class="w-10 h-10 bg-stone-600 rounded-full flex items-center justify-center mb-3 text-white">
+                                <i class="fa-solid fa-mountain"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-white" data-i18n="tire_offroad_title">Offroadreifen</h4>
+                            <p class="text-xs text-gray-400 mt-1"><i class="fa-solid fa-circle-info mr-1"></i> <span data-i18n="click_info">Details anzeigen</span></p>
+                        </div>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-4" data-i18n="srv_3_title">Logistik & Support</h3>
-                    <p class="text-gray-400" data-i18n="srv_3_desc">
-                        Wir kümmern uns um die Kommunikation zwischen Händler und Kunde, inklusive Versandorganisation.
-                    </p>
+                </div>
+            </div>
+
+            <!-- RIM CONFIGURATION SPLIT SECTION -->
+            <div class="reveal delay-300">
+                <h3 class="text-2xl font-bold text-white mb-8 border-l-4 border-brand-orange pl-4" data-i18n="rim_overview_title">Felgenkonfiguration</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Alu Rims -->
+                    <div class="rim-card group bg-brand-dark rounded-xl border border-gray-800 hover:border-brand-orange transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,87,34,0.15)] relative overflow-hidden min-h-[350px] cursor-pointer" onclick="openRimModal('alu')">
+                        <!-- Placeholder Image Background (Restricted to Top Right) -->
+                        <div class="absolute top-0 right-0 w-2/3 h-2/3 z-0 pointer-events-none overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-brand-dark/20 to-brand-dark z-10"></div>
+                            <div class="absolute inset-0 bg-gradient-to-l from-transparent via-brand-dark/20 to-brand-dark z-10"></div>
+                            <img src="https://images.unsplash.com/photo-1611821064430-0d41029bb027?q=80&w=800&auto=format&fit=crop" alt="Alu Felge" class="rim-img w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-all duration-700">
+                        </div>
+
+                        <div class="relative z-10 p-8 flex flex-col justify-between h-full">
+                            <div>
+                                <div class="w-16 h-16 bg-brand-orange rounded-2xl flex items-center justify-center shrink-0 text-white text-3xl shadow-lg mb-6">
+                                    <i class="fa-solid fa-dharmachakra"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white mb-4" data-i18n="rim_alu_title">Alufelgen</h3>
+                                <p class="text-gray-300 max-w-xs" data-i18n="rim_alu_desc">
+                                    Sportliches Design, geringes Gewicht und maximale Performance. Wir führen exklusive Marken und Designs für den perfekten Look.
+                                </p>
+                            </div>
+                            <div class="mt-8 flex items-center text-brand-orange font-bold group-hover:translate-x-2 transition-transform">
+                                <span data-i18n="click_info">Details anzeigen</span> <i class="fa-solid fa-arrow-right ml-2"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Steel Rims / Spare -->
+                    <div class="rim-card group bg-brand-dark rounded-xl border border-gray-800 hover:border-brand-orange transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,87,34,0.15)] relative overflow-hidden min-h-[350px] cursor-pointer" onclick="openRimModal('steel')">
+                        <!-- Placeholder Image Background (Restricted to Top Right) -->
+                        <div class="absolute top-0 right-0 w-2/3 h-2/3 z-0 pointer-events-none overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-brand-dark/20 to-brand-dark z-10"></div>
+                            <div class="absolute inset-0 bg-gradient-to-l from-transparent via-brand-dark/20 to-brand-dark z-10"></div>
+                            <img src="https://images.unsplash.com/photo-1616789916450-482438883907?q=80&w=800&auto=format&fit=crop" alt="Stahl Felge" class="rim-img w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-all duration-700 grayscale">
+                        </div>
+
+                        <div class="relative z-10 p-8 flex flex-col justify-between h-full">
+                            <div>
+                                <div class="w-16 h-16 bg-gray-600 rounded-2xl flex items-center justify-center shrink-0 text-white text-3xl shadow-lg mb-6">
+                                    <i class="fa-solid fa-life-ring"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white mb-4" data-i18n="rim_steel_title">Stahlfelgen & Notrad</h3>
+                                <p class="text-gray-300 max-w-xs" data-i18n="rim_steel_desc">
+                                    Verfügbar in den Farben Schwarz, Silber und Elektro. Auch als robustes Notrad erhältlich.
+                                </p>
+                            </div>
+                            <div class="mt-8 flex items-center text-brand-orange font-bold group-hover:translate-x-2 transition-transform">
+                                <span data-i18n="click_info">Details anzeigen</span> <i class="fa-solid fa-arrow-right ml-2"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RDKS System -->
+                    <div class="rim-card group bg-brand-dark rounded-xl border border-gray-800 hover:border-brand-orange transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,87,34,0.15)] relative overflow-hidden min-h-[350px] cursor-pointer" onclick="openRimModal('rdks')">
+                        <!-- Placeholder Image Background (Restricted to Top Right) -->
+                        <div class="absolute top-0 right-0 w-2/3 h-2/3 z-0 pointer-events-none overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-brand-dark/20 to-brand-dark z-10"></div>
+                            <div class="absolute inset-0 bg-gradient-to-l from-transparent via-brand-dark/20 to-brand-dark z-10"></div>
+                            <img src="https://images.unsplash.com/photo-1595182967280-990522c07049?q=80&w=800&auto=format&fit=crop" alt="RDKS System" class="rim-img w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-all duration-700">
+                        </div>
+
+                        <div class="relative z-10 p-8 flex flex-col justify-between h-full">
+                            <div>
+                                <div class="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center shrink-0 text-white text-3xl shadow-lg mb-6">
+                                    <i class="fa-solid fa-gauge-high"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-white mb-4" data-i18n="rim_rdks_title">RDKS System</h3>
+                                <p class="text-gray-300 max-w-xs" data-i18n="rim_rdks_desc">
+                                    Reifendruckkontrollsysteme für maximale Sicherheit. Verschiedene Farben und Ausführungen verfügbar.
+                                </p>
+                            </div>
+                            <div class="mt-8 flex items-center text-brand-orange font-bold group-hover:translate-x-2 transition-transform">
+                                <span data-i18n="click_info">Details anzeigen</span> <i class="fa-solid fa-arrow-right ml-2"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -308,7 +414,7 @@
                                     <i class="fa-solid fa-phone"></i>
                                 </div>
                                 <div class="ml-4">
-                                    <p class="text-sm text-gray-500 uppercase tracking-wide">Phone</p>
+                                    <p class="text-sm text-gray-500 uppercase tracking-wide" data-i18n="phone_label">Phone</p>
                                     <p class="text-white text-lg font-semibold hover:text-brand-orange cursor-pointer">+49 123 456 789</p>
                                 </div>
                             </div>
@@ -338,11 +444,26 @@
                    <div class="mt-12 relative z-10">
                        <p class="text-gray-500 text-sm mb-4" data-i18n="social_label">Folgen Sie uns</p>
                        <div class="flex space-x-4">
-                           <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
-                           <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                           <a href="https://www.instagram.com/laslo.reifen?igsh=MXZxZDBvdWN5Y2oxNw==" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                           <a href="https://www.facebook.com/share/17uXyhRbgV/" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
                            <a href="#" class="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
                        </div>
                    </div>
+
+                   <!-- Map Iframe moved to left side -->
+                    <div class="mt-12 relative z-10 pt-8 border-t border-gray-800/50">
+                        <label class="block text-sm font-medium text-gray-400 mb-3" data-i18n="storage_label">Unsere Lagerräumlichkeiten.</label>
+                        <div class="w-full h-48 rounded-lg overflow-hidden border border-gray-700 relative bg-gray-900 shadow-lg">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2557.1858568962843!2d10.677126112318389!3d50.1389548714157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a24ba30c2e3e71%3A0x8616c280ec7b4e5c!2sReifen%20Nik-M%C3%BCller%20KG!5e0!3m2!1sde!2sde!4v1769803670619!5m2!1sde!2sde" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            
+                            <!-- Fallback/Overlay -->
+                            <div class="absolute inset-0 pointer-events-none flex items-center justify-center bg-black/10">
+                                <a href="https://maps.app.goo.gl/qLoQAAP91YKz1nNJ8" target="_blank" class="pointer-events-auto bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-4 py-2 rounded-full text-xs font-bold border border-white/20 transition-all">
+                                    <i class="fa-solid fa-map-location-dot mr-2"></i> In Google Maps öffnen
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Contact Form -->
@@ -388,7 +509,10 @@
                 <div class="col-span-1 md:col-span-2">
                     <div class="flex items-center gap-2 mb-4">
                         <i class="fa-solid fa-tire text-brand-orange text-2xl"></i>
-                        <span class="text-white text-xl font-bold tracking-tighter">LASLO <span class="text-brand-orange">REIFEN</span></span>
+                        <span class="text-white text-xl font-bold tracking-tighter">
+                            <span data-i18n="brand_1">LASLO</span> 
+                            <span class="text-brand-orange" data-i18n="brand_2">REIFEN</span>
+                        </span>
                     </div>
                     <p class="text-gray-500 max-w-sm" data-i18n="footer_desc">
                         Ihr zuverlässiger Partner für die Vermittlung von hochwertigen Reifen und Felgen in Europa. 
@@ -532,20 +656,89 @@
         </div>
     </div>
 
+    <!-- TIRE INFO MODAL (Dynamic) -->
+    <div id="modal-tire" class="modal fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModal('modal-tire')"></div>
+        <div class="bg-brand-gray border border-gray-700 rounded-xl p-8 max-w-lg w-full relative shadow-2xl">
+            <button onclick="toggleModal('modal-tire')" class="absolute top-4 right-4 text-gray-400 hover:text-brand-orange">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+            
+            <div id="tire-modal-content">
+                <div class="flex items-center gap-4 mb-6">
+                    <div id="tire-modal-icon" class="w-12 h-12 rounded-full flex items-center justify-center text-white text-xl"></div>
+                    <div>
+                        <h2 id="tire-modal-title" class="text-2xl font-bold text-white">Reifenart</h2>
+                        <p class="text-brand-orange text-sm font-bold uppercase tracking-wide">Premium Partner</p>
+                    </div>
+                </div>
+                
+                <p class="text-gray-400 mb-4" id="tire-modal-desc">Beschreibung...</p>
+
+                <h3 class="text-white font-bold mb-3 border-b border-gray-700 pb-2" data-i18n="available_brands">Verfügbare Hersteller</h3>
+                <ul id="tire-modal-brands" class="grid grid-cols-2 gap-2 text-sm text-gray-300">
+                    <!-- Brands injected via JS -->
+                </ul>
+
+                <button onclick="document.getElementById('modal-tire').classList.remove('open'); window.location.href='#contact'" class="mt-8 w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <span data-i18n="cta_primary">Angebot anfragen</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIM INFO MODAL (Dynamic) -->
+    <div id="modal-rim" class="modal fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModal('modal-rim')"></div>
+        <div class="bg-brand-gray border border-gray-700 rounded-xl p-8 max-w-lg w-full relative shadow-2xl">
+            <button onclick="toggleModal('modal-rim')" class="absolute top-4 right-4 text-gray-400 hover:text-brand-orange">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+            
+            <div id="rim-modal-content">
+                <div class="flex items-center gap-4 mb-6">
+                    <div id="rim-modal-icon-container" class="w-12 h-12 rounded-full flex items-center justify-center text-white text-xl bg-brand-orange">
+                        <i id="rim-modal-icon" class="fa-solid"></i>
+                    </div>
+                    <div>
+                        <h2 id="rim-modal-title" class="text-2xl font-bold text-white">Felgenart</h2>
+                        <p class="text-brand-orange text-sm font-bold uppercase tracking-wide">Konfiguration</p>
+                    </div>
+                </div>
+                
+                <p class="text-gray-300 mb-6 font-light" id="rim-modal-advice">
+                    <!-- Advice text injected via JS -->
+                </p>
+
+                <h3 id="rim-modal-list-title" class="text-white font-bold mb-3 border-b border-gray-700 pb-2">Verfügbare Hersteller</h3>
+                <ul id="rim-modal-brands" class="grid grid-cols-2 gap-2 text-sm text-gray-300 mb-6">
+                    <!-- Brands/Colors injected via JS -->
+                </ul>
+
+                <button onclick="document.getElementById('modal-rim').classList.remove('open'); window.location.href='#contact'" class="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <span data-i18n="cta_primary">Angebot anfragen</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Logic Script -->
     <script>
         // --- Translations ---
         const translations = {
             de: {
+                brand_1: "LASLO",
+                brand_2: "REIFEN",
+                page_title: "Laslo Reifen - Premium Reifen & Felgen Vermittlung",
                 nav_home: "Home",
                 nav_about: "Über uns",
                 nav_services: "Dienstleistungen",
                 nav_contact: "Kontakt",
-                hero_subtitle: "QUALITÄT ROLLT BESSER",
+                hero_subtitle: "Für den wichtigsten Weg des Tages: Den nach Hause",
                 hero_title_1: "PERFEKTE",
                 hero_title_2: "FELGEN & REIFEN",
-                hero_desc: "Ihr Premium-Vermittler für exklusive Radsätze, Hochleistungsreifen und professionelle Felgenveredelung. Wir verbinden Sie mit den besten Händlern.",
-                cta_primary: "Angebote ansehen",
+                hero_desc: "Fragen Sie direkt auf Ungarisch an, verhandeln Sie mit zuverlässigen Fachleuten und bestellen Sie bequem online per Versand. Wichtig: Für genauere Informationen lesen Sie bitte die Hinweise unter „Dienstleistungen“.",
+                cta_primary: "Angebot anfragen",
                 cta_secondary: "Kontakt aufnehmen",
                 about_badge: "Über uns",
                 about_title: "Leidenschaft für Performance",
@@ -555,17 +748,29 @@
                 feature_1_desc: "Zugang zu Premium-Herstellern",
                 feature_2_title: "International",
                 feature_2_desc: "DE / EN / HU Support",
+                feature_3_title: "Zuverlässiger Versand",
+                feature_3_desc: "GLS, DPD, DHL",
                 services_badge: "Was wir bieten",
                 services_title: "Unsere Dienstleistungen",
-                srv_1_title: "Reifenvermittlung",
-                srv_1_desc: "Wir finden für Sie die besten Preise für Sommer-, Winter- und Ganzjahresreifen namhafter Hersteller.",
-                srv_2_title: "Felgenkonfiguration",
-                srv_2_desc: "Beratung zu Einpresstiefen, Lochkreisen und Design. Wir vermitteln komplette Radsätze, die garantiert passen.",
-                srv_3_title: "Logistik & Support",
-                srv_3_desc: "Wir kümmern uns um die Kommunikation zwischen Händler und Kunde, inklusive Versandorganisation.",
+                tire_overview_title: "Reifenübersicht & Hersteller",
+                tire_summer_title: "Sommerreifen",
+                tire_winter_title: "Winterreifen",
+                tire_allseason_title: "Allwetterreifen",
+                tire_offroad_title: "Offroadreifen",
+                click_info: "Details anzeigen",
+                available_brands: "Verfügbare Hersteller",
+                rim_overview_title: "Felgenkonfiguration",
+                rim_alu_title: "Alufelgen",
+                rim_alu_desc: "Sportliches Design, geringes Gewicht und maximale Performance. Wir führen exklusive Marken und Designs für den perfekten Look.",
+                rim_steel_title: "Stahlfelgen & Notrad",
+                rim_steel_desc: "Verfügbar in den Farben Schwarz, Silber und Elektro. Auch als robustes Notrad erhältlich.",
+                rim_rdks_title: "RDKS System",
+                rim_rdks_desc: "Reifendruckkontrollsysteme für maximale Sicherheit. Verschiedene Farben und Ausführungen verfügbar.",
+                rim_btn: "Beratung starten",
                 contact_badge: "Kontakt",
                 contact_title: "Lassen Sie uns sprechen",
                 address_label: "Standort",
+                phone_label: "Telefonnummer",
                 social_label: "Folgen Sie uns",
                 form_name: "Name",
                 form_email: "Email",
@@ -576,88 +781,58 @@
                 opt_rims: "Felgen Beratung",
                 opt_partner: "Händler werden",
                 form_submit: "Nachricht senden",
+                storage_label: "Unsere Lagerräumlichkeiten.",
                 footer_desc: "Ihr zuverlässiger Partner für die Vermittlung von hochwertigen Reifen und Felgen in Europa.",
                 footer_links: "Quick Links",
                 footer_legal: "Rechtliches",
                 toast_success: "Erfolgreich gesendet!",
                 toast_msg: "Vielen Dank für Ihre Anfrage."
             },
-            en: {
-                nav_home: "Home",
-                nav_about: "About Us",
-                nav_services: "Services",
-                nav_contact: "Contact",
-                hero_subtitle: "QUALITY ROLLS BETTER",
-                hero_title_1: "PERFECT",
-                hero_title_2: "RIMS & TIRES",
-                hero_desc: "Your premium intermediary for exclusive wheel sets, high-performance tires, and professional rim finishing. We connect you with the best dealers.",
-                cta_primary: "View Offers",
-                cta_secondary: "Contact Us",
-                about_badge: "About Us",
-                about_title: "Passion for Performance",
-                about_text_1: "We are not an ordinary workshop. We are a specialized intermediary platform connecting car enthusiasts with the highest quality tire and rim suppliers in Europe.",
-                about_text_2: "Whether you are looking for rare designer rims or the safest winter tires for your family vehicle – our network covers all needs.",
-                feature_1_title: "Top Network",
-                feature_1_desc: "Access to premium manufacturers",
-                feature_2_title: "International",
-                feature_2_desc: "DE / EN / HU Support",
-                services_badge: "What We Offer",
-                services_title: "Our Services",
-                srv_1_title: "Tire Brokerage",
-                srv_1_desc: "We find the best prices for summer, winter, and all-season tires from renowned manufacturers for you.",
-                srv_2_title: "Rim Configuration",
-                srv_2_desc: "Advice on offsets, bolt circles, and design. We arrange complete wheel sets that are guaranteed to fit.",
-                srv_3_title: "Logistics & Support",
-                srv_3_desc: "We handle communication between dealer and customer, including shipping organization.",
-                contact_badge: "Contact",
-                contact_title: "Let's Talk",
-                address_label: "Location",
-                social_label: "Follow Us",
-                form_name: "Name",
-                form_email: "Email",
-                form_subject: "Subject",
-                form_message: "Message",
-                opt_general: "General Inquiry",
-                opt_tires: "Tire Offer",
-                opt_rims: "Rim Consultation",
-                opt_partner: "Become a Dealer",
-                form_submit: "Send Message",
-                footer_desc: "Your reliable partner for brokering high-quality tires and rims in Europe.",
-                footer_links: "Quick Links",
-                footer_legal: "Legal",
-                toast_success: "Sent Successfully!",
-                toast_msg: "Thank you for your inquiry."
-            },
             hu: {
+                brand_1: "MAGYAR",
+                brand_2: "GUMIS",
+                page_title: "magyar gumis - Prémium Gumi és Felni Közvetítés",
                 nav_home: "Főoldal",
                 nav_about: "Rólunk",
                 nav_services: "Szolgáltatások",
                 nav_contact: "Kapcsolat",
-                hero_subtitle: "A MINŐSÉG JOBBAN GURUL",
+                hero_subtitle: "A nap legfontosabb útjához: A hazafelé vezetőhöz",
                 hero_title_1: "TÖKÉLETES",
                 hero_title_2: "FELNIK ÉS GUMIK",
-                hero_desc: "Prémium közvetítő exkluzív kerékszettekhez, nagy teljesítményű gumiabroncsokhoz és professzionális felni felújításhoz. Összekötjük a legjobb kereskedőkkel.",
-                cta_primary: "Ajánlatok",
+                hero_desc: "Érdeklődjön magyar nyelven, tárgyaljon megbízható és tapasztalt szakemberekkel, és rendeljen online postai úton. Fontos: A részletes információkért olvassa el a „Szolgáltatások” alatti tudnivalókat.",
+                cta_primary: "Ajánlatkérés",
                 cta_secondary: "Kapcsolatfelvétel",
                 about_badge: "Rólunk",
                 about_title: "Szenvedély a teljesítményért",
-                about_text_1: "Nem egy átlagos szerviz vagyunk. Speciális közvetítő platformként működünk, amely összeköti az autórajongókat Európa legkiválóbb gumiabroncs- és felniszállítóival.",
-                about_text_2: "Legyen szó ritka design felnikről vagy a legbiztonságosabb téli gumikról családi autójához – hálózatunk minden igényt lefed.",
+                about_text_1: "Nem egy átlagos szerviz vagyunk. Összekötjük az autórajongókat Európa legkiválóbb gumiabroncs- és felniszállítóival.",
+                about_text_2: "Legyen szó ritka design felnikről vagy a legbiztonságosabb téli gumikról – cégünk minden igényt lefed.",
                 feature_1_title: "Top Hálózat",
                 feature_1_desc: "Hozzáférés prémium gyártókhoz",
                 feature_2_title: "Nemzetközi",
-                feature_2_desc: "DE / EN / HU Támogatás",
+                feature_2_desc: "DE / HU Támogatás",
+                feature_3_title: "Megbízható Szállítás",
+                feature_3_desc: "GLS, DPD, DHL",
                 services_badge: "Amit Kínálunk",
-                services_title: "Szolgáltatásaink",
-                srv_1_title: "Gumiabroncs Közvetítés",
-                srv_1_desc: "Megtaláljuk Önnek a legjobb árakat nyári, téli és négyévszakos gumikra neves gyártóktól.",
-                srv_2_title: "Felni Konfigurálás",
-                srv_2_desc: "Tanácsadás ET számokról, osztókörökről és dizájnról. Garantáltan illeszkedő komplett kerekeket közvetítünk.",
-                srv_3_title: "Logisztika & Support",
-                srv_3_desc: "Intézzük a kommunikációt a kereskedő és az ügyfél között, beleértve a szállítás megszervezését is.",
+                services_title: "Termékeink, szolgáltatásaink",
+                tire_overview_title: "Gumiabroncsok és Gyártók",
+                tire_summer_title: "Nyári gumi",
+                tire_winter_title: "Téli gumi",
+                tire_allseason_title: "Négyévszakos gumi",
+                tire_offroad_title: "Terep gumi",
+                click_info: "Részletek mutatása",
+                available_brands: "Elérhető gyártók",
+                rim_overview_title: "Felni Konfiguráció",
+                rim_alu_title: "Alufelni",
+                rim_alu_desc: "Sportos dizájn, kis súly és maximális teljesítmény. Exkluzív márkákat és dizájnokat kínálunk a tökéletes megjelenéshez.",
+                rim_steel_title: "Acélfelni & Pótkerék",
+                rim_steel_desc: "Fekete, ezüst és elektro színekben kapható. Robusztus pótkerékként is elérhető.",
+                rim_rdks_title: "TPMS Rendszer",
+                rim_rdks_desc: "Guminyomás-ellenőrző rendszerek a maximális biztonságért. Különböző színek és kivitelek elérhetők.",
+                rim_btn: "Tanácsadás kérése",
                 contact_badge: "Kapcsolat",
-                contact_title: "Beszéljünk",
+                contact_title: "Elérhetőségek",
                 address_label: "Helyszín",
+                phone_label: "Telefon",
                 social_label: "Kövessen minket",
                 form_name: "Név",
                 form_email: "Email",
@@ -668,11 +843,103 @@
                 opt_rims: "Felni tanácsadás",
                 opt_partner: "Viszonteladó",
                 form_submit: "Üzenet küldése",
+                storage_label: "Raktárhelyiségeink.",
                 footer_desc: "Megbízható partnere a minőségi gumiabroncsok és felnik közvetítésében Európában.",
                 footer_links: "Gyorslinkek",
                 footer_legal: "Jogi nyilatkozat",
                 toast_success: "Sikeresen elküldve!",
                 toast_msg: "Köszönjük megkeresését."
+            }
+        };
+
+        // --- Tire Data Configuration ---
+        const tireData = {
+            summer: {
+                icon: 'fa-sun',
+                color: 'bg-brand-orange',
+                title: { de: 'Sommerreifen', hu: 'Nyári gumi' },
+                desc: { 
+                    de: 'Optimale Leistung bei warmen Temperaturen. Kurze Bremswege auf trockener und nasser Fahrbahn.',
+                    hu: 'Optimális teljesítmény meleg hőmérsékleten. Rövid fékút száraz és nedves úton.'
+                },
+                brands: ['Michelin', 'Continental', 'Pirelli', 'Bridgestone', 'Hankook', 'Dunlop']
+            },
+            winter: {
+                icon: 'fa-snowflake',
+                color: 'bg-blue-500',
+                title: { de: 'Winterreifen', hu: 'Téli gumi' },
+                desc: { 
+                    de: 'Maximale Sicherheit bei Schnee und Eis. Spezielle Gummimischung für Temperaturen unter 7°C.',
+                    hu: 'Maximális biztonság hóban és jégen. Speciális gumikeverék 7°C alatti hőmérséklethez.'
+                },
+                brands: ['Nokian Tyres', 'Continental', 'Michelin', 'Goodyear', 'Bridgestone', 'Semperit']
+            },
+            allseason: {
+                icon: 'fa-cloud-sun-rain',
+                color: 'bg-green-600',
+                title: { de: 'Allwetterreifen', hu: 'Négyévszakos gumi' },
+                desc: { 
+                    de: 'Der Kompromiss für das ganze Jahr. Ideal für Regionen mit milden Wintern.',
+                    hu: 'Kompromisszum egész évre. Ideális enyhe telű régiók számára.'
+                },
+                brands: ['Goodyear', 'Michelin', 'Vredestein', 'Continental', 'Falken', 'Nexen']
+            },
+            offroad: {
+                icon: 'fa-mountain',
+                color: 'bg-stone-600',
+                title: { de: 'Offroadreifen', hu: 'Terep gumi' },
+                desc: { 
+                    de: 'Extreme Traktion im Gelände. Robustes Profil für Schlamm, Sand und Felsen.',
+                    hu: 'Extrém tapadás terepen. Robusztus profil sár, homok és sziklák ellen.'
+                },
+                brands: ['BFGoodrich', 'Cooper Tires', 'General Tire', 'Toyo Tires', 'Yokohama']
+            }
+        };
+
+        // --- Rim Data Configuration ---
+        const rimData = {
+            alu: {
+                icon: 'fa-dharmachakra',
+                color: 'bg-brand-orange',
+                title: { de: 'Alufelgen', hu: 'Alufelni' },
+                listTitle: { de: 'Verfügbare Hersteller', hu: 'Elérhető gyártók' },
+                advice: {
+                    de: 'Aufgrund der Vielzahl an Konfigurationsmöglichkeiten (Design, Größe, Einpresstiefe) empfehlen wir ein persönliches Beratungsgespräch per Telefon oder E-Mail, um die perfekte Passform für Ihr Fahrzeug zu garantieren.',
+                    hu: 'A konfigurációs lehetőségek sokasága miatt (dizájn, méret, ET) személyes konzultációt javaslunk telefonon vagy e-mailben a tökéletes illeszkedés garantálása érdekében.'
+                },
+                listItems: ['BBS', 'OZ Racing', 'Borbet', 'AEZ', 'Dezent', 'Dotz']
+            },
+            steel: {
+                icon: 'fa-life-ring',
+                color: 'bg-gray-600',
+                title: { de: 'Stahlfelgen & Notrad', hu: 'Acélfelni & Pótkerék' },
+                listTitle: { de: 'Verfügbare Farben', hu: 'Elérhető színek' },
+                advice: {
+                    de: 'Robust, langlebig und ideal für den Wintereinsatz. Auch als kostengünstige Lösung für Ersatzräder und Noträder verfügbar.',
+                    hu: 'Robusztus, tartós és ideális téli használatra. Költséghatékony megoldás pótkerekekhez és szükségkerekekhez is.'
+                },
+                listItems: [
+                    { de: 'Schwarz', hu: 'Fekete' },
+                    { de: 'Silber', hu: 'Ezüst' },
+                    { de: 'Elektro', hu: 'Elektro' },
+                    { de: 'Auch als Notrad', hu: 'Pótkerékként is' }
+                ]
+            },
+            rdks: {
+                icon: 'fa-gauge-high',
+                color: 'bg-blue-500',
+                title: { de: 'RDKS System', hu: 'TPMS Rendszer' },
+                listTitle: { de: 'Farben & Optionen', hu: 'Színek és Opciók' },
+                advice: {
+                    de: 'Das Reifendruckkontrollsystem (RDKS) überwacht den Luftdruck Ihrer Reifen in Echtzeit, um Sicherheit zu gewährleisten und den Kraftstoffverbrauch zu optimieren.',
+                    hu: 'A guminyomás-ellenőrző rendszer (TPMS) valós időben figyeli a gumiabroncsok nyomását a biztonság garantálása és az üzemanyag-fogyasztás optimalizálása érdekében.'
+                },
+                listItems: [
+                    { de: 'Anthrazit (Metall)', hu: 'Antracit (Fém)' },
+                    { de: 'Schwarz (Metall)', hu: 'Fekete (Fém)' },
+                    { de: 'Silber (Metall)', hu: 'Ezüst (Fém)' },
+                    { de: 'Gummiventil (Eco)', hu: 'Gumiszerep (Eco)' }
+                ]
             }
         };
 
@@ -685,6 +952,11 @@
             document.getElementById('current-lang').innerText = lang.toUpperCase();
             document.getElementById('mobile-lang-display').innerText = lang.toUpperCase();
             
+            // Set Page Title
+            if (translations[lang].page_title) {
+                document.title = translations[lang].page_title;
+            }
+
             const elements = document.querySelectorAll('[data-i18n]');
             elements.forEach(el => {
                 const key = el.getAttribute('data-i18n');
@@ -696,8 +968,7 @@
 
         // Cycle language for mobile button
         function cycleLanguage() {
-            if(currentLanguage === 'de') setLanguage('en');
-            else if(currentLanguage === 'en') setLanguage('hu');
+            if(currentLanguage === 'de') setLanguage('hu');
             else setLanguage('de');
         }
 
@@ -716,6 +987,66 @@
                 modal.classList.add('open');
                 document.body.style.overflow = 'hidden'; // Disable scroll
             }
+        }
+
+        // Open specific Tire Modal
+        function openTireModal(type) {
+            const data = tireData[type];
+            if(!data) return;
+
+            // Update Content
+            const iconEl = document.getElementById('tire-modal-icon');
+            iconEl.className = `w-12 h-12 rounded-full flex items-center justify-center text-white text-xl ${data.color}`;
+            iconEl.innerHTML = `<i class="fa-solid ${data.icon}"></i>`;
+
+            document.getElementById('tire-modal-title').innerText = data.title[currentLanguage];
+            document.getElementById('tire-modal-desc').innerText = data.desc[currentLanguage];
+
+            const list = document.getElementById('tire-modal-brands');
+            list.innerHTML = '';
+            data.brands.forEach(brand => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fa-solid fa-check text-brand-orange mr-2"></i> ${brand}`;
+                list.appendChild(li);
+            });
+
+            toggleModal('modal-tire');
+        }
+
+        // Open specific Rim Modal
+        function openRimModal(type) {
+            const data = rimData[type];
+            if(!data) return;
+
+            // Update Content
+            const iconContainer = document.getElementById('rim-modal-icon-container');
+            const iconEl = document.getElementById('rim-modal-icon');
+            
+            // Set Icon container color
+            iconContainer.className = `w-12 h-12 rounded-full flex items-center justify-center text-white text-xl ${data.color || 'bg-brand-orange'}`;
+            // Set Icon class
+            iconEl.className = `fa-solid ${data.icon}`;
+
+            document.getElementById('rim-modal-title').innerText = data.title[currentLanguage];
+            document.getElementById('rim-modal-advice').innerText = data.advice[currentLanguage];
+            document.getElementById('rim-modal-list-title').innerText = data.listTitle[currentLanguage];
+
+            const list = document.getElementById('rim-modal-brands');
+            list.innerHTML = '';
+            
+            data.listItems.forEach(item => {
+                const li = document.createElement('li');
+                // Handle objects for multilingual list items or strings
+                let itemText = item;
+                if (typeof item === 'object' && item !== null) {
+                    itemText = item[currentLanguage];
+                }
+                
+                li.innerHTML = `<i class="fa-solid fa-check text-brand-orange mr-2"></i> ${itemText}`;
+                list.appendChild(li);
+            });
+
+            toggleModal('modal-rim');
         }
 
         // Close modal on Escape key
