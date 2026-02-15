@@ -59,7 +59,7 @@ const TypewriterText = ({ text, className = '', tag = 'p', delay = 0, speed = 0.
         >
             {characters.map((char, index) => (
                 <motion.span variants={child} key={index}>
-                    {char === " " ? "\u00A0" : char}
+                    {char === " " ? " " : char}
                 </motion.span>
             ))}
         </Tag>
