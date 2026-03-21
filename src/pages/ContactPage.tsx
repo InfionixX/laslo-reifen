@@ -2,14 +2,18 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { FaPaperPlane, FaCircleCheck } from 'react-icons/fa6';
+import { FaPaperPlane, FaCircleCheck, FaCircleInfo } from 'react-icons/fa6';
 import TypewriterText from '../components/TypewriterText';
 
 type FormData = {
     name: string;
-    email: string;
-    subject: string;
-    message: string;
+    hsn: string;
+    tsn: string;
+    tireType: 'summer' | 'winter' | 'allseason';
+    tireCount: number;
+    phone: string;
+    messenger: string;
+    rdks: boolean;
 };
 
 const ContactPage = () => {
@@ -100,42 +104,114 @@ const ContactPage = () => {
                                         {...register('name', { required: true })}
                                         type="text"
                                         className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
-                                        placeholder="John Doe"
+                                        placeholder="Max Mustermann"
                                     />
                                     {errors.name && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_email')}</label>
-                                    <input
-                                        {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
-                                        type="email"
-                                        className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
-                                        placeholder="john@example.com"
-                                    />
-                                    {errors.email && <span className="text-red-500 text-xs mt-1 block">Gültige Email erforderlich</span>}
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="col-span-2">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <label className="block text-sm font-medium text-gray-400">{t('form_hsn_tsn')}</label>
+                                            <div className="relative group cursor-pointer inline-flex items-center">
+                                                <FaCircleInfo className="text-gray-500 hover:text-brand-orange transition-colors" />
+                                                <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-3 hidden group-hover:block w-72 bg-gray-900 border border-gray-700 text-white text-xs rounded-xl p-3 shadow-2xl z-50">
+                                                    <p className="mb-2 font-semibold text-brand-orange leading-tight">{t('form_hsn_tsn_info')}</p>
+                                                    <img src="/grafics/pictures/_contact-page/fahrzeugschein-hsn-tsn.png" alt="Fahrzeugschein" className="w-full rounded border border-gray-600 shadow-md" />
+                                                    {/* Decorative arrow pointing down */}
+                                                    <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-gray-700"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <input
+                                            {...register('hsn', { required: true })}
+                                            type="text"
+                                            className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange transition-all placeholder-gray-600 uppercase"
+                                            placeholder={t('form_hsn')}
+                                        />
+                                        {errors.hsn && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
+                                    </div>
+                                    <div>
+                                        <input
+                                            {...register('tsn', { required: true })}
+                                            type="text"
+                                            className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange transition-all placeholder-gray-600 uppercase"
+                                            placeholder={t('form_tsn')}
+                                        />
+                                        {errors.tsn && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_subject')}</label>
-                                <select
-                                    {...register('subject')}
-                                    className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange transition-all appearance-none"
-                                >
-                                    <option value="General">{t('opt_general')}</option>
-                                    <option value="Tires">{t('opt_tires')}</option>
-                                    <option value="Rims">{t('opt_rims')}</option>
-                                    <option value="Partner">{t('opt_partner')}</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_message')}</label>
-                                <textarea
-                                    {...register('message', { required: true })}
-                                    rows={5}
-                                    className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600 resize-y"
-                                    placeholder="..."
-                                ></textarea>
-                                {errors.message && <span className="text-red-500 text-xs mt-1 block">Nachricht erforderlich</span>}
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_tire_type')}</label>
+                                    <div className="grid grid-cols-3 gap-3">
+                                        <label className="cursor-pointer">
+                                            <input type="radio" value="summer" {...register('tireType', { required: true })} className="peer sr-only" />
+                                            <div className="text-center px-1 py-3 bg-brand-dark border border-gray-700 rounded-xl text-gray-400 peer-checked:bg-brand-orange/20 peer-checked:border-brand-orange peer-checked:text-brand-orange transition-all text-xs sm:text-sm font-medium shadow-sm hover:border-gray-500">
+                                                {t('form_summer')}
+                                            </div>
+                                        </label>
+                                        <label className="cursor-pointer">
+                                            <input type="radio" value="winter" {...register('tireType', { required: true })} className="peer sr-only" />
+                                            <div className="text-center px-1 py-3 bg-brand-dark border border-gray-700 rounded-xl text-gray-400 peer-checked:bg-brand-orange/20 peer-checked:border-brand-orange peer-checked:text-brand-orange transition-all text-xs sm:text-sm font-medium shadow-sm hover:border-gray-500">
+                                                {t('form_winter')}
+                                            </div>
+                                        </label>
+                                        <label className="cursor-pointer">
+                                            <input type="radio" value="allseason" {...register('tireType', { required: true })} className="peer sr-only" />
+                                            <div className="text-center px-1 py-3 bg-brand-dark border border-gray-700 rounded-xl text-gray-400 peer-checked:bg-brand-orange/20 peer-checked:border-brand-orange peer-checked:text-brand-orange transition-all text-xs sm:text-sm font-medium shadow-sm hover:border-gray-500">
+                                                {t('form_allseason')}
+                                            </div>
+                                        </label>
+                                    </div>
+                                    {errors.tireType && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_tire_count')}</label>
+                                        <input
+                                            {...register('tireCount', { required: true, min: 1 })}
+                                            type="number"
+                                            defaultValue={4}
+                                            className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
+                                        />
+                                        {errors.tireCount && <span className="text-red-500 text-xs mt-1 block">Min. 1 Stück</span>}
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_phone')}</label>
+                                        <input
+                                            {...register('phone', { required: true })}
+                                            type="tel"
+                                            className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
+                                            placeholder="+49 123 45678"
+                                        />
+                                        {errors.phone && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_messenger')}</label>
+                                    <input
+                                        {...register('messenger')}
+                                        type="text"
+                                        className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
+                                        placeholder="z.B. max.mustermann"
+                                    />
+                                </div>
+
+                                <div className="flex items-center gap-3 bg-brand-dark/50 p-4 rounded-xl border border-gray-700/50 hover:bg-brand-dark transition-colors cursor-pointer" onClick={() => { const el = document.getElementById('rdks') as HTMLInputElement; if (el) el.click(); }}>
+                                    <input
+                                        {...register('rdks')}
+                                        type="checkbox"
+                                        className="w-5 h-5 accent-brand-orange bg-gray-700 border-gray-600 rounded cursor-pointer pointer-events-none"
+                                        id="rdks"
+                                    />
+                                    <label htmlFor="rdks" className="text-sm font-medium text-white cursor-pointer select-none pointer-events-none w-full">
+                                        {t('form_rdks')}
+                                    </label>
+                                </div>
                             </div>
 
                             {submitError && <div className="text-red-500 text-sm">{submitError}</div>}

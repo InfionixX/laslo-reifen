@@ -68,7 +68,19 @@ const resources = {
             contact_page_badge: "Kontaktieren Sie uns",
             contact_page_title: "Wir freuen uns auf Ihre Nachricht!",
             contact_page_desc: "Egal ob Sie eine Frage zu unseren Felgen, Reifen oder unserem Service haben – unser Team hilft Ihnen gerne weiter.",
-            contact_page_img_alt: "Kontakt Illustration"
+            contact_page_img_alt: "Kontakt Illustration",
+            form_hsn_tsn: "Schlüsselnummer (2.1 & 2.2)",
+            form_hsn_tsn_info: "Zu finden in der Zulassungsbescheinigung Teil I unter 2.1 und 2.2",
+            form_hsn: "2.1 (HSN)",
+            form_tsn: "2.2 (TSN)",
+            form_tire_type: "Reifenart",
+            form_summer: "Sommerreifen",
+            form_winter: "Winterreifen",
+            form_allseason: "Allwetterreifen",
+            form_tire_count: "Stückzahl",
+            form_phone: "Telefonnummer",
+            form_messenger: "Facebook Messenger Name (Optional)",
+            form_rdks: "RDKS-Sensoren benötigt?"
         }
     },
     hu: {
@@ -136,7 +148,19 @@ const resources = {
             contact_page_badge: "Lépjen kapcsolatba velünk",
             contact_page_title: "Várjuk üzenetét!",
             contact_page_desc: "Függetlenül attól, hogy kérdése van felnijeinkkel, gumiabroncsainkkal vagy szolgáltatásunkkal kapcsolatban – csapatunk szívesen segít.",
-            contact_page_img_alt: "Kapcsolat illusztráció"
+            contact_page_img_alt: "Kapcsolat illusztráció",
+            form_hsn_tsn: "Gyártmánykód / Típuskód (2.1 & 2.2)",
+            form_hsn_tsn_info: "A forgalmi engedélyben a 2.1 és 2.2 pontok alatt található.",
+            form_hsn: "2.1 (HSN)",
+            form_tsn: "2.2 (TSN)",
+            form_tire_type: "Abroncs típusa",
+            form_summer: "Nyári gumi",
+            form_winter: "Téli gumi",
+            form_allseason: "Négyévszakos gumi",
+            form_tire_count: "Darabszám",
+            form_phone: "Telefonszám",
+            form_messenger: "Facebook Messenger Név (Opcionális)",
+            form_rdks: "TPMS (Guminyomás-ellenőrző) szelep szükséges?"
         }
     }
 };
