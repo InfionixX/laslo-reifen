@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { FaStar, FaQuoteLeft } from 'react-icons/fa6';
+import { FaStar, FaQuoteLeft, FaChevronRight, FaChevronLeft } from 'react-icons/fa6';
+import { GiCarWheel } from 'react-icons/gi';
+import { useEffect, useRef } from 'react';
 
 const reviewData = [
     {
@@ -45,6 +47,52 @@ const itemVariants: any = {
 
 const Reviews = () => {
     const { t } = useTranslation();
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const scrollContainer = scrollRef.current;
+        if (!scrollContainer) return;
+
+        let interval: ReturnType<typeof setInterval>;
+
+        const startAutoScroll = () => {
+            interval = setInterval(() => {
+                const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
+                // Only autoscroll if it's actually scrollable (mobile view)
+                if (scrollWidth > clientWidth) {
+                    const maxScrollLeft = scrollWidth - clientWidth;
+                    if (scrollLeft >= maxScrollLeft - 10) {
+                        scrollContainer.scrollTo({ left: 0, behavior: 'smooth' });
+                    } else {
+                        // Scroll by approximate card width
+                        const scrollAmount = clientWidth > 400 ? 400 : clientWidth * 0.85;
+                        scrollContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                    }
+                }
+            }, 3500);
+        };
+
+        startAutoScroll();
+
+        // Pause auto-scroll on touch/interaction
+        const handleInteraction = () => {
+            clearInterval(interval);
+            // Optional: Restart auto-scroll after 5 seconds of inactivity
+            setTimeout(() => {
+                clearInterval(interval); // clear again just in case
+                startAutoScroll();
+            }, 5000);
+        };
+
+        scrollContainer.addEventListener('touchstart', handleInteraction, { passive: true });
+        scrollContainer.addEventListener('mousedown', handleInteraction, { passive: true });
+
+        return () => {
+            clearInterval(interval);
+            scrollContainer.removeEventListener('touchstart', handleInteraction);
+            scrollContainer.removeEventListener('mousedown', handleInteraction);
+        };
+    }, []);
 
     return (
         <section className="py-24 bg-brand-dark relative overflow-hidden">
@@ -53,7 +101,7 @@ const Reviews = () => {
             <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-brand-orange opacity-[0.02] rounded-full blur-3xl transform -translate-y-1/2 translate-x-1/3"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center mb-16">
+                <div className="text-center mb-10">
                     <motion.h2
                         initial={{ opacity: 0, y: -20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -69,13 +117,28 @@ const Reviews = () => {
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="text-gray-400 max-w-2xl mx-auto text-lg"
+                        className="text-gray-400 max-w-2xl mx-auto text-lg mb-10"
                     >
                         {t('reviews_subtitle')}
                     </motion.p>
+
+                    {/* Minimalist Logo inserted between Header and Reviews */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                        className="flex justify-center items-center gap-2 opacity-50 mb-4"
+                    >
+                        <GiCarWheel className="text-brand-orange text-3xl" />
+                        <span className="text-white text-xl font-bold tracking-tighter">
+                            {t('brand_1')} <span className="text-brand-orange">{t('brand_2')}</span>
+                        </span>
+                    </motion.div>
                 </div>
 
                 <motion.div
+                    ref={scrollRef}
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
@@ -122,6 +185,13 @@ const Reviews = () => {
                         </motion.div>
                     ))}
                 </motion.div>
+
+                {/* Mobile Swipe Indicator */}
+                <div className="md:hidden flex justify-center items-center mt-6 gap-3 text-brand-orange/60 animate-pulse">
+                    <FaChevronLeft className="text-sm" />
+                    <span className="text-xs uppercase tracking-widest font-semibold">{t('swipe_to_view')}</span>
+                    <FaChevronRight className="text-sm" />
+                </div>
             </div>
         </section>
     );

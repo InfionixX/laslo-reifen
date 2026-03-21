@@ -90,7 +90,8 @@ const resources = {
             review_2_name: "Sarah K.",
             review_2_text: "Tolle Auswahl an Felgen und faire Preise. Komme gerne wieder für den Allwetter-Wechsel.",
             review_3_name: "Thomas M.",
-            review_3_text: "Professionelle Fahrzeugannahme und reibungsloser Ablauf. Mein Auto fährt sich wie neu."
+            review_3_text: "Professionelle Fahrzeugannahme und reibungsloser Ablauf. Mein Auto fährt sich wie neu.",
+            swipe_to_view: "Wischen für mehr"
         }
     },
     hu: {
@@ -180,7 +181,8 @@ const resources = {
             review_2_name: "Nagy Anna",
             review_2_text: "Remek felni választék és korrekt árak. Szívesen visszajövök a négyévszakos cserére.",
             review_3_name: "Szabó Tamás",
-            review_3_text: "Professzionális járműátvétel és zökkenőmentes folyamat. Az autóm mintha új lenne."
+            review_3_text: "Professzionális járműátvétel és zökkenőmentes folyamat. Az autóm mintha új lenne.",
+            swipe_to_view: "Húzza a többihez"
         }
     }
 };
