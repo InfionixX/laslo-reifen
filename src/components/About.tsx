@@ -93,7 +93,7 @@ const About = () => {
                         <img
                             src="/grafics/pictures/about_us_picture.png"
                             alt="Über uns"
-                            className="relative z-10 rounded-2xl shadow-xl w-full object-cover aspect-[4/5] opacity-90 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0"
+                            className="relative z-10 rounded-2xl shadow-xl w-full object-cover aspect-[4/5] opacity-90 hover:opacity-100 transition-opacity duration-500"
                         />
                     </motion.div>
 
