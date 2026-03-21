@@ -74,166 +74,170 @@ const ContactPage = () => {
                     />
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start relative z-10 w-full max-w-6xl mx-auto rounded-3xl">
+                <div className="flex flex-col-reverse lg:flex-col gap-12 lg:gap-0">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start relative z-10 w-full max-w-6xl mx-auto rounded-3xl">
 
-                    {/* The Image from About Us */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8 }}
-                        className="w-full h-full relative group mt-8 lg:mt-0"
-                    >
-                        <div className="absolute inset-0 bg-brand-orange opacity-10 blur-2xl rounded-2xl group-hover:opacity-20 transition-opacity duration-500"></div>
-                        <img
-                            src="/grafics/pictures/about_us_picture.png"
-                            alt="Kontakt Illustration"
-                            className="relative z-10 rounded-3xl shadow-2xl w-full h-[600px] object-cover opacity-90 hover:opacity-100 transition-opacity duration-500"
-                        />
-                    </motion.div>
+                        {/* The Image from About Us */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.8 }}
+                            className="w-full h-full relative group mt-8 lg:mt-0"
+                        >
+                            <div className="absolute inset-0 bg-brand-orange opacity-10 blur-2xl rounded-2xl group-hover:opacity-20 transition-opacity duration-500"></div>
+                            <img
+                                src="/grafics/pictures/about_us_picture.png"
+                                alt="Kontakt Illustration"
+                                className="relative z-10 rounded-3xl shadow-2xl w-full h-[600px] object-cover opacity-90 hover:opacity-100 transition-opacity duration-500"
+                            />
+                        </motion.div>
 
-                    {/* Contact Form Container like the main styling */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="p-8 md:p-12 w-full h-full flex flex-col justify-center bg-brand-gray/50 rounded-3xl border border-gray-800 shadow-xl relative"
-                    >
-                        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.05] rounded-3xl"></div>
-                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative z-10">
-                            <div className="space-y-6">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_name')}</label>
-                                    <input
-                                        {...register('name', { required: true })}
-                                        type="text"
-                                        className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
-                                        placeholder="Max Mustermann"
-                                    />
-                                    {errors.name && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
-                                </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="col-span-2">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <label className="block text-sm font-medium text-gray-400">{t('form_hsn_tsn')}</label>
-                                            <button
-                                                type="button"
-                                                onClick={() => setIsInfoModalOpen(true)}
-                                                className="text-brand-orange text-sm font-medium hover:text-orange-400 hover:underline transition-all cursor-pointer flex items-center gap-1"
-                                            >
-                                                <FaCircleInfo className="text-xs" />
-                                                {t('form_hsn_tsn_more_info')}
-                                            </button>
+                        {/* Contact Form Container like the main styling */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 30 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                            className="p-8 md:p-12 w-full h-full flex flex-col justify-center bg-brand-gray/50 rounded-3xl border border-gray-800 shadow-xl relative"
+                        >
+                            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.05] rounded-3xl"></div>
+                            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative z-10">
+                                <div className="space-y-6">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_name')}</label>
+                                        <input
+                                            {...register('name', { required: true })}
+                                            type="text"
+                                            className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
+                                            placeholder="Max Mustermann"
+                                        />
+                                        {errors.name && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="col-span-2">
+                                            <div className="flex items-center justify-between mb-2">
+                                                <label className="block text-sm font-medium text-gray-400">{t('form_hsn_tsn')}</label>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setIsInfoModalOpen(true)}
+                                                    className="text-brand-orange text-sm font-medium hover:text-orange-400 hover:underline transition-all cursor-pointer flex items-center gap-1"
+                                                >
+                                                    <FaCircleInfo className="text-xs" />
+                                                    {t('form_hsn_tsn_more_info')}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <input
+                                                {...register('hsn', { required: true })}
+                                                type="text"
+                                                className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange transition-all placeholder-gray-600 uppercase"
+                                                placeholder={t('form_hsn')}
+                                            />
+                                            {errors.hsn && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
+                                        </div>
+                                        <div>
+                                            <input
+                                                {...register('tsn', { required: true })}
+                                                type="text"
+                                                className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange transition-all placeholder-gray-600 uppercase"
+                                                placeholder={t('form_tsn')}
+                                            />
+                                            {errors.tsn && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
                                         </div>
                                     </div>
+
                                     <div>
+                                        <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_tire_type')}</label>
+                                        <div className="grid grid-cols-3 gap-3">
+                                            <label className="cursor-pointer">
+                                                <input type="radio" value="summer" {...register('tireType', { required: true })} className="peer sr-only" />
+                                                <div className="text-center px-1 py-3 bg-brand-dark border border-gray-700 rounded-xl text-gray-400 peer-checked:bg-brand-orange/20 peer-checked:border-brand-orange peer-checked:text-brand-orange transition-all text-xs sm:text-sm font-medium shadow-sm hover:border-gray-500">
+                                                    {t('form_summer')}
+                                                </div>
+                                            </label>
+                                            <label className="cursor-pointer">
+                                                <input type="radio" value="winter" {...register('tireType', { required: true })} className="peer sr-only" />
+                                                <div className="text-center px-1 py-3 bg-brand-dark border border-gray-700 rounded-xl text-gray-400 peer-checked:bg-brand-orange/20 peer-checked:border-brand-orange peer-checked:text-brand-orange transition-all text-xs sm:text-sm font-medium shadow-sm hover:border-gray-500">
+                                                    {t('form_winter')}
+                                                </div>
+                                            </label>
+                                            <label className="cursor-pointer">
+                                                <input type="radio" value="allseason" {...register('tireType', { required: true })} className="peer sr-only" />
+                                                <div className="text-center px-1 py-3 bg-brand-dark border border-gray-700 rounded-xl text-gray-400 peer-checked:bg-brand-orange/20 peer-checked:border-brand-orange peer-checked:text-brand-orange transition-all text-xs sm:text-sm font-medium shadow-sm hover:border-gray-500">
+                                                    {t('form_allseason')}
+                                                </div>
+                                            </label>
+                                        </div>
+                                        {errors.tireType && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_tire_count')}</label>
+                                            <input
+                                                {...register('tireCount', { required: true, min: 1 })}
+                                                type="number"
+                                                defaultValue={4}
+                                                className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
+                                            />
+                                            {errors.tireCount && <span className="text-red-500 text-xs mt-1 block">Min. 1 Stück</span>}
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_phone')}</label>
+                                            <input
+                                                {...register('phone', { required: true })}
+                                                type="tel"
+                                                className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
+                                                placeholder="+49 123 45678"
+                                            />
+                                            {errors.phone && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_messenger')}</label>
                                         <input
-                                            {...register('hsn', { required: true })}
+                                            {...register('messenger')}
                                             type="text"
-                                            className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange transition-all placeholder-gray-600 uppercase"
-                                            placeholder={t('form_hsn')}
-                                        />
-                                        {errors.hsn && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
-                                    </div>
-                                    <div>
-                                        <input
-                                            {...register('tsn', { required: true })}
-                                            type="text"
-                                            className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange transition-all placeholder-gray-600 uppercase"
-                                            placeholder={t('form_tsn')}
-                                        />
-                                        {errors.tsn && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_tire_type')}</label>
-                                    <div className="grid grid-cols-3 gap-3">
-                                        <label className="cursor-pointer">
-                                            <input type="radio" value="summer" {...register('tireType', { required: true })} className="peer sr-only" />
-                                            <div className="text-center px-1 py-3 bg-brand-dark border border-gray-700 rounded-xl text-gray-400 peer-checked:bg-brand-orange/20 peer-checked:border-brand-orange peer-checked:text-brand-orange transition-all text-xs sm:text-sm font-medium shadow-sm hover:border-gray-500">
-                                                {t('form_summer')}
-                                            </div>
-                                        </label>
-                                        <label className="cursor-pointer">
-                                            <input type="radio" value="winter" {...register('tireType', { required: true })} className="peer sr-only" />
-                                            <div className="text-center px-1 py-3 bg-brand-dark border border-gray-700 rounded-xl text-gray-400 peer-checked:bg-brand-orange/20 peer-checked:border-brand-orange peer-checked:text-brand-orange transition-all text-xs sm:text-sm font-medium shadow-sm hover:border-gray-500">
-                                                {t('form_winter')}
-                                            </div>
-                                        </label>
-                                        <label className="cursor-pointer">
-                                            <input type="radio" value="allseason" {...register('tireType', { required: true })} className="peer sr-only" />
-                                            <div className="text-center px-1 py-3 bg-brand-dark border border-gray-700 rounded-xl text-gray-400 peer-checked:bg-brand-orange/20 peer-checked:border-brand-orange peer-checked:text-brand-orange transition-all text-xs sm:text-sm font-medium shadow-sm hover:border-gray-500">
-                                                {t('form_allseason')}
-                                            </div>
-                                        </label>
-                                    </div>
-                                    {errors.tireType && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_tire_count')}</label>
-                                        <input
-                                            {...register('tireCount', { required: true, min: 1 })}
-                                            type="number"
-                                            defaultValue={4}
                                             className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
+                                            placeholder="z.B. max.mustermann"
                                         />
-                                        {errors.tireCount && <span className="text-red-500 text-xs mt-1 block">Min. 1 Stück</span>}
                                     </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_phone')}</label>
+
+                                    <div className="flex items-center gap-3 bg-brand-dark/50 p-4 rounded-xl border border-gray-700/50 hover:bg-brand-dark transition-colors cursor-pointer" onClick={() => { const el = document.getElementById('rdks') as HTMLInputElement; if (el) el.click(); }}>
                                         <input
-                                            {...register('phone', { required: true })}
-                                            type="tel"
-                                            className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
-                                            placeholder="+49 123 45678"
+                                            {...register('rdks')}
+                                            type="checkbox"
+                                            className="w-5 h-5 accent-brand-orange bg-gray-700 border-gray-600 rounded cursor-pointer pointer-events-none"
+                                            id="rdks"
                                         />
-                                        {errors.phone && <span className="text-red-500 text-xs mt-1 block">Pflichtfeld</span>}
+                                        <label htmlFor="rdks" className="text-sm font-medium text-white cursor-pointer select-none pointer-events-none w-full">
+                                            {t('form_rdks')}
+                                        </label>
                                     </div>
                                 </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_messenger')}</label>
-                                    <input
-                                        {...register('messenger')}
-                                        type="text"
-                                        className="w-full bg-brand-dark border border-gray-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
-                                        placeholder="z.B. max.mustermann"
-                                    />
-                                </div>
+                                {submitError && <div className="text-red-500 text-sm">{submitError}</div>}
 
-                                <div className="flex items-center gap-3 bg-brand-dark/50 p-4 rounded-xl border border-gray-700/50 hover:bg-brand-dark transition-colors cursor-pointer" onClick={() => { const el = document.getElementById('rdks') as HTMLInputElement; if (el) el.click(); }}>
-                                    <input
-                                        {...register('rdks')}
-                                        type="checkbox"
-                                        className="w-5 h-5 accent-brand-orange bg-gray-700 border-gray-600 rounded cursor-pointer pointer-events-none"
-                                        id="rdks"
-                                    />
-                                    <label htmlFor="rdks" className="text-sm font-medium text-white cursor-pointer select-none pointer-events-none w-full">
-                                        {t('form_rdks')}
-                                    </label>
-                                </div>
-                            </div>
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-4 rounded-xl transition-all shadow-[0_4px_14px_0_rgba(255,87,34,0.39)] hover:shadow-[0_6px_20px_rgba(255,87,34,0.23)] hover:-translate-y-1 flex justify-center items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+                                >
+                                    {isSubmitting ? (
+                                        <span>Senden...</span>
+                                    ) : (
+                                        <>
+                                            <span>{t('form_submit')}</span>
+                                            <FaPaperPlane />
+                                        </>
+                                    )}
+                                </button>
+                            </form>
+                        </motion.div>
+                    </div>
 
-                            {submitError && <div className="text-red-500 text-sm">{submitError}</div>}
-
-                            <button
-                                type="submit"
-                                disabled={isSubmitting}
-                                className="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-4 rounded-xl transition-all shadow-[0_4px_14px_0_rgba(255,87,34,0.39)] hover:shadow-[0_6px_20px_rgba(255,87,34,0.23)] hover:-translate-y-1 flex justify-center items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed mt-4"
-                            >
-                                {isSubmitting ? (
-                                    <span>Senden...</span>
-                                ) : (
-                                    <>
-                                        <span>{t('form_submit')}</span>
-                                        <FaPaperPlane />
-                                    </>
-                                )}
-                            </button>
-                        </form>
-                    </motion.div>
+                    <Reviews />
                 </div>
             </div>
 
@@ -255,8 +259,6 @@ const ContactPage = () => {
                     <img src="/grafics/pictures/_contact-page/_info/fahrzeugschein-hsn-tsn.png" alt="Fahrzeugschein" className="w-full rounded-xl border border-gray-600 shadow-2xl" />
                 </div>
             </Modal>
-
-            <Reviews />
         </div>
     );
 };

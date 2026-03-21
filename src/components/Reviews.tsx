@@ -79,14 +79,17 @@ const Reviews = () => {
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: true }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    viewport={{ once: true, amount: 0.1 }}
+                    className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 -mx-4 px-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:overflow-visible md:snap-none md:mx-0 md:px-0 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
                 >
                     {reviewData.map((review) => (
                         <motion.div
                             key={review.id}
                             variants={itemVariants}
-                            className="bg-brand-gray/50 rounded-3xl border border-gray-800 shadow-xl overflow-hidden hover:-translate-y-2 transition-transform duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.5)] group relative flex flex-col h-full"
+                            viewport={{ once: true }}
+                            whileInView="visible"
+                            initial="hidden"
+                            className="w-[85vw] min-w-[300px] sm:w-[400px] md:w-auto md:min-w-0 snap-center snap-always flex-shrink-0 bg-brand-gray/50 rounded-3xl border border-gray-800 shadow-xl overflow-hidden hover:-translate-y-2 transition-transform duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.5)] group relative flex flex-col h-full"
                         >
                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.05]"></div>
 
