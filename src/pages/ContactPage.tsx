@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { FaPaperPlane, FaCircleCheck, FaCircleInfo } from 'react-icons/fa6';
 import TypewriterText from '../components/TypewriterText';
+import Modal from '../components/Modal';
 
 type FormData = {
     name: string;
@@ -21,6 +22,7 @@ const ContactPage = () => {
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormData>();
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const [submitError, setSubmitError] = useState('');
+    const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
 
     const onSubmit = async (data: FormData) => {
         setSubmitError('');
@@ -110,17 +112,16 @@ const ContactPage = () => {
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="col-span-2">
-                                        <div className="flex items-center gap-2 mb-2">
+                                        <div className="flex items-center justify-between mb-2">
                                             <label className="block text-sm font-medium text-gray-400">{t('form_hsn_tsn')}</label>
-                                            <div className="relative group cursor-pointer inline-flex items-center">
-                                                <FaCircleInfo className="text-gray-500 hover:text-brand-orange transition-colors" />
-                                                <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-3 hidden group-hover:block w-72 bg-gray-900 border border-gray-700 text-white text-xs rounded-xl p-3 shadow-2xl z-50">
-                                                    <p className="mb-2 font-semibold text-brand-orange leading-tight">{t('form_hsn_tsn_info')}</p>
-                                                    <img src="/grafics/pictures/_contact-page/_info/fahrzeugschein-hsn-tsn.png" alt="Fahrzeugschein" className="w-full rounded border border-gray-600 shadow-md" />
-                                                    {/* Decorative arrow pointing down */}
-                                                    <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-gray-700"></div>
-                                                </div>
-                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => setIsInfoModalOpen(true)}
+                                                className="text-brand-orange text-sm font-medium hover:text-orange-400 hover:underline transition-all cursor-pointer flex items-center gap-1"
+                                            >
+                                                <FaCircleInfo className="text-xs" />
+                                                {t('form_hsn_tsn_more_info')}
+                                            </button>
                                         </div>
                                     </div>
                                     <div>
@@ -243,6 +244,16 @@ const ContactPage = () => {
                     <p className="text-sm text-gray-400">{t('toast_msg')}</p>
                 </div>
             </div>
+
+            {/* HSN/TSN Info Modal */}
+            <Modal isOpen={isInfoModalOpen} onClose={() => setIsInfoModalOpen(false)} title="Fahrzeugschein (HSN/TSN)" maxWidth="max-w-4xl">
+                <div className="flex flex-col items-center">
+                    <p className="mb-6 text-gray-300 text-lg text-center leading-relaxed max-w-2xl">
+                        {t('form_hsn_tsn_info')}
+                    </p>
+                    <img src="/grafics/pictures/_contact-page/_info/fahrzeugschein-hsn-tsn.png" alt="Fahrzeugschein" className="w-full rounded-xl border border-gray-600 shadow-2xl" />
+                </div>
+            </Modal>
         </div>
     );
 };

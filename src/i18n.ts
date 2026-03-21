@@ -80,7 +80,8 @@ const resources = {
             form_tire_count: "Stückzahl",
             form_phone: "Telefonnummer",
             form_messenger: "Facebook Messenger Name (Optional)",
-            form_rdks: "RDKS-Sensoren benötigt?"
+            form_rdks: "RDKS-Sensoren benötigt?",
+            form_hsn_tsn_more_info: "Mehr Informationen"
         }
     },
     hu: {
@@ -160,7 +161,8 @@ const resources = {
             form_tire_count: "Darabszám",
             form_phone: "Telefonszám",
             form_messenger: "Facebook Messenger Név (Opcionális)",
-            form_rdks: "TPMS (Guminyomás-ellenőrző) szelep szükséges?"
+            form_rdks: "TPMS (Guminyomás-ellenőrző) szelep szükséges?",
+            form_hsn_tsn_more_info: "További információ"
         }
     }
 };
