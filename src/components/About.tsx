@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { FaCheck, FaLanguage, FaTruckFast } from 'react-icons/fa6';
 import TypewriterText from './TypewriterText';
-import Tire3D from './Tire3D';
 
 const About = () => {
     const { t } = useTranslation();
@@ -22,7 +21,7 @@ const About = () => {
                         className="relative"
                     >
                         <div className="absolute -top-4 -left-4 w-24 h-24 border-t-4 border-l-4 border-brand-orange z-0"></div>
-                        <Tire3D />
+                        <img src="/grafics/pictures/about_us_picture.png" alt="Über uns" className="relative z-10 rounded-lg shadow-2xl transition-all duration-700 w-full object-contain h-[500px]" />
                         <div className="absolute -bottom-4 -right-4 w-24 h-24 border-b-4 border-r-4 border-brand-orange z-0"></div>
                     </motion.div>
 
