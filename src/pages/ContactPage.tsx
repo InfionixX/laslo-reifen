@@ -116,7 +116,7 @@ const ContactPage = () => {
                                                 <FaCircleInfo className="text-gray-500 hover:text-brand-orange transition-colors" />
                                                 <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-3 hidden group-hover:block w-72 bg-gray-900 border border-gray-700 text-white text-xs rounded-xl p-3 shadow-2xl z-50">
                                                     <p className="mb-2 font-semibold text-brand-orange leading-tight">{t('form_hsn_tsn_info')}</p>
-                                                    <img src="/grafics/pictures/_contact-page/fahrzeugschein-hsn-tsn.png" alt="Fahrzeugschein" className="w-full rounded border border-gray-600 shadow-md" />
+                                                    <img src="/grafics/pictures/_contact-page/_info/fahrzeugschein-hsn-tsn.png" alt="Fahrzeugschein" className="w-full rounded border border-gray-600 shadow-md" />
                                                     {/* Decorative arrow pointing down */}
                                                     <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-gray-700"></div>
                                                 </div>
