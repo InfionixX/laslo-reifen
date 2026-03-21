@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { FaPaperPlane, FaCircleCheck, FaCircleInfo } from 'react-icons/fa6';
 import TypewriterText from '../components/TypewriterText';
 import Modal from '../components/Modal';
+import Reviews from '../components/Reviews';
 
 type FormData = {
     name: string;
@@ -254,6 +255,8 @@ const ContactPage = () => {
                     <img src="/grafics/pictures/_contact-page/_info/fahrzeugschein-hsn-tsn.png" alt="Fahrzeugschein" className="w-full rounded-xl border border-gray-600 shadow-2xl" />
                 </div>
             </Modal>
+
+            <Reviews />
         </div>
     );
 };

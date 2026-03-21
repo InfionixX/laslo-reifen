@@ -82,7 +82,15 @@ const resources = {
             form_messenger: "Facebook Messenger Name (Optional)",
             form_rdks: "RDKS-Sensoren benötigt?",
             form_hsn_tsn_more_info: "Mehr Informationen",
-            form_modal_title: "Fahrzeugschein (HSN/TSN)"
+            form_modal_title: "Fahrzeugschein (HSN/TSN)",
+            reviews_title: "Was unsere Kunden sagen",
+            reviews_subtitle: "Erfahrungen mit unserer Arbeit und unseren Produkten.",
+            review_1_name: "Michael W.",
+            review_1_text: "Super Service und schnelle Montage! Die neuen Winterreifen halten, was sie versprechen. Top Beratung.",
+            review_2_name: "Sarah K.",
+            review_2_text: "Tolle Auswahl an Felgen und faire Preise. Komme gerne wieder für den Allwetter-Wechsel.",
+            review_3_name: "Thomas M.",
+            review_3_text: "Professionelle Fahrzeugannahme und reibungsloser Ablauf. Mein Auto fährt sich wie neu."
         }
     },
     hu: {
@@ -164,7 +172,15 @@ const resources = {
             form_messenger: "Facebook Messenger Név (Opcionális)",
             form_rdks: "TPMS (Guminyomás-ellenőrző) szelep szükséges?",
             form_hsn_tsn_more_info: "További információ",
-            form_modal_title: "Forgalmi Típuskód"
+            form_modal_title: "Forgalmi Típuskód",
+            reviews_title: "Ügyfeleink mondták",
+            reviews_subtitle: "Tapasztalatok a munkánkról és termékeinkről.",
+            review_1_name: "Kovács Péter",
+            review_1_text: "Szuper szolgáltatás és gyors szerelés! Az új téligumik azt nyújtják, amit ígértek. Kiváló tanácsadás.",
+            review_2_name: "Nagy Anna",
+            review_2_text: "Remek felni választék és korrekt árak. Szívesen visszajövök a négyévszakos cserére.",
+            review_3_name: "Szabó Tamás",
+            review_3_text: "Professzionális járműátvétel és zökkenőmentes folyamat. Az autóm mintha új lenne."
         }
     }
 };
