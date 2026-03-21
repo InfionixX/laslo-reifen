@@ -246,7 +246,7 @@ const ContactPage = () => {
             </div>
 
             {/* HSN/TSN Info Modal */}
-            <Modal isOpen={isInfoModalOpen} onClose={() => setIsInfoModalOpen(false)} title="Fahrzeugschein (HSN/TSN)" maxWidth="max-w-4xl">
+            <Modal isOpen={isInfoModalOpen} onClose={() => setIsInfoModalOpen(false)} title={t('form_modal_title')} maxWidth="max-w-4xl">
                 <div className="flex flex-col items-center">
                     <p className="mb-6 text-gray-300 text-lg text-center leading-relaxed max-w-2xl">
                         {t('form_hsn_tsn_info')}

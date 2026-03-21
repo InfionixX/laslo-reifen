@@ -81,7 +81,8 @@ const resources = {
             form_phone: "Telefonnummer",
             form_messenger: "Facebook Messenger Name (Optional)",
             form_rdks: "RDKS-Sensoren benötigt?",
-            form_hsn_tsn_more_info: "Mehr Informationen"
+            form_hsn_tsn_more_info: "Mehr Informationen",
+            form_modal_title: "Fahrzeugschein (HSN/TSN)"
         }
     },
     hu: {
@@ -150,7 +151,7 @@ const resources = {
             contact_page_title: "Várjuk üzenetét!",
             contact_page_desc: "Függetlenül attól, hogy kérdése van felnijeinkkel, gumiabroncsainkkal vagy szolgáltatásunkkal kapcsolatban – csapatunk szívesen segít.",
             contact_page_img_alt: "Kapcsolat illusztráció",
-            form_hsn_tsn: "Gyártmánykód / Típuskód (2.1 & 2.2)",
+            form_hsn_tsn: "Forgalmi Típuskód (2.1 & 2.2)",
             form_hsn_tsn_info: "A forgalmi engedélyben a 2.1 és 2.2 pontok alatt található.",
             form_hsn: "2.1 (HSN)",
             form_tsn: "2.2 (TSN)",
@@ -162,7 +163,8 @@ const resources = {
             form_phone: "Telefonszám",
             form_messenger: "Facebook Messenger Név (Opcionális)",
             form_rdks: "TPMS (Guminyomás-ellenőrző) szelep szükséges?",
-            form_hsn_tsn_more_info: "További információ"
+            form_hsn_tsn_more_info: "További információ",
+            form_modal_title: "Forgalmi Típuskód"
         }
     }
 };
