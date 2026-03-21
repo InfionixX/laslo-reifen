@@ -64,7 +64,11 @@ const resources = {
             footer_links: "Quick Links",
             footer_legal: "Rechtliches",
             toast_success: "Erfolgreich gesendet!",
-            toast_msg: "Vielen Dank für Ihre Anfrage."
+            toast_msg: "Vielen Dank für Ihre Anfrage.",
+            contact_page_badge: "Kontaktieren Sie uns",
+            contact_page_title: "Wir freuen uns auf Ihre Nachricht!",
+            contact_page_desc: "Egal ob Sie eine Frage zu unseren Felgen, Reifen oder unserem Service haben – unser Team hilft Ihnen gerne weiter.",
+            contact_page_img_alt: "Kontakt Illustration"
         }
     },
     hu: {
@@ -128,7 +132,11 @@ const resources = {
             footer_links: "Gyors Linkek",
             footer_legal: "Jogi",
             toast_success: "Sikeresen elküldve!",
-            toast_msg: "Köszönjük megkeresését."
+            toast_msg: "Köszönjük megkeresését.",
+            contact_page_badge: "Lépjen kapcsolatba velünk",
+            contact_page_title: "Várjuk üzenetét!",
+            contact_page_desc: "Függetlenül attól, hogy kérdése van felnijeinkkel, gumiabroncsainkkal vagy szolgáltatásunkkal kapcsolatban – csapatunk szívesen segít.",
+            contact_page_img_alt: "Kapcsolat illusztráció"
         }
     }
 };

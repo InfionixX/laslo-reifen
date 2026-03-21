@@ -48,18 +48,18 @@ const ContactPage = () => {
                 {/* Header Welcome Text */}
                 <div className="text-center mb-16 relative z-10">
                     <TypewriterText
-                        text="Kontaktieren Sie uns"
+                        text={t('contact_page_badge')}
                         className="text-brand-orange font-bold uppercase tracking-wider mb-2 block"
                         tag="h3"
                     />
                     <TypewriterText
-                        text="Wir freuen uns auf Ihre Nachricht!"
+                        text={t('contact_page_title')}
                         className="text-4xl md:text-5xl font-bold text-white mb-6 block"
                         tag="h1"
                         delay={0.2}
                     />
                     <TypewriterText
-                        text="Egal ob Sie eine Frage zu unseren Felgen, Reifen oder unserem Service haben – unser Team hilft Ihnen gerne weiter."
+                        text={t('contact_page_desc')}
                         className="text-gray-400 max-w-2xl mx-auto leading-relaxed block"
                         tag="p"
                         delay={0.5}
