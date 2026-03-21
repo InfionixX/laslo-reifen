@@ -120,7 +120,6 @@ const TireModel = () => {
                 color="#ffffff"
                 anchorX="center"
                 anchorY="middle"
-                font="https://fonts.gstatic.com/s/barlow/v12/7cHqv4kjgoGqM7E3t-4s51os.woff" // Optional: URL to a .woff font, useful for standard fonts
                 outlineWidth={0.01}
                 outlineColor="#FF5722"
             >
