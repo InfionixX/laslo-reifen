@@ -111,7 +111,7 @@ const resources = {
             cta_secondary: "Kapcsolatfelvétel",
             about_badge: "Rólunk",
             about_title: "Szenvedély a teljesítményért",
-            about_text_1: "Nem egy átlagos szerviz vagyunk. Mi egy speciális közvetítő platform vagyunk, amely összeköti az autórajongókat Európa legkiválóbb gumi- és felniszolgáltatóival.",
+            about_text_1: "Nem egy átlagos szerviz vagyunk. Mi egy speciális közvetítő platform vagyunk, amely összeköti az autórajongókat Európa legkiválóbb gumi- és felnigyártóival.",
             about_text_2: "Legyen szó ritka design felnikről vagy a legbiztonságosabb téli gumikról családi autójához – hálózatunk minden igényt kielégít.",
             feature_1_title: "Csúcs Hálózat",
             feature_1_desc: "Hozzáférés prémium gyártókhoz",
