@@ -31,7 +31,7 @@ const AnimatedCanvas: React.FC = () => {
         };
         resize();
 
-        const BRAND_ORANGE = '#FF5722'; // brand-orange
+
 
         const count = 55;
         const particles: Particle[] = Array.from({ length: count }, (_, i) => ({
