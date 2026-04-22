@@ -95,10 +95,10 @@ const Reviews = () => {
     }, []);
 
     return (
-        <section className="py-24 bg-brand-dark relative overflow-hidden">
+        <section className="py-24 bg-gradient-to-b from-brand-dark via-brand-dark to-black relative overflow-hidden">
             {/* Background elements */}
-            <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-brand-orange opacity-[0.02] rounded-full blur-3xl transform -translate-y-1/2 -translate-x-1/2"></div>
-            <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-brand-orange opacity-[0.02] rounded-full blur-3xl transform -translate-y-1/2 translate-x-1/3"></div>
+            <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-brand-orange opacity-[0.02] rounded-full blur-[100px] transform -translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+            <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-brand-orange opacity-[0.02] rounded-full blur-[100px] transform -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-10">

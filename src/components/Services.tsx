@@ -22,8 +22,11 @@ const Services = () => {
     ];
 
     return (
-        <section id="services" className="py-24 bg-brand-gray">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="services" className="py-24 bg-gradient-to-b from-black via-[#0a0a0a] to-brand-dark relative overflow-hidden">
+            {/* Background elements */}
+            <div className="absolute top-1/3 left-0 w-[500px] h-[500px] bg-brand-orange opacity-[0.02] rounded-full blur-[100px] -translate-x-1/2 pointer-events-none"></div>
+            
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
                     <TypewriterText
                         text={t('services_badge')}

@@ -6,6 +6,18 @@
   --color-brand-gray: #1f1f1f;
   --color-brand-light: #f3f4f6;
 
+  /* shadcn compatibility variables */
+  --color-background: #0a0a0a;
+  --color-foreground: #f3f4f6;
+  --color-muted: #1f1f1f;
+  --color-muted-foreground: #9ca3af;
+  --color-primary: #FF5722;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #1f1f1f;
+  --color-secondary-foreground: #f3f4f6;
+  --color-ring: #FF5722;
+  --color-border: rgba(255,255,255,0.1);
+
   --font-sans: "Barlow", sans-serif;
 
   --animate-blob: blob 7s infinite;

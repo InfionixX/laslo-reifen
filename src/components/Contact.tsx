@@ -42,8 +42,11 @@ const Contact = () => {
     };
 
     return (
-        <section id="contact" className="py-24 bg-brand-dark relative">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="contact" className="py-24 bg-gradient-to-b from-black via-[#0a0a0a] to-brand-dark relative overflow-hidden">
+            {/* Background elements */}
+            <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-brand-orange opacity-[0.02] rounded-full blur-[120px] pointer-events-none transform translate-y-1/3 translate-x-1/3"></div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 bg-brand-gray rounded-2xl overflow-hidden border border-gray-800 shadow-2xl">
 
                     {/* Contact Info */}
