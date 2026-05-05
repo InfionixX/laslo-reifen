@@ -1,7 +1,8 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowRight, Zap, Shield, Gauge } from 'lucide-react';
+import ThreeDMarquee from '@/components/ui/3d-marquee';
 
 // ---------------------------------------------------------------------------
 // Animated canvas: floating particles in brand-orange
@@ -84,141 +85,40 @@ const AnimatedCanvas: React.FC = () => {
 };
 
 // ---------------------------------------------------------------------------
-// Animated 3D rim / tire SVG-based
+// Tire & wheel image set for the 3D marquee
 // ---------------------------------------------------------------------------
-const TireRim3D: React.FC<{ delay?: number }> = ({ delay = 0 }) => {
-    const [rotation, setRotation] = useState(0);
-
-    useEffect(() => {
-        let lastTime = performance.now();
-        let frameId: number;
-        const animate = (time: number) => {
-            const delta = time - lastTime;
-            lastTime = time;
-            setRotation(r => (r + delta * 0.15) % 360);
-            frameId = requestAnimationFrame(animate);
-        };
-        frameId = requestAnimationFrame(animate);
-        return () => cancelAnimationFrame(frameId);
-    }, []);
-
-    return (
-        <motion.div
-            initial={{ opacity: 0, scale: 0.5, rotateY: -180 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ duration: 1.3, delay, type: 'spring', stiffness: 45 }}
-            className="relative w-64 h-64 md:w-80 md:h-80"
-            style={{ perspective: '1200px' }}
-        >
-            <div
-                className="absolute inset-0 rounded-full"
-                style={{
-                    transform: `rotateY(25deg) rotateX(15deg)`,
-                    transformStyle: 'preserve-3d',
-                }}
-            >
-                {/* Brake Disc (static) */}
-                <div className="absolute inset-10 rounded-full border border-gray-500/30"
-                     style={{ 
-                         background: 'repeating-radial-gradient(circle, #333, #333 2px, #222 3px, #222 5px)',
-                         boxShadow: 'inset 0 0 20px rgba(0,0,0,0.8)'
-                     }}>
-                     {/* Brake Caliper */}
-                     <div className="absolute top-0 right-4 w-10 h-28 bg-brand-orange rounded-2xl border border-orange-400 shadow-[0_5px_15px_rgba(0,0,0,0.6)] z-0"
-                          style={{ transform: 'rotate(25deg)', transformOrigin: 'center' }}>
-                          <div className="w-full h-full flex items-center justify-center">
-                              <span className="text-black/80 font-black text-[10px] tracking-widest transform rotate-90">LASLO</span>
-                          </div>
-                     </div>
-                </div>
-
-                {/* Spinning Wheel */}
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        transform: `rotateZ(${rotation}deg)`,
-                        transformStyle: 'preserve-3d',
-                    }}
-                >
-                    {/* Low Profile Tire */}
-                    <div className="absolute inset-0 rounded-full shadow-[0_0_30px_rgba(0,0,0,0.9)]"
-                         style={{ 
-                             background: '#111', 
-                             border: '28px solid #0a0a0a',
-                             boxShadow: 'inset 0 0 10px rgba(0,0,0,0.9), 0 0 20px rgba(255,87,34,0.15)',
-                             backgroundImage: 'repeating-conic-gradient(from 0deg, transparent 0deg, transparent 8deg, rgba(255,255,255,0.03) 8deg, rgba(255,255,255,0.03) 10deg)'
-                         }}>
-                    </div>
-
-                    {/* Inner Rim Lip */}
-                    <div className="absolute inset-[26px] rounded-full border-4 border-brand-orange shadow-[inset_0_0_20px_rgba(255,87,34,0.6),0_0_10px_rgba(255,87,34,0.4)]"></div>
-                    <div className="absolute inset-[30px] rounded-full border-2 border-[#222]"></div>
-
-                    {/* Tuning Spokes (Complex Y-Spoke Design) */}
-                    <svg className="absolute inset-[30px] w-[calc(100%-60px)] h-[calc(100%-60px)] drop-shadow-2xl" viewBox="0 0 200 200">
-                        <defs>
-                            <linearGradient id="spokeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#555" />
-                                <stop offset="50%" stopColor="#222" />
-                                <stop offset="100%" stopColor="#111" />
-                            </linearGradient>
-                            <linearGradient id="hubGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#FF7043" />
-                                <stop offset="100%" stopColor="#D84315" />
-                            </linearGradient>
-                            <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
-                                <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#000" floodOpacity="0.7"/>
-                            </filter>
-                        </defs>
-                        
-                        {/* 5 Y-Spokes */}
-                        {Array.from({ length: 5 }).map((_, i) => (
-                            <g key={i} transform={`rotate(${i * 72} 100 100)`} filter="url(#dropShadow)">
-                                {/* Main Spoke Body */}
-                                <path d="M 94 100 L 94 45 L 65 5 L 85 0 L 100 30 L 115 0 L 135 5 L 106 45 L 106 100 Z" fill="url(#spokeGrad)" stroke="#666" strokeWidth="0.5" />
-                                {/* Cutouts for sport look */}
-                                <path d="M 98 85 L 98 48 L 82 20 L 88 15 L 100 40 L 112 15 L 118 20 L 102 48 L 102 85 Z" fill="#0a0a0a" />
-                                {/* Detail lines */}
-                                <path d="M 100 45 L 100 80" stroke="#FF5722" strokeWidth="1" opacity="0.3" />
-                            </g>
-                        ))}
-                        
-                        {/* Center Hub Outer */}
-                        <circle cx="100" cy="100" r="28" fill="#1a1a1a" stroke="#333" strokeWidth="2" filter="url(#dropShadow)" />
-                        {/* Center Hub Inner */}
-                        <circle cx="100" cy="100" r="16" fill="url(#hubGrad)" stroke="#FF8A65" strokeWidth="1" />
-                        
-                        {/* Lug Nuts */}
-                        {Array.from({ length: 5 }).map((_, i) => (
-                            <circle key={i} cx={100 + 20 * Math.sin(i * 72 * Math.PI / 180)} cy={100 - 20 * Math.cos(i * 72 * Math.PI / 180)} r="3.5" fill="#888" stroke="#111" strokeWidth="1" />
-                        ))}
-                        
-                        {/* Center Logo/Cap detail */}
-                        <circle cx="100" cy="100" r="6" fill="#111" />
-                        <path d="M 97 100 L 100 95 L 103 100 L 100 105 Z" fill="#FF5722" />
-                    </svg>
-                </div>
-            </div>
-        </motion.div>
-    );
-};
+const tireWheelImages = [
+    'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1626814974079-fe0b52e5e1a7?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1611859266238-4b98091d9d9b?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1606577924006-27d39b132ae2?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1615529328331-f8917597711f?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1597007066540-47b440296e2f?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1542362567-b07e54358753?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1600712242805-5f78671b24da?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=400&h=300&fit=crop',
+];
 
 // ---------------------------------------------------------------------------
 // Main Hero Section
 // ---------------------------------------------------------------------------
 const Hero: React.FC = () => {
     const { t } = useTranslation();
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ['start start', 'end start'],
-    });
-
-    const y       = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
-    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-    const scale   = useTransform(scrollYProgress, [0, 0.5], [1, 0.85]);
-    const ySpring = useSpring(y, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
     const stats = [
         { icon: Shield, val: t('hero_stat1_val'), label: t('hero_stat1_label') },
@@ -229,9 +129,9 @@ const Hero: React.FC = () => {
     return (
         <section
             id="home"
-            ref={containerRef}
-            className="relative min-h-screen w-full overflow-hidden bg-brand-dark"
+            className="relative min-h-screen w-full overflow-x-clip overflow-y-visible bg-brand-dark"
         >
+
             {/* Particle canvas */}
             <AnimatedCanvas />
 
@@ -253,15 +153,13 @@ const Hero: React.FC = () => {
                 }}
             />
 
-            {/* Parallax + fade on scroll */}
-            <motion.div
-                style={{ y: ySpring, opacity, scale }}
-                className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8"
+            <div
+                className="relative z-10 flex flex-col items-center justify-center min-h-screen pt-20 pb-12 px-5 sm:px-6 lg:px-8"
             >
-                <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 items-center">
+                <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-8 lg:gap-12 items-center overflow-hidden">
 
                     {/* ── Left: text content ── */}
-                    <div className="text-left space-y-8">
+                    <div className="text-center lg:text-left space-y-5 sm:space-y-8 min-w-0">
 
                         {/* Badge pill */}
                         <motion.div
@@ -269,9 +167,9 @@ const Hero: React.FC = () => {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.8, delay: 0.2 }}
                         >
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-orange/30 bg-brand-orange/10 backdrop-blur-sm mb-2">
-                                <Zap className="w-4 h-4 text-brand-orange" />
-                                <span className="text-sm text-orange-400 font-medium">
+                            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-brand-orange/30 bg-brand-orange/10 backdrop-blur-sm mb-1 sm:mb-2">
+                                <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-orange" />
+                                <span className="text-xs sm:text-sm text-orange-400 font-medium">
                                     {t('hero_badge')}
                                 </span>
                             </div>
@@ -282,7 +180,7 @@ const Hero: React.FC = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.3 }}
-                            className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight"
+                            className="text-[1.65rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
                         >
                             <span className="text-white">{t('hero_title_1')}</span>
                             <br />
@@ -297,7 +195,7 @@ const Hero: React.FC = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.4 }}
-                            className="text-base sm:text-lg text-gray-400 max-w-xl leading-relaxed font-light"
+                            className="text-sm sm:text-base md:text-lg text-gray-400 w-full lg:max-w-xl leading-relaxed font-light break-words mx-auto lg:mx-0"
                         >
                             {t('hero_desc')}
                         </motion.p>
@@ -307,18 +205,18 @@ const Hero: React.FC = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.5 }}
-                            className="flex flex-col sm:flex-row gap-4"
+                            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4"
                         >
                             <a
                                 href="#services"
-                                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-brand-orange hover:bg-orange-600 text-white font-semibold text-base transition-all duration-200 shadow-lg shadow-brand-orange/25 hover:-translate-y-0.5 group"
+                                className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-5 sm:px-8 py-3 sm:py-4 rounded-full bg-brand-orange hover:bg-orange-600 text-white font-semibold text-sm sm:text-base transition-all duration-200 shadow-lg shadow-brand-orange/25 hover:-translate-y-0.5 group"
                             >
                                 {t('cta_primary')}
-                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
+                                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-200" />
                             </a>
                             <a
                                 href="#contact"
-                                className="inline-flex items-center justify-center px-8 py-4 rounded-full border border-brand-orange/50 text-orange-400 hover:bg-brand-orange/10 font-semibold text-base transition-all duration-200"
+                                className="inline-flex items-center justify-center w-full sm:w-auto px-5 sm:px-8 py-3 sm:py-4 rounded-full border border-brand-orange/50 text-orange-400 hover:bg-brand-orange/10 font-semibold text-sm sm:text-base transition-all duration-200"
                             >
                                 {t('cta_secondary')}
                             </a>
@@ -329,46 +227,56 @@ const Hero: React.FC = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.65 }}
-                            className="grid grid-cols-3 gap-6 pt-4 border-t border-white/[0.07]"
+                            className="flex flex-wrap justify-center lg:justify-start gap-x-8 gap-y-4 sm:grid sm:grid-cols-3 sm:gap-6 pt-4 border-t border-white/[0.07]"
                         >
                             {stats.map(({ icon: Icon, val, label }) => (
-                                <div key={label} className="space-y-1.5">
-                                    <Icon className="w-5 h-5 text-brand-orange" />
-                                    <div className="text-2xl font-bold text-white">{val}</div>
-                                    <div className="text-xs text-gray-500 font-light leading-tight">{label}</div>
+                                <div key={label} className="space-y-1 sm:space-y-1.5 text-center sm:text-left">
+                                    <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-brand-orange mx-auto sm:mx-0" />
+                                    <div className="text-lg sm:text-2xl font-bold text-white">{val}</div>
+                                    <div className="text-[10px] sm:text-xs text-gray-500 font-light leading-tight">{label}</div>
                                 </div>
                             ))}
                         </motion.div>
                     </div>
 
-                    {/* ── Right: animated 3D rim ── */}
-                    <div className="relative flex items-center justify-center">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 1, delay: 0.5 }}
-                            className="relative"
-                        >
-                            {/* Glow halo */}
-                            <div className="absolute inset-0 blur-3xl rounded-full scale-150"
-                                style={{ background: 'radial-gradient(circle, rgba(255,87,34,0.28) 0%, transparent 70%)' }} />
+                    {/* ── Right: 3D image marquee ── */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 60 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 1, delay: 0.5 }}
+                        className="relative hidden lg:flex items-center justify-center"
+                    >
+                        {/* Edge-fade overlays for seamless blend */}
+                        <div className="absolute inset-0 z-20 pointer-events-none" style={{
+                            background: `
+                                linear-gradient(to right, rgba(10,10,10,1) 0%, transparent 15%, transparent 85%, rgba(10,10,10,1) 100%),
+                                linear-gradient(to bottom, rgba(10,10,10,1) 0%, transparent 15%, transparent 85%, rgba(10,10,10,1) 100%)
+                            `
+                        }} />
+                        <ThreeDMarquee
+                            images={tireWheelImages}
+                            className="h-[550px] lg:h-[600px] w-full rounded-2xl"
+                        />
+                    </motion.div>
 
-                            <TireRim3D delay={0.7} />
-
-                            {/* Floating ring 1 */}
-                            <motion.div
-                                animate={{ y: [0, -18, 0], rotate: [0, 4, 0] }}
-                                transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-                                className="absolute -top-8 -right-8 w-28 h-28 rounded-full border-2 border-brand-orange/25 backdrop-blur-sm"
-                            />
-                            {/* Floating ring 2 */}
-                            <motion.div
-                                animate={{ y: [0, 18, 0], rotate: [0, -4, 0] }}
-                                transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                                className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full border-2 border-brand-orange/15 backdrop-blur-sm"
-                            />
-                        </motion.div>
-                    </div>
+                    {/* Mobile: simplified marquee below text */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, delay: 0.6 }}
+                        className="relative lg:hidden overflow-hidden min-w-0"
+                    >
+                        <div className="absolute inset-0 z-20 pointer-events-none" style={{
+                            background: `
+                                linear-gradient(to right, rgba(10,10,10,1) 0%, transparent 10%, transparent 90%, rgba(10,10,10,1) 100%),
+                                linear-gradient(to bottom, rgba(10,10,10,1) 0%, transparent 10%, transparent 90%, rgba(10,10,10,1) 100%)
+                            `
+                        }} />
+                        <ThreeDMarquee
+                            images={tireWheelImages}
+                            className="h-[250px] sm:h-[350px] w-full rounded-2xl"
+                        />
+                    </motion.div>
                 </div>
 
                 {/* Scroll indicator */}
@@ -390,10 +298,10 @@ const Hero: React.FC = () => {
                         />
                     </motion.div>
                 </motion.div>
-            </motion.div>
+            </div>
 
             {/* Bottom fade into next section */}
-            <div className="absolute bottom-0 w-full h-24 bg-gradient-to-t from-brand-dark to-transparent z-10 pointer-events-none" />
+            <div className="absolute bottom-0 w-full h-24 bg-gradient-to-t from-brand-dark to-transparent z-20 pointer-events-none" />
         </section>
     );
 };
