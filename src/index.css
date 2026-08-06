@@ -1,77 +1,196 @@
 @import "tailwindcss";
 
+/* ===========================================================================
+   MAGYAR GUMIS — Design System
+   Palette: Obsidian / Graphite / Slate  ·  Copper accent  ·  Bone white
+   Type:    Instrument Serif (display) · Inter Tight (UI) · JetBrains Mono (specs)
+   =========================================================================== */
+
 @theme {
-  --color-brand-orange: #FF5722;
-  --color-brand-dark: #0a0a0a;
-  --color-brand-gray: #1f1f1f;
-  --color-brand-light: #f3f4f6;
+  /* ─── Surfaces ─────────────────────────────────────────────────────── */
+  --color-obsidian: #0b0c0e;
+  --color-graphite: #16181c;
+  --color-slate: #24272d;
+  --color-slate-hi: #32363e;
 
-  /* shadcn compatibility variables */
-  --color-background: #0a0a0a;
-  --color-foreground: #f3f4f6;
-  --color-muted: #1f1f1f;
-  --color-muted-foreground: #9ca3af;
-  --color-primary: #FF5722;
-  --color-primary-foreground: #ffffff;
-  --color-secondary: #1f1f1f;
-  --color-secondary-foreground: #f3f4f6;
-  --color-ring: #FF5722;
-  --color-border: rgba(255,255,255,0.1);
+  /* ─── Accent: copper / amber ───────────────────────────────────────── */
+  --color-copper: #c87a3f;
+  --color-copper-hi: #e8a063;
+  --color-copper-lo: #8f5528;
 
-  --font-sans: "Barlow", sans-serif;
+  /* ─── Text ─────────────────────────────────────────────────────────── */
+  --color-bone: #f2efea;
+  --color-bone-dim: #c9c5be;
+  /* Warm-leaning greys — a blue-leaning grey reads as "cold" next to copper */
+  --color-ash: #9b948b;
+  --color-ash-dim: #6d675f;
 
-  --animate-blob: blob 7s infinite;
-  --animate-spin-slow: spin 3s linear infinite;
+  /* ─── Legacy brand aliases (kept so existing markup keeps compiling) ─ */
+  --color-brand-orange: #c87a3f;
+  --color-brand-dark: #0b0c0e;
+  --color-brand-gray: #16181c;
+  --color-brand-light: #f2efea;
 
-  @keyframes blob {
-    0% {
-      transform: translate(0px, 0px) scale(1);
-    }
+  /* ─── shadcn compatibility ─────────────────────────────────────────── */
+  --color-background: #0b0c0e;
+  --color-foreground: #f2efea;
+  --color-muted: #16181c;
+  --color-muted-foreground: #8b8f98;
+  --color-primary: #c87a3f;
+  --color-primary-foreground: #0b0c0e;
+  --color-secondary: #24272d;
+  --color-secondary-foreground: #f2efea;
+  --color-ring: #c87a3f;
+  --color-border: rgba(242, 239, 234, 0.09);
 
-    33% {
-      transform: translate(30px, -50px) scale(1.1);
-    }
+  /* ─── Typography ───────────────────────────────────────────────────── */
+  --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Inter Tight", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 
-    66% {
-      transform: translate(-20px, 20px) scale(0.9);
-    }
+  /* ─── Motion ───────────────────────────────────────────────────────── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
 
+  --animate-spin-slow: spin 14s linear infinite;
+  --animate-drift: drift 18s ease-in-out infinite;
+
+  @keyframes drift {
+    0%,
     100% {
-      transform: translate(0px, 0px) scale(1);
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    33% {
+      transform: translate3d(2%, -3%, 0) scale(1.04);
+    }
+    66% {
+      transform: translate3d(-2%, 2%, 0) scale(0.98);
     }
   }
 }
+
+/* ===========================================================================
+   Base
+   =========================================================================== */
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Sticky scroll sections need a stable scrollbar to avoid layout shift */
+    scrollbar-gutter: stable;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    @apply bg-brand-dark text-gray-300 font-sans antialiased overflow-x-hidden selection:bg-brand-orange selection:text-white;
+    @apply bg-obsidian text-ash font-sans overflow-x-hidden;
+    font-feature-settings: "ss01", "cv01";
+  }
+
+  ::selection {
+    background: var(--color-copper);
+    color: var(--color-obsidian);
+  }
+
+  /* Display headings: optical sizing for the serif */
+  .font-display {
+    font-optical-sizing: auto;
+    letter-spacing: -0.015em;
+  }
+
+  /* Respect user motion preferences across all scroll choreography */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-/* Custom Scrollbar */
+/* ===========================================================================
+   Utilities
+   =========================================================================== */
+
+/* Eyebrow / kicker label — mono, spaced, small */
+.eyebrow {
+  @apply font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-copper;
+}
+
+/* Frosted panel */
+.glass-panel {
+  background: rgba(22, 24, 28, 0.62);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(242, 239, 234, 0.08);
+}
+
+/* Hairline rule that fades at both ends */
+.rule-fade {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(242, 239, 234, 0.14) 20%,
+    rgba(242, 239, 234, 0.14) 80%,
+    transparent
+  );
+}
+
+/* Fine film grain — kills the flat "AI gradient" look */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Seamless partner marquee — the track holds the list twice, so translating
+   by exactly half puts the copy back at the start with no visible jump. */
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Copper text gradient for accented display words */
+.text-copper-gradient {
+  background: linear-gradient(100deg, #e8a063 0%, #c87a3f 55%, #8f5528 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ===========================================================================
+   Scrollbar
+   =========================================================================== */
+
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 9px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--color-obsidian);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 5px;
+  background: var(--color-slate);
+  border-radius: 999px;
+  border: 2px solid var(--color-obsidian);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #FF5722;
-}
-
-.glass-panel {
-  background: rgba(31, 31, 31, 0.6);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-copper-lo);
 }

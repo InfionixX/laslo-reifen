@@ -1,5 +1,5 @@
 import Modal from '../Modal';
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '../../context/modal';
 
 const ImpressumModal = () => {
     const { activeModal, closeModal } = useModal();

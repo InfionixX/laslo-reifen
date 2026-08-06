@@ -3,7 +3,6 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import ImpressumModal from './Modals/ImpressumModal';
 import PrivacyModal from './Modals/PrivacyModal';
-import TireRimModal from './Modals/TireRimModal';
 import ChatWidget from './ChatWidget';
 
 const Layout = () => {
@@ -18,7 +17,6 @@ const Layout = () => {
             {/* Global Modals */}
             <ImpressumModal />
             <PrivacyModal />
-            <TireRimModal />
 
             <ChatWidget />
         </div>

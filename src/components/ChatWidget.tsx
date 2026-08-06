@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaComments, FaXmark, FaPaperPlane } from 'react-icons/fa6';
+import { MessageSquare, X, Send } from 'lucide-react';
 
 type Message = {
     id: number;
@@ -9,68 +10,96 @@ type Message = {
 };
 
 const ChatWidget = () => {
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
-        { id: 1, text: 'Hallo! Wie kann ich helfen?', sender: 'bot' }
+        { id: 1, text: 'Hallo! Wie kann ich helfen?', sender: 'bot' },
     ]);
     const [input, setInput] = useState('');
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    };
-
     useEffect(() => {
-        scrollToBottom();
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages, isOpen]);
 
     const handleSend = () => {
         if (!input.trim()) return;
 
         const userMsg: Message = { id: Date.now(), text: input, sender: 'user' };
-        setMessages(prev => [...prev, userMsg]);
+        setMessages((prev) => [...prev, userMsg]);
         setInput('');
 
-        // Simple Q&A Logic
+        // Simple keyword routing — this is a front desk, not an assistant
         setTimeout(() => {
-            let replyText = "Danke für Ihre Nachricht. Wir melden uns in Kürze.";
-            const lowerInput = userMsg.text.toLowerCase();
+            let replyText = 'Danke für Ihre Nachricht. Wir melden uns in Kürze.';
+            const lower = userMsg.text.toLowerCase();
 
-            if (lowerInput.includes('reifen') || lowerInput.includes('gumi')) {
-                replyText = "Wir haben eine große Auswahl an Reifen. Schauen Sie unter 'Dienstleistungen' oder nutzen Sie das Kontaktformular für ein Angebot.";
-            } else if (lowerInput.includes('felgen') || lowerInput.includes('felni')) {
-                replyText = "Wir führen Alu- und Stahlfelgen vieler Marken. Senden Sie uns eine Anfrage für Details.";
-            } else if (lowerInput.includes('kontakt') || lowerInput.includes('adresse') || lowerInput.includes('telefon')) {
-                replyText = "Sie erreichen uns unter +49 123 456 789 oder per Email an info@laslo-reifen.de.";
-            } else if (lowerInput.includes('hallo') || lowerInput.includes('hi')) {
-                replyText = "Hallo! Wie kann ich Ihnen heute helfen?";
+            if (lower.includes('reifen') || lower.includes('gumi')) {
+                replyText =
+                    "Wir haben eine große Auswahl an Reifen. Schauen Sie unter 'Reifentypen' oder nutzen Sie das Kontaktformular für ein Angebot.";
+            } else if (lower.includes('felgen') || lower.includes('felni')) {
+                replyText =
+                    'Wir führen Alu- und Stahlfelgen vieler Marken. Senden Sie uns eine Anfrage für Details.';
+            } else if (
+                lower.includes('kontakt') ||
+                lower.includes('adresse') ||
+                lower.includes('telefon')
+            ) {
+                replyText =
+                    'Sie erreichen uns unter +49 123 456 789 oder per Email an info@laslo-reifen.de.';
+            } else if (lower.includes('hallo') || lower.includes('hi')) {
+                replyText = 'Hallo! Wie kann ich Ihnen heute helfen?';
             }
 
-            setMessages(prev => [...prev, { id: Date.now() + 1, text: replyText, sender: 'bot' }]);
+            setMessages((prev) => [
+                ...prev,
+                { id: Date.now() + 1, text: replyText, sender: 'bot' },
+            ]);
         }, 800);
     };
 
     return (
-        <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end">
+        <div className="fixed right-5 bottom-5 z-40 flex flex-col items-end">
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                        initial={{ opacity: 0, scale: 0.94, y: 16 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                        className="bg-brand-gray border border-gray-700 rounded-2xl shadow-2xl w-80 sm:w-96 mb-4 overflow-hidden flex flex-col h-[400px]"
+                        exit={{ opacity: 0, scale: 0.94, y: 16 }}
+                        transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                        className="mb-4 flex h-[420px] w-80 flex-col overflow-hidden rounded-2xl border border-bone/10 bg-graphite shadow-2xl sm:w-96"
                     >
                         {/* Header */}
-                        <div className="bg-brand-orange p-4 flex justify-between items-center text-white">
-                            <h3 className="font-bold flex items-center gap-2"><FaComments /> Laslo Chat</h3>
-                            <button onClick={() => setIsOpen(false)} className="hover:bg-orange-700 p-1 rounded transition-colors"><FaXmark /></button>
+                        <div className="flex items-center justify-between border-b border-bone/10 px-5 py-4">
+                            <h2 className="flex items-center gap-2.5 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-bone">
+                                <MessageSquare className="h-3.5 w-3.5 text-copper" />
+                                {t('brand_1')} {t('brand_2')}
+                            </h2>
+                            <button
+                                onClick={() => setIsOpen(false)}
+                                aria-label="Chat schließen"
+                                className="text-ash transition-colors hover:text-bone"
+                            >
+                                <X className="h-4 w-4" />
+                            </button>
                         </div>
 
                         {/* Messages */}
-                        <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-brand-dark/50">
-                            {messages.map(msg => (
-                                <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${msg.sender === 'user' ? 'bg-brand-orange text-white rounded-br-none' : 'bg-gray-700 text-gray-200 rounded-bl-none'}`}>
+                        <div className="flex-1 space-y-3 overflow-y-auto bg-obsidian/60 p-4">
+                            {messages.map((msg) => (
+                                <div
+                                    key={msg.id}
+                                    className={`flex ${
+                                        msg.sender === 'user' ? 'justify-end' : 'justify-start'
+                                    }`}
+                                >
+                                    <div
+                                        className={`max-w-[80%] rounded-xl px-3.5 py-2.5 text-sm leading-relaxed ${
+                                            msg.sender === 'user'
+                                                ? 'rounded-br-sm bg-copper text-obsidian'
+                                                : 'rounded-bl-sm bg-slate text-bone-dim'
+                                        }`}
+                                    >
                                         {msg.text}
                                     </div>
                                 </div>
@@ -79,35 +108,38 @@ const ChatWidget = () => {
                         </div>
 
                         {/* Input */}
-                        <div className="p-3 bg-brand-gray border-t border-gray-700 flex gap-2">
+                        <div className="flex gap-2 border-t border-bone/10 p-3">
                             <input
                                 type="text"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                                placeholder="Ihre Frage..."
-                                className="flex-1 bg-brand-dark border border-gray-600 rounded-full px-4 py-2 text-sm text-white focus:outline-none focus:border-brand-orange transition-colors"
+                                placeholder="Ihre Frage…"
+                                aria-label="Ihre Frage"
+                                className="flex-1 rounded-full border border-bone/15 bg-obsidian px-4 py-2.5 text-sm text-bone placeholder-ash-dim transition-colors focus:border-copper focus:outline-none"
                             />
                             <button
                                 onClick={handleSend}
-                                className="bg-brand-orange hover:bg-orange-600 text-white p-2 rounded-full w-10 h-10 flex items-center justify-center transition-colors"
+                                aria-label="Senden"
+                                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-copper text-obsidian transition-colors hover:bg-copper-hi"
                             >
-                                <FaPaperPlane />
+                                <Send className="h-4 w-4" />
                             </button>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
 
-            {/* Toggle Button */}
+            {/* Toggle */}
             {!isOpen && (
                 <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
+                    whileHover={{ scale: 1.06 }}
+                    whileTap={{ scale: 0.94 }}
                     onClick={() => setIsOpen(true)}
-                    className="bg-brand-orange hover:bg-orange-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-2xl transition-colors"
+                    aria-label="Chat öffnen"
+                    className="flex h-14 w-14 items-center justify-center rounded-full bg-copper text-obsidian shadow-lg transition-colors hover:bg-copper-hi"
                 >
-                    <FaComments />
+                    <MessageSquare className="h-5 w-5" />
                 </motion.button>
             )}
         </div>

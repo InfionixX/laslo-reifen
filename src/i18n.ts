@@ -5,9 +5,9 @@ import { initReactI18next } from 'react-i18next';
 const resources = {
     de: {
         translation: {
-            brand_1: "LASLO",
-            brand_2: "REIFEN",
-            page_title: "Laslo Reifen - Premium Reifen & Felgen Vermittlung",
+            brand_1: "MAGYAR",
+            brand_2: "GUMIS",
+            page_title: "Magyar Gumis - Premium Reifen & Felgen Vermittlung",
             nav_home: "Home",
             nav_about: "Über uns",
             nav_services: "Dienstleistungen",
@@ -134,7 +134,55 @@ const resources = {
             about_tab3_stat2_val: "5.000+",
             about_tab3_stat2_label: "Bestellungen",
             about_tab3_stat3_val: "3",
-            about_tab3_stat3_label: "Sprachen"
+            about_tab3_stat3_label: "Sprachen",
+
+            // ── Hero ──
+            hero_eyebrow: "Reifen & Felgen · Vermittlung",
+            hero_head_a: "Der wichtigste Weg",
+            hero_head_b: "des Tages ist der",
+            hero_head_accent: "nach Hause.",
+            hero_scroll: "Reifentypen entdecken",
+
+            // ── Full-viewport tire showcase ──
+            show_eyebrow: "Reifentypen",
+            show_scroll_hint: "Scrollen",
+            show_summer_title: "Sommer",
+            show_summer_sub: "Trocken & Hitze",
+            show_summer_desc: "Harte Gummimischung, die bei Wärme nicht weich wird. Kurze Bremswege auf trockenem und nassem Asphalt, spürbar präzise Lenkung ab sieben Grad aufwärts.",
+            show_winter_title: "Winter",
+            show_winter_sub: "Schnee & Eis",
+            show_winter_desc: "Weiche Mischung mit tausenden Lamellen, die sich in Schnee und Eis verkrallen. Bleibt auch bei Frost elastisch — dort, wo ein Sommerreifen längst verhärtet ist.",
+            show_allseason_title: "Allwetter",
+            show_allseason_sub: "Ganzjährig",
+            show_allseason_desc: "Ein Satz für zwölf Monate. Der Kompromiss für milde Regionen und moderate Fahrleistung — kein Wechsel, keine Einlagerung, keine zweite Felgengarnitur.",
+            show_offroad_title: "Offroad",
+            show_offroad_sub: "Gelände & Last",
+            show_offroad_desc: "Grobstollige Profile und verstärkte Karkasse für Schotter, Schlamm und Zuladung. Gebaut für Traktion abseits befestigter Wege — und für alles, was danach kommt.",
+
+            spec_temp: "Temperatur",
+            spec_grip: "Grip",
+            spec_grip_dry: "Trocken",
+            spec_grip_snow: "Schnee",
+            spec_grip_wet: "Nass",
+            spec_grip_mud: "Schlamm",
+            spec_life: "Laufleistung",
+            spec_mark: "Kennung",
+            spec_change: "Wechsel",
+            spec_terrain: "Terrain",
+            spec_carcass: "Karkasse",
+
+            // ── Ablauf ──
+            process_badge: "Ablauf",
+            process_title: "In vier Schritten zum Satz",
+            process_desc: "Kein Konfigurator, kein Warenkorb. Sie schreiben uns, was Sie fahren — den Rest übernehmen wir.",
+            process_1_title: "Anfrage",
+            process_1_desc: "Sie schicken uns Fahrzeugdaten und Wunschreifen. Schlüsselnummer genügt, den Rest lesen wir daraus ab.",
+            process_2_title: "Angebot",
+            process_2_desc: "Wir holen Preise aus unserem Händlernetz — meist innerhalb eines Werktags, mit mehreren Alternativen.",
+            process_3_title: "Freigabe",
+            process_3_desc: "Sie entscheiden in Ruhe. Erst nach Ihrer Zusage bestellen wir verbindlich beim Anbieter.",
+            process_4_title: "Lieferung",
+            process_4_desc: "Versand per GLS, DPD oder DHL direkt zu Ihnen oder zur Werkstatt Ihres Vertrauens."
         }
     },
     hu: {
@@ -268,7 +316,55 @@ const resources = {
             about_tab3_stat2_val: "5.000+",
             about_tab3_stat2_label: "Megrendelés",
             about_tab3_stat3_val: "3",
-            about_tab3_stat3_label: "Nyelv"
+            about_tab3_stat3_label: "Nyelv",
+
+            // ── Hero ──
+            hero_eyebrow: "Gumi & Felni · Közvetítés",
+            hero_head_a: "A nap legfontosabb",
+            hero_head_b: "útja az, amelyik",
+            hero_head_accent: "haza vezet.",
+            hero_scroll: "Gumitípusok felfedezése",
+
+            // ── Full-viewport tire showcase ──
+            show_eyebrow: "Gumitípusok",
+            show_scroll_hint: "Görgessen",
+            show_summer_title: "Nyári",
+            show_summer_sub: "Száraz & Meleg",
+            show_summer_desc: "Kemény gumikeverék, amely melegben sem lágyul el. Rövid fékút száraz és nedves aszfalton, érezhetően pontos kormányzás hét fok felett.",
+            show_winter_title: "Téli",
+            show_winter_sub: "Hó & Jég",
+            show_winter_desc: "Puha keverék több ezer lamellával, amelyek megkapaszkodnak a hóban és a jégen. Fagyban is rugalmas marad — ott, ahol a nyári gumi már rég megkeményedett.",
+            show_allseason_title: "Négyévszakos",
+            show_allseason_sub: "Egész évben",
+            show_allseason_desc: "Egy garnitúra tizenkét hónapra. Kompromisszum enyhébb éghajlatra és mérsékelt futásteljesítményre — nincs csere, nincs tárolás, nincs második felnigarnitúra.",
+            show_offroad_title: "Terep",
+            show_offroad_sub: "Terep & Teher",
+            show_offroad_desc: "Durva mintázat és erősített karkasz kavicshoz, sárhoz és terheléshez. Tapadásra tervezve a burkolt utakon túl — és mindenre, ami utána jön.",
+
+            spec_temp: "Hőmérséklet",
+            spec_grip: "Tapadás",
+            spec_grip_dry: "Száraz",
+            spec_grip_snow: "Hó",
+            spec_grip_wet: "Nedves",
+            spec_grip_mud: "Sár",
+            spec_life: "Futásteljesítmény",
+            spec_mark: "Jelölés",
+            spec_change: "Csere",
+            spec_terrain: "Terep",
+            spec_carcass: "Karkasz",
+
+            // ── Folyamat ──
+            process_badge: "Folyamat",
+            process_title: "Négy lépés a garnitúráig",
+            process_desc: "Nincs konfigurátor, nincs kosár. Ön megírja, mit vezet — a többit mi intézzük.",
+            process_1_title: "Megkeresés",
+            process_1_desc: "Elküldi a jármű adatait és a kívánt gumit. A típuskód elég, a többit kiolvassuk belőle.",
+            process_2_title: "Ajánlat",
+            process_2_desc: "Árakat kérünk a kereskedői hálózatunkból — általában egy munkanapon belül, több alternatívával.",
+            process_3_title: "Jóváhagyás",
+            process_3_desc: "Nyugodtan dönthet. Csak az Ön visszajelzése után rendelünk véglegesen a szállítótól.",
+            process_4_title: "Szállítás",
+            process_4_desc: "Kiszállítás GLS, DPD vagy DHL futárral közvetlenül Önhöz vagy a választott szervizbe."
         }
     }
 };

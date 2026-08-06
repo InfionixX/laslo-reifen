@@ -1,99 +1,157 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FaBars, FaGlobe, FaTimes } from 'react-icons/fa';
-import { GiCarWheel } from 'react-icons/gi';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Globe, Menu, X } from 'lucide-react';
+
+/* ===========================================================================
+   Navbar — transparent over the hero, condensing into a hairline bar on scroll.
+   Nav labels are set in mono to contrast the display serif wordmark.
+   =========================================================================== */
+
+const navLinks = [
+    { key: 'nav_home', href: '#home' },
+    { key: 'show_eyebrow', href: '#tires' },
+    { key: 'nav_about', href: '#about' },
+    { key: 'nav_services', href: '#services' },
+];
 
 const Navbar = () => {
     const { t, i18n } = useTranslation();
     const [scrolled, setScrolled] = useState(false);
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [langMenuOpen, setLangMenuOpen] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        const onScroll = () => setScrolled(window.scrollY > 40);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
-    const changeLanguage = (lng: string) => {
-        i18n.changeLanguage(lng);
-        setLangMenuOpen(false);
-    };
+    // Lock body scroll while the mobile sheet is open
+    useEffect(() => {
+        document.body.style.overflow = mobileOpen ? 'hidden' : '';
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [mobileOpen]);
 
-    const navLinks = [
-        { key: 'nav_home', href: '#home' },
-        { key: 'nav_about', href: '#about' },
-        { key: 'nav_services', href: '#services' },
-    ];
+    const toggleLanguage = () => i18n.changeLanguage(i18n.language === 'de' ? 'hu' : 'de');
+
+    const Wordmark = (
+        <a
+            href="#home"
+            onClick={() => setMobileOpen(false)}
+            className="group flex items-baseline gap-2"
+        >
+            <span className="font-display text-2xl tracking-tight text-bone">
+                {t('brand_1')}
+            </span>
+            <span className="font-display text-2xl italic tracking-tight text-copper transition-colors duration-300 group-hover:text-copper-hi">
+                {t('brand_2')}
+            </span>
+        </a>
+    );
 
     return (
-        <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'glass-panel bg-brand-dark/80' : 'bg-transparent'}`}>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-20">
-                    <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo(0, 0)}>
-                        <GiCarWheel className="text-brand-orange text-3xl animate-spin-slow" />
-                        <span className="text-white text-2xl font-bold tracking-tighter">
-                            {t('brand_1')} <span className="text-brand-orange">{t('brand_2')}</span>
-                        </span>
-                    </div>
+        <>
+            <header
+                className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+                    scrolled
+                        ? 'border-b border-bone/10 bg-obsidian/80 backdrop-blur-xl'
+                        : 'border-b border-transparent bg-transparent'
+                }`}
+            >
+                <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-5 sm:px-10 lg:px-16">
+                    {Wordmark}
 
-                    {/* Desktop Menu */}
-                    <div className="hidden md:block">
-                        <div className="ml-10 flex items-baseline space-x-8">
-                            {navLinks.map((link) => (
-                                <a key={link.key} href={link.href} className="hover:text-brand-orange text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                                    {t(link.key)}
-                                </a>
-                            ))}
-                            <a href="#contact" className="bg-brand-orange hover:bg-orange-600 text-white px-5 py-2 rounded-full text-sm font-bold transition-all transform hover:scale-105">
-                                {t('nav_contact')}
-                            </a>
-
-                            {/* Language Switcher */}
-                            <div className="relative inline-block text-left ml-4 group">
-                                <button className="flex items-center text-gray-300 hover:text-white focus:outline-none" onClick={() => setLangMenuOpen(!langMenuOpen)}>
-                                    <FaGlobe className="mr-1" /> <span>{i18n.language.toUpperCase()}</span>
-                                </button>
-                                <div className={`absolute right-0 mt-2 w-32 bg-brand-gray border border-gray-700 rounded-md shadow-lg transition-all duration-300 transform origin-top-right ${langMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible'}`}>
-                                    <div className="py-1">
-                                        <button onClick={() => changeLanguage('de')} className="block w-full text-left px-4 py-2 text-sm hover:bg-brand-dark text-gray-300 hover:text-brand-orange">Deutsch</button>
-                                        <button onClick={() => changeLanguage('hu')} className="block w-full text-left px-4 py-2 text-sm hover:bg-brand-dark text-gray-300 hover:text-brand-orange">Magyar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Mobile menu button */}
-                    <div className="-mr-2 flex md:hidden gap-4">
-                        <button onClick={() => changeLanguage(i18n.language === 'de' ? 'hu' : 'de')} className="text-gray-300 hover:text-brand-orange font-bold">
-                            {i18n.language.toUpperCase()}
-                        </button>
-                        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
-                            {mobileMenuOpen ? <FaTimes className="text-xl" /> : <FaBars className="text-xl" />}
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            {/* Mobile Menu */}
-            {mobileMenuOpen && (
-                <div className="md:hidden bg-brand-gray border-t border-gray-800 absolute w-full left-0">
-                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    {/* Desktop links */}
+                    <div className="hidden items-center gap-9 md:flex">
                         {navLinks.map((link) => (
-                            <a key={link.key} href={link.href} className="text-white block px-3 py-2 rounded-md text-base font-medium hover:text-brand-orange" onClick={() => setMobileMenuOpen(false)}>
+                            <a
+                                key={link.key}
+                                href={link.href}
+                                className="group relative font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-ash transition-colors duration-300 hover:text-bone"
+                            >
                                 {t(link.key)}
+                                <span className="absolute -bottom-1.5 left-0 h-px w-0 bg-copper transition-all duration-300 group-hover:w-full" />
                             </a>
                         ))}
-                        <a href="#contact" className="text-brand-orange font-bold block px-3 py-2 rounded-md text-base font-medium" onClick={() => setMobileMenuOpen(false)}>
+                    </div>
+
+                    {/* Desktop actions */}
+                    <div className="hidden items-center gap-5 md:flex">
+                        <button
+                            onClick={toggleLanguage}
+                            className="flex items-center gap-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-ash transition-colors duration-300 hover:text-bone"
+                            aria-label="Sprache wechseln / Nyelvváltás"
+                        >
+                            <Globe className="h-3.5 w-3.5" />
+                            {i18n.language.toUpperCase()}
+                        </button>
+                        <a
+                            href="#contact"
+                            className="rounded-full border border-copper/50 px-5 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-copper transition-all duration-300 hover:bg-copper hover:text-obsidian"
+                        >
                             {t('nav_contact')}
                         </a>
                     </div>
-                </div>
-            )}
-        </nav>
+
+                    {/* Mobile actions */}
+                    <div className="flex items-center gap-4 md:hidden">
+                        <button
+                            onClick={toggleLanguage}
+                            className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-ash"
+                            aria-label="Sprache wechseln / Nyelvváltás"
+                        >
+                            {i18n.language.toUpperCase()}
+                        </button>
+                        <button
+                            onClick={() => setMobileOpen((v) => !v)}
+                            className="text-bone"
+                            aria-label={mobileOpen ? 'Menü schließen' : 'Menü öffnen'}
+                            aria-expanded={mobileOpen}
+                        >
+                            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                        </button>
+                    </div>
+                </nav>
+            </header>
+
+            {/* Mobile sheet */}
+            <AnimatePresence>
+                {mobileOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                        className="fixed inset-0 z-40 flex flex-col justify-center bg-obsidian px-8 md:hidden"
+                    >
+                        <div className="flex flex-col gap-2">
+                            {[...navLinks, { key: 'nav_contact', href: '#contact' }].map(
+                                (link, i) => (
+                                    <motion.a
+                                        key={link.key}
+                                        href={link.href}
+                                        onClick={() => setMobileOpen(false)}
+                                        initial={{ opacity: 0, y: 24 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{
+                                            duration: 0.6,
+                                            delay: 0.08 + i * 0.06,
+                                            ease: [0.16, 1, 0.3, 1],
+                                        }}
+                                        className="border-b border-bone/10 py-5 font-display text-4xl text-bone transition-colors duration-300 hover:text-copper"
+                                    >
+                                        {t(link.key)}
+                                    </motion.a>
+                                ),
+                            )}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </>
     );
 };
 

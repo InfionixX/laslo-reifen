@@ -1,5 +1,5 @@
 import Modal from '../Modal';
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '../../context/modal';
 
 const PrivacyModal = () => {
     const { activeModal, closeModal } = useModal();

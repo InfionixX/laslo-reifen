@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { FaXmark } from 'react-icons/fa6';
+import { X } from 'lucide-react';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -12,43 +12,66 @@ interface ModalProps {
 }
 
 const Modal = ({ isOpen, onClose, title, children, maxWidth = 'max-w-2xl' }: ModalProps) => {
-
     useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
-        }
+        document.body.style.overflow = isOpen ? 'hidden' : '';
         return () => {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = '';
         };
     }, [isOpen]);
+
+    // Escape closes — expected of any dialog
+    useEffect(() => {
+        if (!isOpen) return;
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') onClose();
+        };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+    }, [isOpen, onClose]);
 
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                <div
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={title}
+                >
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+                        transition={{ duration: 0.3 }}
+                        className="absolute inset-0 bg-obsidian/85 backdrop-blur-md"
                         onClick={onClose}
-                    ></motion.div>
+                    />
 
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                        initial={{ opacity: 0, scale: 0.97, y: 16 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        className={clsx("bg-brand-gray border border-gray-700 rounded-xl p-8 w-full max-h-[90vh] overflow-y-auto relative shadow-2xl", maxWidth)}
+                        exit={{ opacity: 0, scale: 0.97, y: 16 }}
+                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                        className={clsx(
+                            'relative max-h-[90vh] w-full overflow-y-auto rounded-2xl border border-bone/10 bg-graphite p-8 shadow-2xl sm:p-10',
+                            maxWidth,
+                        )}
                     >
-                        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-brand-orange transition-colors">
-                            <FaXmark className="text-2xl" />
+                        <button
+                            onClick={onClose}
+                            aria-label="Schließen"
+                            className="absolute top-5 right-5 text-ash transition-colors hover:text-copper"
+                        >
+                            <X className="h-5 w-5" />
                         </button>
-                        {title && <h2 className="text-2xl font-bold text-white mb-6 border-b border-gray-700 pb-2">{title}</h2>}
-                        <div className="text-gray-300">
-                            {children}
-                        </div>
+
+                        {title && (
+                            <h2 className="mb-7 border-b border-bone/10 pb-4 font-display text-3xl text-bone">
+                                {title}
+                            </h2>
+                        )}
+
+                        <div className="leading-relaxed font-light text-bone-dim">{children}</div>
                     </motion.div>
                 </div>
             )}
