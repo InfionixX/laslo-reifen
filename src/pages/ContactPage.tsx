@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -17,12 +17,12 @@ type FormData = {
 };
 
 const fieldClass =
-    'w-full border-b border-bone/15 bg-transparent py-3 text-bone placeholder-ash-dim ' +
+    'w-full border-b border-ink/15 bg-transparent py-3 text-ink placeholder-ink-faint ' +
     'transition-colors duration-300 focus:border-copper focus:outline-none';
 
-const labelClass = 'font-mono text-[0.625rem] uppercase tracking-[0.16em] text-ash-dim';
+const labelClass = 'font-mono text-[0.625rem] uppercase tracking-[0.16em] text-ink-faint';
 
-const errorClass = 'mt-1.5 block font-mono text-[0.625rem] text-copper-hi';
+const errorClass = 'mt-1.5 block font-mono text-[0.625rem] text-copper';
 
 const ContactPage = () => {
     const { t } = useTranslation();
@@ -35,6 +35,12 @@ const ContactPage = () => {
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const [submitError, setSubmitError] = useState('');
     const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+
+    /* This page is entirely in the showroom's light half. ShopJourney is not
+       mounted here to publish the tone, so claim it for the fixed chrome. */
+    useEffect(() => {
+        document.documentElement.dataset.tone = 'bright';
+    }, []);
 
     const onSubmit = async (data: FormData) => {
         setSubmitError('');
@@ -63,7 +69,7 @@ const ContactPage = () => {
     ] as const;
 
     return (
-        <div className="relative min-h-screen bg-obsidian pt-36 pb-24 grain">
+        <div className="relative min-h-screen bg-showroom pt-36 pb-24 grain">
             <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-16">
 
                 {/* Header */}
@@ -77,10 +83,10 @@ const ContactPage = () => {
                         <span className="h-px w-10 bg-copper" />
                         <span className="eyebrow">{t('contact_page_badge')}</span>
                     </div>
-                    <h1 className="font-display text-[clamp(2.25rem,5vw,4rem)] leading-[1.02] text-bone">
+                    <h1 className="font-display text-[clamp(2.25rem,5vw,4rem)] leading-[1.02] text-ink">
                         {t('contact_page_title')}
                     </h1>
-                    <p className="mt-6 text-lg leading-relaxed font-light text-ash">
+                    <p className="mt-6 text-lg leading-relaxed font-light text-ink-dim">
                         {t('contact_page_desc')}
                     </p>
                 </motion.div>
@@ -94,7 +100,7 @@ const ContactPage = () => {
                         transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                         className="lg:col-span-5"
                     >
-                        <div className="overflow-hidden rounded-xl border border-bone/10">
+                        <div className="overflow-hidden rounded-xl border border-ink/10">
                             <img
                                 src="/grafics/pictures/about_us_picture.png"
                                 alt={t('contact_page_img_alt')}
@@ -133,7 +139,7 @@ const ContactPage = () => {
                                 <button
                                     type="button"
                                     onClick={() => setIsInfoModalOpen(true)}
-                                    className="flex items-center gap-1.5 font-mono text-[0.625rem] uppercase tracking-[0.14em] text-copper transition-colors hover:text-copper-hi"
+                                    className="flex items-center gap-1.5 font-mono text-[0.625rem] uppercase tracking-[0.14em] text-copper transition-colors hover:text-copper"
                                 >
                                     <Info className="h-3 w-3" />
                                     {t('form_hsn_tsn_more_info')}
@@ -175,7 +181,7 @@ const ContactPage = () => {
                                             {...register('tireType', { required: true })}
                                             className="peer sr-only"
                                         />
-                                        <span className="block rounded-lg border border-bone/15 px-2 py-3 text-center text-sm font-light text-ash transition-all duration-300 peer-checked:border-copper peer-checked:bg-copper/10 peer-checked:text-copper peer-focus-visible:border-copper hover:border-bone/35">
+                                        <span className="block rounded-lg border border-ink/15 px-2 py-3 text-center text-sm font-light text-ink-dim transition-all duration-300 peer-checked:border-copper peer-checked:bg-copper/10 peer-checked:text-copper peer-focus-visible:border-copper hover:border-ink/35">
                                             {type.label}
                                         </span>
                                     </label>
@@ -233,7 +239,7 @@ const ContactPage = () => {
                         {/* RDKS */}
                         <label
                             htmlFor="rdks"
-                            className="flex cursor-pointer items-center gap-3 rounded-lg border border-bone/10 px-4 py-4 transition-colors duration-300 hover:border-bone/25"
+                            className="flex cursor-pointer items-center gap-3 rounded-lg border border-ink/10 px-4 py-4 transition-colors duration-300 hover:border-ink/25"
                         >
                             <input
                                 {...register('rdks')}
@@ -241,19 +247,19 @@ const ContactPage = () => {
                                 id="rdks"
                                 className="h-4 w-4 shrink-0 accent-copper"
                             />
-                            <span className="text-sm font-light text-bone-dim select-none">
+                            <span className="text-sm font-light text-ink-dim select-none">
                                 {t('form_rdks')}
                             </span>
                         </label>
 
                         {submitError && (
-                            <p className="font-mono text-xs text-copper-hi">{submitError}</p>
+                            <p className="font-mono text-xs text-copper">{submitError}</p>
                         )}
 
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="group mt-2 inline-flex w-fit items-center gap-2.5 rounded-full bg-copper px-8 py-4 text-sm font-medium text-obsidian transition-colors duration-300 hover:bg-copper-hi disabled:cursor-not-allowed disabled:opacity-50"
+                            className="group mt-2 inline-flex w-fit items-center gap-2.5 rounded-full bg-copper px-8 py-4 text-sm font-medium text-showroom transition-colors duration-300 hover:bg-copper-lo disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             {isSubmitting ? '…' : t('form_submit')}
                             <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -271,14 +277,14 @@ const ContactPage = () => {
                         exit={{ opacity: 0, y: 20 }}
                         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                         role="status"
-                        className="fixed right-5 bottom-5 z-50 flex items-start gap-3 rounded-xl border border-copper/30 bg-obsidian/95 px-5 py-4 backdrop-blur-xl"
+                        className="fixed right-5 bottom-5 z-50 flex items-start gap-3 rounded-xl border border-copper/30 bg-showroom/95 px-5 py-4 backdrop-blur-xl"
                     >
                         <span className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-copper">
-                            <Check className="h-3 w-3 text-obsidian" />
+                            <Check className="h-3 w-3 text-showroom" />
                         </span>
                         <div>
-                            <p className="text-sm font-medium text-bone">{t('toast_success')}</p>
-                            <p className="mt-0.5 text-xs font-light text-ash">{t('toast_msg')}</p>
+                            <p className="text-sm font-medium text-ink">{t('toast_success')}</p>
+                            <p className="mt-0.5 text-xs font-light text-ink-dim">{t('toast_msg')}</p>
                         </div>
                     </motion.div>
                 )}
@@ -298,7 +304,7 @@ const ContactPage = () => {
                     <img
                         src="/grafics/pictures/_contact-page/_info/fahrzeugschein-hsn-tsn.png"
                         alt="Fahrzeugschein"
-                        className="w-full rounded-xl border border-bone/10"
+                        className="w-full rounded-xl border border-ink/10"
                     />
                 </div>
             </Modal>

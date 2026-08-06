@@ -182,7 +182,46 @@ const resources = {
             process_3_title: "Freigabe",
             process_3_desc: "Sie entscheiden in Ruhe. Erst nach Ihrer Zusage bestellen wir verbindlich beim Anbieter.",
             process_4_title: "Lieferung",
-            process_4_desc: "Versand per GLS, DPD oder DHL direkt zu Ihnen oder zur Werkstatt Ihres Vertrauens."
+            process_4_desc: "Versand per GLS, DPD oder DHL direkt zu Ihnen oder zur Werkstatt Ihres Vertrauens.",
+
+            // ── Rundgang durch den Laden ──
+            sign_claim: "Reifen & Felgen · Vermittlung",
+            journey_aria: "Rundgang durch den Laden",
+            journey_cue: "Eintreten",
+            journey_enter_eyebrow: "Willkommen",
+            journey_enter_title: "Treten Sie ein",
+            journey_enter_body: "Hinter der Glasfront steht alles bereit: vier Reifenarten auf Ständern, eine Felgenwand und am Ende jemand, der zuhört. Scrollen Sie sich durch den Laden.",
+            journey_hall_title: "Kein Laden von der Stange",
+            journey_hall_body: "Wir sind keine gewöhnliche Werkstatt, sondern eine Vermittlungsplattform. Wir verbinden Sie mit den besten Reifen- und Felgenanbietern Europas — auf Deutsch und auf Ungarisch, ohne Umweg über den Zwischenhandel.",
+            journey_rim_title: "Die Felgenwand",
+            journey_rim_body: "Alufelgen, Stahlfelgen und RDKS-Sensoren. Sagen Sie uns Fahrzeug und Wunschmaß, wir bringen die passende Kombination zusammen.",
+            journey_board_eyebrow: "Pinnwand",
+
+            stand_label: "Vier Optionen auf diesem Ständer",
+            rim_wall_label: "Vier Optionen an der Wand",
+
+            tier_entry: "Einstieg",
+            tier_comfort: "Komfort",
+            tier_premium: "Premium",
+            tier_performance: "Performance",
+
+            opt_note_dry: "Kürzeste Bremswege bei Hitze.",
+            opt_note_balance: "Ausgewogen in jeder Disziplin.",
+            opt_note_quiet: "Leise und komfortabel.",
+            opt_note_value: "Solide Basis zum fairen Preis.",
+            opt_note_ice: "Bissig auf Eis und Schnee.",
+            opt_note_snow: "Sicher bei Schneematsch.",
+            opt_note_wet: "Stark bei Nässe und Aquaplaning.",
+            opt_note_mud: "Grobstollig für tiefen Schlamm.",
+            opt_note_gravel: "Robust auf Schotter und Geröll.",
+            opt_note_road: "Geländetauglich, straßenfein.",
+            opt_note_alloy: "Geschmiedet, geringes Gewicht.",
+            opt_note_alloy_mid: "Guss, viele Designs verfügbar.",
+            opt_note_steel: "Robust, ideal für den Winter.",
+            opt_note_rdks: "Sensoren, angelernt geliefert.",
+
+            reception_eyebrow: "Empfang",
+            reception_body: "Am Ende des Rundgangs steht der Tresen. Schreiben Sie uns, was Sie fahren — wir melden uns meist innerhalb eines Werktags."
         }
     },
     hu: {
@@ -364,7 +403,46 @@ const resources = {
             process_3_title: "Jóváhagyás",
             process_3_desc: "Nyugodtan dönthet. Csak az Ön visszajelzése után rendelünk véglegesen a szállítótól.",
             process_4_title: "Szállítás",
-            process_4_desc: "Kiszállítás GLS, DPD vagy DHL futárral közvetlenül Önhöz vagy a választott szervizbe."
+            process_4_desc: "Kiszállítás GLS, DPD vagy DHL futárral közvetlenül Önhöz vagy a választott szervizbe.",
+
+            // ── Séta az üzletben ──
+            sign_claim: "Gumi & Felni · Közvetítés",
+            journey_aria: "Séta az üzletben",
+            journey_cue: "Belépés",
+            journey_enter_eyebrow: "Üdvözöljük",
+            journey_enter_title: "Lépjen be",
+            journey_enter_body: "Az üvegfront mögött minden készen áll: négy gumitípus állványokon, egy felnifal, a végén pedig valaki, aki meghallgatja. Görgessen végig az üzleten.",
+            journey_hall_title: "Nem szokványos üzlet",
+            journey_hall_body: "Nem egy átlagos szerviz vagyunk, hanem közvetítő platform. Összekötjük Európa legjobb gumi- és felniszállítóival — magyarul és németül, a nagykereskedelmi kerülőút nélkül.",
+            journey_rim_title: "A felnifal",
+            journey_rim_body: "Alufelnik, acélfelnik és TPMS-szenzorok. Mondja meg a járművet és a kívánt méretet, mi összeállítjuk a megfelelő kombinációt.",
+            journey_board_eyebrow: "Faliújság",
+
+            stand_label: "Négy opció ezen az állványon",
+            rim_wall_label: "Négy opció a falon",
+
+            tier_entry: "Belépő",
+            tier_comfort: "Komfort",
+            tier_premium: "Prémium",
+            tier_performance: "Sport",
+
+            opt_note_dry: "Legrövidebb fékút melegben.",
+            opt_note_balance: "Kiegyensúlyozott minden téren.",
+            opt_note_quiet: "Halk és kényelmes.",
+            opt_note_value: "Szolid alap korrekt áron.",
+            opt_note_ice: "Erős tapadás jégen és hóban.",
+            opt_note_snow: "Biztonságos latyakban.",
+            opt_note_wet: "Kiváló nedves úton.",
+            opt_note_mud: "Durva mintázat mély sárhoz.",
+            opt_note_gravel: "Strapabíró kavicson és murván.",
+            opt_note_road: "Terepképes, úton kulturált.",
+            opt_note_alloy: "Kovácsolt, alacsony súly.",
+            opt_note_alloy_mid: "Öntött, sok design elérhető.",
+            opt_note_steel: "Strapabíró, télre ideális.",
+            opt_note_rdks: "Szenzorok, betanítva szállítva.",
+
+            reception_eyebrow: "Recepció",
+            reception_body: "A séta végén ott a pult. Írja meg, mit vezet — általában egy munkanapon belül jelentkezünk."
         }
     }
 };

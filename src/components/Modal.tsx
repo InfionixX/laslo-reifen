@@ -43,7 +43,7 @@ const Modal = ({ isOpen, onClose, title, children, maxWidth = 'max-w-2xl' }: Mod
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="absolute inset-0 bg-obsidian/85 backdrop-blur-md"
+                        className="absolute inset-0 bg-ink/70 backdrop-blur-md"
                         onClick={onClose}
                     />
 
@@ -53,25 +53,25 @@ const Modal = ({ isOpen, onClose, title, children, maxWidth = 'max-w-2xl' }: Mod
                         exit={{ opacity: 0, scale: 0.97, y: 16 }}
                         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                         className={clsx(
-                            'relative max-h-[90vh] w-full overflow-y-auto rounded-2xl border border-bone/10 bg-graphite p-8 shadow-2xl sm:p-10',
+                            'relative max-h-[90vh] w-full overflow-y-auto rounded-2xl border border-ink/10 bg-showroom p-8 shadow-2xl sm:p-10',
                             maxWidth,
                         )}
                     >
                         <button
                             onClick={onClose}
                             aria-label="Schließen"
-                            className="absolute top-5 right-5 text-ash transition-colors hover:text-copper"
+                            className="absolute top-5 right-5 text-ink-faint transition-colors hover:text-copper"
                         >
                             <X className="h-5 w-5" />
                         </button>
 
                         {title && (
-                            <h2 className="mb-7 border-b border-bone/10 pb-4 font-display text-3xl text-bone">
+                            <h2 className="mb-7 border-b border-ink/10 pb-4 font-display text-3xl text-ink">
                                 {title}
                             </h2>
                         )}
 
-                        <div className="leading-relaxed font-light text-bone-dim">{children}</div>
+                        <div className="leading-relaxed font-light text-ink-dim">{children}</div>
                     </motion.div>
                 </div>
             )}

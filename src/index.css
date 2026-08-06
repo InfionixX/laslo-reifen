@@ -2,71 +2,113 @@
 
 /* ===========================================================================
    MAGYAR GUMIS — Design System
-   Palette: Obsidian / Graphite / Slate  ·  Copper accent  ·  Bone white
-   Type:    Instrument Serif (display) · Inter Tight (UI) · JetBrains Mono (specs)
+
+   The site is one continuous walk through a shop: it starts outside at blue
+   hour and opens into a daylit showroom. So the palette has two halves — a
+   dusk half and a showroom half — and a `tone` switch that fixed chrome
+   (navbar, chat, scrollbar) follows as you cross the threshold.
+
+   Type: Instrument Serif (display) · Inter Tight (UI) · JetBrains Mono (specs)
    =========================================================================== */
 
 @theme {
-  /* ─── Surfaces ─────────────────────────────────────────────────────── */
-  --color-obsidian: #0b0c0e;
-  --color-graphite: #16181c;
-  --color-slate: #24272d;
-  --color-slate-hi: #32363e;
+  /* ─── Outside: blue hour ────────────────────────────────────────────── */
+  --color-dusk: #14181f;
+  --color-dusk-deep: #0b0e13;
+  --color-dusk-hi: #232a35;
 
-  /* ─── Accent: copper / amber ───────────────────────────────────────── */
-  --color-copper: #c87a3f;
-  --color-copper-hi: #e8a063;
-  --color-copper-lo: #8f5528;
+  /* ─── Inside: daylit showroom ───────────────────────────────────────── */
+  --color-showroom: #f7f6f4;
+  --color-concrete: #e6e4e0;
+  --color-concrete-dim: #d2cfc9;
 
-  /* ─── Text ─────────────────────────────────────────────────────────── */
+  /* ─── Accent: copper, carries across both halves ────────────────────── */
+  --color-copper: #b5642c;
+  --color-copper-hi: #d98a4a;
+  --color-copper-lo: #82471e;
+
+  /* ─── Ink (on light) ────────────────────────────────────────────────── */
+  --color-ink: #1a1c20;
+  --color-ink-dim: #4a4d53;
+  --color-ink-faint: #7c8087;
+
+  /* ─── Bone (on dark) ────────────────────────────────────────────────── */
   --color-bone: #f2efea;
   --color-bone-dim: #c9c5be;
-  /* Warm-leaning greys — a blue-leaning grey reads as "cold" next to copper */
   --color-ash: #9b948b;
   --color-ash-dim: #6d675f;
 
-  /* ─── Legacy brand aliases (kept so existing markup keeps compiling) ─ */
-  --color-brand-orange: #c87a3f;
-  --color-brand-dark: #0b0c0e;
-  --color-brand-gray: #16181c;
+  /* ─── Legacy aliases (keep untouched markup compiling) ──────────────── */
+  --color-obsidian: #0b0e13;
+  --color-graphite: #14181f;
+  --color-slate: #232a35;
+  --color-brand-orange: #b5642c;
+  --color-brand-dark: #0b0e13;
+  --color-brand-gray: #14181f;
   --color-brand-light: #f2efea;
 
-  /* ─── shadcn compatibility ─────────────────────────────────────────── */
-  --color-background: #0b0c0e;
+  /* ─── shadcn compatibility ──────────────────────────────────────────── */
+  --color-background: #0b0e13;
   --color-foreground: #f2efea;
-  --color-muted: #16181c;
-  --color-muted-foreground: #8b8f98;
-  --color-primary: #c87a3f;
-  --color-primary-foreground: #0b0c0e;
-  --color-secondary: #24272d;
+  --color-muted: #14181f;
+  --color-muted-foreground: #9b948b;
+  --color-primary: #b5642c;
+  --color-primary-foreground: #f7f6f4;
+  --color-secondary: #232a35;
   --color-secondary-foreground: #f2efea;
-  --color-ring: #c87a3f;
+  --color-ring: #b5642c;
   --color-border: rgba(242, 239, 234, 0.09);
 
-  /* ─── Typography ───────────────────────────────────────────────────── */
+  /* ─── Typography ────────────────────────────────────────────────────── */
   --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
   --font-sans: "Inter Tight", "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 
-  /* ─── Motion ───────────────────────────────────────────────────────── */
+  /* ─── Motion ────────────────────────────────────────────────────────── */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
 
   --animate-spin-slow: spin 14s linear infinite;
-  --animate-drift: drift 18s ease-in-out infinite;
+}
 
-  @keyframes drift {
-    0%,
-    100% {
-      transform: translate3d(0, 0, 0) scale(1);
-    }
-    33% {
-      transform: translate3d(2%, -3%, 0) scale(1.04);
-    }
-    66% {
-      transform: translate3d(-2%, 2%, 0) scale(0.98);
-    }
-  }
+/* ===========================================================================
+   Tone
+   Fixed chrome cannot know which scene is behind it, so the journey stamps
+   data-tone on <html> as it crosses the threshold and everything fixed reads
+   these four variables instead of hard-coding a colour.
+   =========================================================================== */
+
+:root {
+  --tone-fg: #f2efea;
+  --tone-fg-dim: #9b948b;
+  --tone-border: rgba(242, 239, 234, 0.14);
+  --tone-panel: rgba(11, 14, 19, 0.72);
+  --tone-surface: #0b0e13;
+}
+
+:root[data-tone="bright"] {
+  --tone-fg: #1a1c20;
+  --tone-fg-dim: #7c8087;
+  --tone-border: rgba(26, 28, 32, 0.14);
+  --tone-panel: rgba(247, 246, 244, 0.78);
+  --tone-surface: #f7f6f4;
+}
+
+/* Chrome eases between the two halves rather than snapping. Custom properties
+   only animate when registered via @property, so the elements that consume
+   them carry the transition instead — see .tone-text below. */
+.tone-text {
+  color: var(--tone-fg);
+  transition: color 700ms var(--ease-out-expo);
+}
+
+.tone-text-dim {
+  color: var(--tone-fg-dim);
+  transition: color 700ms var(--ease-out-expo);
+}
+
+.tone-bd {
+  border-color: var(--tone-border);
+  transition: border-color 700ms var(--ease-out-expo);
 }
 
 /* ===========================================================================
@@ -76,29 +118,31 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* Sticky scroll sections need a stable scrollbar to avoid layout shift */
+    /* Pinned scenes need a stable scrollbar or the stage jitters */
     scrollbar-gutter: stable;
+    background: var(--tone-surface);
+    transition: background-color 700ms var(--ease-out-expo);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    @apply bg-obsidian text-ash font-sans overflow-x-hidden;
+    @apply font-sans overflow-x-hidden;
+    background: transparent;
+    color: var(--tone-fg);
     font-feature-settings: "ss01", "cv01";
   }
 
   ::selection {
     background: var(--color-copper);
-    color: var(--color-obsidian);
+    color: var(--color-showroom);
   }
 
-  /* Display headings: optical sizing for the serif */
   .font-display {
     font-optical-sizing: auto;
     letter-spacing: -0.015em;
   }
 
-  /* Respect user motion preferences across all scroll choreography */
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -118,44 +162,44 @@
    Utilities
    =========================================================================== */
 
-/* Eyebrow / kicker label — mono, spaced, small */
 .eyebrow {
-  @apply font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-copper;
+  @apply font-mono text-[0.6875rem] uppercase tracking-[0.22em];
+  color: var(--color-copper);
 }
 
-/* Frosted panel */
+/* Frosted panel that follows the current tone */
+.tone-panel {
+  background: var(--tone-panel);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--tone-border);
+}
+
 .glass-panel {
-  background: rgba(22, 24, 28, 0.62);
+  background: var(--tone-panel);
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
-  border: 1px solid rgba(242, 239, 234, 0.08);
+  border: 1px solid var(--tone-border);
 }
 
-/* Hairline rule that fades at both ends */
-.rule-fade {
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(242, 239, 234, 0.14) 20%,
-    rgba(242, 239, 234, 0.14) 80%,
-    transparent
-  );
-}
-
-/* Fine film grain — kills the flat "AI gradient" look */
+/* Fine film grain — keeps large flat renders from looking synthetic */
 .grain::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.03;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Seamless partner marquee — the track holds the list twice, so translating
-   by exactly half puts the copy back at the start with no visible jump. */
+.text-copper-gradient {
+  background: linear-gradient(100deg, #d98a4a 0%, #b5642c 55%, #82471e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 @keyframes marquee {
   from {
     transform: translate3d(0, 0, 0);
@@ -163,14 +207,6 @@
   to {
     transform: translate3d(-50%, 0, 0);
   }
-}
-
-/* Copper text gradient for accented display words */
-.text-copper-gradient {
-  background: linear-gradient(100deg, #e8a063 0%, #c87a3f 55%, #8f5528 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
 
 /* ===========================================================================
@@ -182,15 +218,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-obsidian);
+  background: var(--tone-surface);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-slate);
+  background: var(--tone-fg-dim);
   border-radius: 999px;
-  border: 2px solid var(--color-obsidian);
+  border: 2px solid var(--tone-surface);
+  opacity: 0.4;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-copper-lo);
+  background: var(--color-copper);
 }
