@@ -77,6 +77,55 @@ function sceneRange(i: number, count: number) {
     ];
 }
 
+/* How far into the hold the copy keeps arriving, as a share of the hold.
+
+   This is the only lever for a slower reveal. Starting earlier is not an
+   option: before its own scene fades up, a headline would be drifting in on
+   top of the previous scene's photograph. So the arrival runs on past the
+   point where the image has settled, and the last line lands a little over
+   halfway through the static stretch - which still leaves roughly 40vh of
+   completely still page to read it on. */
+const REVEAL_OVERRUN = 0.55;
+/* Share of the reveal window given over to staggering. The rest is how long
+   any single line takes to arrive. */
+const REVEAL_STAGGER = 0.4;
+
+/* One line of copy arriving. `order` is its place in reading order, so the
+   eyebrow lands first and the stand cards last. */
+function useReveal(
+    progress: MotionValue<number>,
+    range: number[],
+    count: number,
+    order: number,
+    slots: number,
+) {
+    /* Derive the hold from the nominal step, not from the range: the first and
+       last scenes deliberately carry keyframes outside [0,1] so the journey
+       opens and closes on a solid frame, and measuring those would stretch the
+       last scene's reveal past the end of the track - its copy would never
+       finish arriving. */
+    const holdWidth = (1 / count) * HOLD;
+    const start = range[0];
+    const end = range[1] + holdWidth * REVEAL_OVERRUN;
+    const span = end - start;
+
+    const offset = span * REVEAL_STAGGER * (slots > 1 ? order / (slots - 1) : 0);
+    const inFrom = start + offset;
+    const inTo = inFrom + span * (1 - REVEAL_STAGGER);
+
+    // Leaving stays brisk - only the arrival was too fast to read
+    const outFrom = range[2];
+    const outTo = range[2] + (range[3] - range[2]) * 0.5;
+
+    const keyframes = [inFrom, inTo, outFrom, outTo];
+    const eased = { ease: [easeSoft, linear, easeSoft] };
+
+    return {
+        opacity: useTransform(progress, keyframes, [0, 1, 1, 0], eased),
+        y: useTransform(progress, keyframes, [30, 0, 0, -22], eased),
+    };
+}
+
 /* --- One scene on the stage --- */
 function Scene({
     scene,
@@ -96,17 +145,15 @@ function Scene({
     // A gentle push rather than a zoom: the camera drifts through the scene.
     const scale = useTransform(progress, range, [0.96, 1, 1.015, EXIT_SCALE], eased);
 
-    /* The copy holds full strength across the entire static stretch and only
-       fades at the very edges, so text is readable for as long as possible
-       rather than being mid-fade whenever you stop scrolling. */
-    const copyRange = [
-        range[0] + (range[1] - range[0]) * 0.5,
-        range[1],
-        range[2],
-        range[2] + (range[3] - range[2]) * 0.5,
-    ];
-    const copyOpacity = useTransform(progress, copyRange, [0, 1, 1, 0], eased);
-    const copyY = useTransform(progress, range, [34, 0, 0, -34], eased);
+    /* Fixed slots so the hook count never changes between renders: eyebrow,
+       title, body, then whatever the scene hangs underneath. */
+    const eyebrow = useReveal(progress, range, count, 0, 4);
+    const title = useReveal(progress, range, count, 1, 4);
+    const body = useReveal(progress, range, count, 2, 4);
+    const extra = useReveal(progress, range, count, 3, 4);
+
+    // Container keeps only the parallax drift; opacity belongs to each line
+    const copyY = useTransform(progress, range, [24, 0, 0, -24], eased);
 
     const dusk = scene.tone === 'dusk';
 
@@ -171,7 +218,7 @@ function Scene({
 
             {/* Copy */}
             <motion.div
-                style={{ y: copyY, opacity: copyOpacity, willChange: 'transform, opacity' }}
+                style={{ y: copyY, willChange: 'transform' }}
                 className="relative z-10 flex h-full items-center"
             >
                 <div
@@ -181,18 +228,20 @@ function Scene({
                 >
                     <div className={scene.center ? 'mx-auto max-w-3xl' : 'max-w-2xl'}>
                         {scene.eyebrow && (
-                            <div
+                            <motion.div
+                                style={{ ...eyebrow, willChange: 'transform, opacity' }}
                                 className={`mb-6 flex items-center gap-4 ${
                                     scene.center ? 'justify-center' : ''
                                 }`}
                             >
                                 <span className="h-px w-10 bg-copper" />
                                 <span className="eyebrow">{scene.eyebrow}</span>
-                            </div>
+                            </motion.div>
                         )}
 
                         {scene.title && (
-                            <h2
+                            <motion.h2
+                                style={{ ...title, willChange: 'transform, opacity' }}
                                 className={`font-display leading-[0.95] ${
                                     scene.center
                                         ? 'text-[clamp(2.5rem,7vw,5.5rem)]'
@@ -200,20 +249,25 @@ function Scene({
                                 } ${dusk ? 'text-bone' : 'text-ink'}`}
                             >
                                 {scene.title}
-                            </h2>
+                            </motion.h2>
                         )}
 
                         {scene.body && (
-                            <p
+                            <motion.p
+                                style={{ ...body, willChange: 'transform, opacity' }}
                                 className={`mt-6 max-w-xl text-base leading-relaxed sm:text-lg ${
                                     scene.center ? 'mx-auto' : ''
                                 } ${dusk ? 'font-light text-bone-dim' : 'text-ink-dim'}`}
                             >
                                 {scene.body}
-                            </p>
+                            </motion.p>
                         )}
 
-                        {scene.content}
+                        {scene.content && (
+                            <motion.div style={{ ...extra, willChange: 'transform, opacity' }}>
+                                {scene.content}
+                            </motion.div>
+                        )}
                     </div>
                 </div>
             </motion.div>
