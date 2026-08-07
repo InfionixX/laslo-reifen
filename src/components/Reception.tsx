@@ -85,7 +85,17 @@ const Reception = () => {
                     loading="lazy"
                     className="h-full w-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-showroom via-showroom/85 to-showroom" />
+                <div className="absolute inset-0 bg-gradient-to-b from-showroom via-showroom/82 to-showroom" />
+                {/* Vignette, same trick as the journey scenes: the render is
+                    bright edge to edge, so darkening the corners is what gives
+                    the section any depth at all. */}
+                <div
+                    className="absolute inset-0"
+                    style={{
+                        background:
+                            'radial-gradient(130% 100% at 50% 40%, transparent 45%, rgba(26,28,32,0.16) 100%)',
+                    }}
+                />
             </div>
 
             <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-28 sm:px-10 sm:py-36 lg:px-16">
@@ -210,7 +220,7 @@ const Reception = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: '-80px' }}
                         transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex flex-col gap-7 rounded-2xl border border-ink/10 bg-showroom/85 p-7 backdrop-blur-xl sm:p-10 lg:col-span-6 lg:col-start-7"
+                        className="flex flex-col gap-7 rounded-2xl border border-ink/15 bg-showroom/93 p-7 shadow-[0_6px_44px_rgba(26,28,32,0.10)] backdrop-blur-xl sm:p-10 lg:col-span-6 lg:col-start-7"
                     >
                         <div className="grid gap-7 sm:grid-cols-2">
                             <div>

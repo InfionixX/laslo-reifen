@@ -1,7 +1,8 @@
-import { useRef, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     AnimatePresence,
+    cubicBezier,
     motion,
     useMotionValueEvent,
     useScroll,
@@ -16,16 +17,29 @@ import ReviewPins from './ReviewPins';
 /* ===========================================================================
    ShopJourney - the whole site as one walk through the shop.
 
-   A tall track pins a single full-viewport stage. Every scene lives on the
-   same scroll value, and each one approaches (scaling up from small), holds,
-   then the camera passes through it (scaling past 1 while fading) as the next
-   scene arrives. That shared value is what makes it read as continuous
-   forward motion rather than a stack of sections that happen to crossfade.
+   A tall track pins a single full-viewport stage. Every scene reads the same
+   scroll value: it approaches, holds still while you read it, then the camera
+   drifts through it as the next one arrives.
 
-   Scenes 0-1 are outside at blue hour; from the hall onward we are inside a
-   daylit showroom, so the stage also drives a `data-tone` flag that the fixed
-   chrome (navbar, chat widget, scrollbar) follows.
+   Three numbers decide how it feels:
+
+   SCENE_VH   how much scroll one scene owns. Higher means the content stays
+              put longer before anything starts moving.
+   HOLD       the share of that scroll where the scene is completely static.
+              The rest is split between the incoming and outgoing crossfade.
+   EXIT_SCALE how far the camera pushes past a scene on its way out. Small
+              values read as expensive and deliberate; large ones read as a
+              zoom effect.
    =========================================================================== */
+
+const SCENE_VH = 130;
+const HOLD = 0.68;
+const EXIT_SCALE = 1.16;
+
+/* Linear interpolation between keyframes is what makes a crossfade look
+   mechanical. Easing every segment is most of the "smoother" ask. */
+const easeSoft = cubicBezier(0.4, 0, 0.2, 1);
+const linear = (t: number) => t;
 
 type Tone = 'dusk' | 'bright';
 
@@ -48,11 +62,12 @@ interface SceneDef {
     anchor?: string;
 }
 
-/* Keyframe positions for one scene. The first and last are pushed outside
-   [0,1] so the journey opens and closes on a solid frame. */
+/* Keyframes for one scene: [enter start, hold start, hold end, exit end].
+   The first and last are pushed outside [0,1] so the journey opens and closes
+   on a solid frame instead of fading up from nothing. */
 function sceneRange(i: number, count: number) {
     const step = 1 / count;
-    const fade = step * 0.38;
+    const fade = (step * (1 - HOLD)) / 2;
 
     return [
         i === 0 ? -2 : i * step - fade,
@@ -75,24 +90,36 @@ function Scene({
     progress: MotionValue<number>;
 }) {
     const range = sceneRange(i, count);
+    const eased = { ease: [easeSoft, linear, easeSoft] };
 
-    const opacity = useTransform(progress, range, [0, 1, 1, 0]);
-    // Approach, hold, then pass through. The exit overshoot sells "walking".
-    const scale = useTransform(progress, range, [0.88, 1, 1.05, 1.34]);
-    // Copy travels against the image so the two planes separate in depth
-    const copyY = useTransform(progress, range, [56, 0, 0, -56]);
-    const copyOpacity = useTransform(
-        progress,
-        [range[0], range[1] + 0.015, range[2] - 0.015, range[3]],
-        [0, 1, 1, 0],
-    );
+    const opacity = useTransform(progress, range, [0, 1, 1, 0], eased);
+    // A gentle push rather than a zoom: the camera drifts through the scene.
+    const scale = useTransform(progress, range, [0.96, 1, 1.015, EXIT_SCALE], eased);
+
+    /* The copy holds full strength across the entire static stretch and only
+       fades at the very edges, so text is readable for as long as possible
+       rather than being mid-fade whenever you stop scrolling. */
+    const copyRange = [
+        range[0] + (range[1] - range[0]) * 0.5,
+        range[1],
+        range[2],
+        range[2] + (range[3] - range[2]) * 0.5,
+    ];
+    const copyOpacity = useTransform(progress, copyRange, [0, 1, 1, 0], eased);
+    const copyY = useTransform(progress, range, [34, 0, 0, -34], eased);
 
     const dusk = scene.tone === 'dusk';
 
     return (
-        <motion.div style={{ opacity }} className="absolute inset-0">
+        <motion.div
+            style={{ opacity, willChange: 'opacity' }}
+            className="absolute inset-0"
+        >
             {/* Photograph */}
-            <motion.div style={{ scale }} className="absolute inset-0">
+            <motion.div
+                style={{ scale, willChange: 'transform' }}
+                className="absolute inset-0"
+            >
                 <img
                     src={scene.image}
                     alt=""
@@ -100,27 +127,51 @@ function Scene({
                     className="h-full w-full object-cover"
                     loading={i === 0 ? 'eager' : 'lazy'}
                     fetchPriority={i === 0 ? 'high' : 'auto'}
+                    draggable={false}
                 />
             </motion.div>
 
             {/* Legibility scrim, tuned per half of the journey */}
             {dusk ? (
                 <div className="absolute inset-0 bg-gradient-to-b from-dusk-deep/75 via-dusk/40 to-dusk-deep/85" />
+            ) : scene.center ? (
+                <div className="absolute inset-0 bg-showroom/50" />
             ) : (
-                /* Opaque under the copy, clearing to nothing over the product -
-                   the stand is the point of the scene, not the backdrop. */
+                <>
+                    {/* Narrow viewports: the copy spans the full width, so the
+                        product cannot be left uncovered. */}
+                    <div className="absolute inset-0 bg-showroom/88 lg:hidden" />
+
+                    {/* Wide viewports: fully opaque behind the copy column, then
+                        off a cliff so the stand keeps its contrast. An even
+                        left-to-right fade washes the product out at exactly the
+                        point where it is the subject of the scene. */}
+                    <div
+                        className="absolute inset-0 hidden lg:block"
+                        style={{
+                            background:
+                                'linear-gradient(90deg, #f7f6f4 0%, #f7f6f4 40%, rgba(247,246,244,0.70) 57%, rgba(247,246,244,0.16) 76%, rgba(247,246,244,0) 90%)',
+                        }}
+                    />
+                </>
+            )}
+
+            {/* Vignette. The showroom renders are high-key and edge-to-edge
+                bright, which flattens them; darkening the corners gives the
+                frame depth without touching the middle. */}
+            {!dusk && (
                 <div
-                    className={`absolute inset-0 ${
-                        scene.center
-                            ? 'bg-showroom/50'
-                            : 'bg-gradient-to-r from-showroom via-showroom/72 to-transparent'
-                    }`}
+                    className="absolute inset-0"
+                    style={{
+                        background:
+                            'radial-gradient(125% 95% at 50% 42%, transparent 42%, rgba(26,28,32,0.20) 100%)',
+                    }}
                 />
             )}
 
             {/* Copy */}
             <motion.div
-                style={{ y: copyY, opacity: copyOpacity }}
+                style={{ y: copyY, opacity: copyOpacity, willChange: 'transform, opacity' }}
                 className="relative z-10 flex h-full items-center"
             >
                 <div
@@ -154,9 +205,9 @@ function Scene({
 
                         {scene.body && (
                             <p
-                                className={`mt-6 max-w-xl text-base leading-relaxed font-light sm:text-lg ${
+                                className={`mt-6 max-w-xl text-base leading-relaxed sm:text-lg ${
                                     scene.center ? 'mx-auto' : ''
-                                } ${dusk ? 'text-bone-dim' : 'text-ink-dim'}`}
+                                } ${dusk ? 'font-light text-bone-dim' : 'text-ink-dim'}`}
                             >
                                 {scene.body}
                             </p>
@@ -222,11 +273,14 @@ const ShopJourney = () => {
         offset: ['start start', 'end end'],
     });
 
-    // Smoothing keeps a fast wheel flick from snapping between scenes
+    /* Near-critical damping (2*sqrt(320) is about 36): responsive enough not
+       to lag behind the wheel, damped enough not to wobble at the end of a
+       flick. The previous spring was heavily overdamped, which read as the
+       stage dragging behind the scroll. */
     const progress = useSpring(scrollYProgress, {
-        stiffness: 240,
-        damping: 44,
-        restDelta: 0.0008,
+        stiffness: 320,
+        damping: 40,
+        restDelta: 0.0005,
     });
 
     const stand = (options: StandOption[]) => (
@@ -352,22 +406,36 @@ const ShopJourney = () => {
 
     const count = scenes.length;
 
-    /* Fixed chrome cannot see which scene is behind it, so publish the tone on
-       <html> as we cross the threshold into the hall. */
+    /* Ten full-bleed 2048px images decode to roughly 90 MB of bitmap and all of
+       them stay in the compositor even at zero opacity, which is what made the
+       stage stutter. Only the current scene and its immediate neighbours are
+       mounted; the crossfade never reaches further than one scene either way. */
+    const [active, setActive] = useState(0);
+    const activeRef = useRef(0);
+
     const threshold = (2 - 0.15) / count;
     useMotionValueEvent(progress, 'change', (v) => {
+        const idx = Math.min(count - 1, Math.max(0, Math.floor(v * count)));
+        if (idx !== activeRef.current) {
+            activeRef.current = idx;
+            setActive(idx);
+        }
+
+        // Fixed chrome cannot see which scene is behind it, so publish the tone
         document.documentElement.dataset.tone = v >= threshold ? 'bright' : 'dusk';
     });
 
     const railScale = useTransform(progress, [0, 1], [0, 1]);
-    const cueOpacity = useTransform(progress, [0, 0.04], [1, 0]);
+    const cueOpacity = useTransform(progress, [0, 0.035], [1, 0]);
+
+    const trackVh = count * SCENE_VH;
 
     return (
         <section
             id="home"
             ref={trackRef}
             className="relative"
-            style={{ height: `${count * 100}vh` }}
+            style={{ height: `${trackVh}vh` }}
             aria-label={t('journey_aria')}
         >
             {/* Scroll anchors. Each sits at the point in the track where its
@@ -380,22 +448,24 @@ const ShopJourney = () => {
                             key={scene.anchor}
                             id={scene.anchor}
                             className="absolute left-0 block w-px"
-                            style={{ top: `${((i + 0.5) / count) * (count - 1) * 100}vh` }}
+                            style={{ top: `${((i + 0.5) / count) * (trackVh - 100)}vh` }}
                         />
                     ) : null,
                 )}
             </div>
 
             <div className="sticky top-0 h-screen w-full overflow-hidden grain">
-                {scenes.map((scene, i) => (
-                    <Scene
-                        key={scene.id}
-                        scene={scene}
-                        i={i}
-                        count={count}
-                        progress={progress}
-                    />
-                ))}
+                {scenes.map((scene, i) =>
+                    Math.abs(i - active) <= 1 ? (
+                        <Scene
+                            key={scene.id}
+                            scene={scene}
+                            i={i}
+                            count={count}
+                            progress={progress}
+                        />
+                    ) : null,
+                )}
 
                 {/* Scroll cue, only on the very first frame */}
                 <motion.div

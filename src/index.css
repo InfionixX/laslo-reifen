@@ -28,9 +28,11 @@
   --color-copper-lo: #82471e;
 
   /* ─── Ink (on light) ────────────────────────────────────────────────── */
+  /* faint was #7c8087, which lands at 4.1:1 on the showroom background -
+     under the 4.5:1 floor for the small mono labels it is used for */
   --color-ink: #1a1c20;
-  --color-ink-dim: #4a4d53;
-  --color-ink-faint: #7c8087;
+  --color-ink-dim: #45484e;
+  --color-ink-faint: #686c73;
 
   /* ─── Bone (on dark) ────────────────────────────────────────────────── */
   --color-bone: #f2efea;

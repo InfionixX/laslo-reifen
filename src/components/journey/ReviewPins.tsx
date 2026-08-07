@@ -1,11 +1,13 @@
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 
 /* ===========================================================================
    Customer reviews as note cards pinned to the board on the showroom wall.
-   Each card sits at a slight angle so the wall reads as a real pinboard
-   rather than a grid of divs.
+
+   The tilt is a static style rather than an entrance animation: the scene's
+   copy layer already handles fading the block in, and the cards mount one
+   scene early because of the journey's culling, so an entrance here would
+   play out unseen. Hovering straightens the card - that is the only motion.
    =========================================================================== */
 
 const ReviewPins = () => {
@@ -19,22 +21,14 @@ const ReviewPins = () => {
 
     return (
         <ul className="mt-9 grid gap-4 sm:grid-cols-3">
-            {reviews.map((review, i) => (
-                <motion.li
+            {reviews.map((review) => (
+                <li
                     key={review.name}
-                    initial={{ opacity: 0, y: 22, rotate: 0 }}
-                    whileInView={{ opacity: 1, y: 0, rotate: review.tilt }}
-                    viewport={{ once: true }}
-                    transition={{
-                        duration: 0.75,
-                        delay: 0.12 + i * 0.1,
-                        ease: [0.16, 1, 0.3, 1],
-                    }}
-                    whileHover={{ rotate: 0, y: -5 }}
-                    className="relative rounded-sm bg-showroom p-5 shadow-[0_10px_30px_rgba(26,28,32,0.16)] sm:p-6"
+                    style={{ rotate: `${review.tilt}deg` }}
+                    className="relative rounded-sm bg-showroom p-5 shadow-[0_12px_34px_rgba(26,28,32,0.20)] transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] hover:!rotate-0 hover:-translate-y-1 sm:p-6"
                 >
                     {/* Pin */}
-                    <span className="absolute -top-2 left-1/2 h-3.5 w-3.5 -translate-x-1/2 rounded-full bg-copper shadow-[0_2px_5px_rgba(26,28,32,0.4)]" />
+                    <span className="absolute -top-2 left-1/2 h-3.5 w-3.5 -translate-x-1/2 rounded-full bg-copper shadow-[0_2px_5px_rgba(26,28,32,0.45)]" />
 
                     <div className="flex gap-0.5" aria-label="5 von 5">
                         {Array.from({ length: 5 }).map((_, s) => (
@@ -48,11 +42,11 @@ const ReviewPins = () => {
 
                     <figcaption className="mt-4 flex items-center gap-2.5">
                         <span className="h-px w-5 bg-copper" />
-                        <span className="font-mono text-[0.625rem] uppercase tracking-[0.16em] text-ink-faint">
+                        <span className="font-mono text-[0.625rem] uppercase tracking-[0.16em] text-ink-dim">
                             {review.name}
                         </span>
                     </figcaption>
-                </motion.li>
+                </li>
             ))}
         </ul>
     );
