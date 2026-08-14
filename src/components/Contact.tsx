@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { FaPhone, FaEnvelope, FaLocationDot, FaInstagram, FaFacebookF, FaLinkedinIn, FaMapLocationDot, FaPaperPlane, FaCircleCheck } from 'react-icons/fa6';
 import TypewriterText from './TypewriterText';
+import MechanicRobot from './ui/mechanic-robot';
 
 type FormData = {
     name: string;
@@ -36,7 +37,7 @@ const Contact = () => {
             } else {
                 setSubmitError('Failed to send message. Please try again.');
             }
-        } catch (error) {
+        } catch {
             setSubmitError('An error occurred. Please try again.');
         }
     };
@@ -47,95 +48,40 @@ const Contact = () => {
             <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-brand-orange opacity-[0.02] rounded-full blur-[120px] pointer-events-none transform translate-y-1/3 translate-x-1/3"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 bg-brand-gray rounded-2xl overflow-hidden border border-gray-800 shadow-2xl">
+                {/* Section header */}
+                <div className="text-center mb-16">
+                    <TypewriterText
+                        text={t('contact_badge')}
+                        className="text-brand-orange font-bold uppercase tracking-wider mb-2 block"
+                        tag="h3"
+                        delay={0.3}
+                    />
+                    <TypewriterText
+                        text={t('contact_title')}
+                        className="text-3xl md:text-4xl font-bold text-white block"
+                        tag="h2"
+                        delay={0.5}
+                    />
+                    <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: 96 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.5 }}
+                        className="h-1 bg-brand-orange mx-auto mt-6"
+                    ></motion.div>
+                </div>
 
-                    {/* Contact Info */}
+                {/* Robot + Form card */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 bg-brand-gray rounded-2xl overflow-hidden border border-gray-800 shadow-2xl">
+
+                    {/* Robot */}
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="p-10 md:p-12 flex flex-col justify-between bg-gradient-to-br from-gray-900 to-black relative"
+                        className="relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-black to-black p-8 min-h-[400px] lg:min-h-[620px]"
                     >
-                        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
-
-                        <div className="relative z-10">
-                            <TypewriterText
-                                text={t('contact_badge')}
-                                className="text-brand-orange font-bold uppercase tracking-wider mb-2 block"
-                                tag="h3"
-                                delay={0.3}
-                            />
-                            <TypewriterText
-                                text={t('contact_title')}
-                                className="text-3xl md:text-4xl font-bold text-white mb-8 block"
-                                tag="h2"
-                                delay={0.5}
-                            />
-
-                            <div className="space-y-6">
-
-                                <div className="flex items-start">
-                                    <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-orange shrink-0">
-                                        <FaPhone />
-                                    </div>
-                                    <div className="ml-4">
-                                        <p className="text-sm text-gray-500 uppercase tracking-wide">{t('phone_label')}</p>
-                                        <a href="tel:+49123456789" className="text-white text-lg font-semibold hover:text-brand-orange cursor-pointer transition-colors">+49 123 456 789</a>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-start">
-                                    <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-orange shrink-0">
-                                        <FaEnvelope />
-                                    </div>
-                                    <div className="ml-4">
-                                        <p className="text-sm text-gray-500 uppercase tracking-wide">Email</p>
-                                        <a href="mailto:info@laslo-reifen.de" className="text-white text-lg font-semibold hover:text-brand-orange cursor-pointer transition-colors">info@laslo-reifen.de</a>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-start">
-                                    <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-orange shrink-0">
-                                        <FaLocationDot />
-                                    </div>
-                                    <div className="ml-4">
-                                        <p className="text-sm text-gray-500 uppercase tracking-wide">{t('address_label')}</p>
-                                        <p className="text-white text-lg font-semibold">München, Deutschland</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="mt-12 relative z-10">
-                            <p className="text-gray-500 text-sm mb-4">{t('social_label')}</p>
-                            <div className="flex space-x-4">
-                                <a href="https://www.instagram.com/laslo.reifen?igsh=MXZxZDBvdWN5Y2oxNw==" target="_blank" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><FaInstagram /></a>
-                                <a href="https://www.facebook.com/share/17uXyhRbgV/" target="_blank" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><FaFacebookF /></a>
-                                <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><FaLinkedinIn /></a>
-                            </div>
-                        </div>
-
-                        {/* Map Iframe */}
-                        <div className="mt-12 relative z-10 pt-8 border-t border-gray-800/50">
-                            <label className="block text-sm font-medium text-gray-400 mb-3">{t('storage_label')}</label>
-                            <div className="w-full h-48 rounded-lg overflow-hidden border border-gray-700 relative bg-gray-900 shadow-lg">
-                                <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2557.1858568962843!2d10.677126112318389!3d50.1389548714157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a24ba30c2e3e71%3A0x8616c280ec7b4e5c!2sReifen%20Nik-M%C3%BCller%20KG!5e0!3m2!1sde!2sde!4v1769803670619!5m2!1sde!2sde"
-                                    width="100%"
-                                    height="100%"
-                                    style={{ border: 0 }}
-                                    allowFullScreen
-                                    loading="lazy"
-                                    referrerPolicy="no-referrer-when-downgrade"
-                                ></iframe>
-
-                                <div className="absolute inset-0 pointer-events-none flex items-center justify-center bg-black/10">
-                                    <a href="https://maps.app.goo.gl/qLoQAAP91YKz1nNJ8" target="_blank" className="pointer-events-auto bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-4 py-2 rounded-full text-xs font-bold border border-white/20 transition-all flex items-center">
-                                        <FaMapLocationDot className="mr-2" /> In Google Maps öffnen
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        <MechanicRobot className="max-w-[440px]" />
                     </motion.div>
 
                     {/* Contact Form */}
@@ -143,7 +89,7 @@ const Contact = () => {
                         initial={{ opacity: 0, x: 30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="p-10 md:p-12"
+                        className="p-8 sm:p-10 md:p-12 flex flex-col justify-center"
                     >
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -209,6 +155,78 @@ const Contact = () => {
                             </button>
                         </form>
                     </motion.div>
+                </div>
+
+                {/* Contact details */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6"
+                >
+                    <div className="bg-brand-gray border border-gray-800 rounded-2xl p-5 flex items-center hover:border-brand-orange/30 transition-colors">
+                        <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-orange shrink-0">
+                            <FaPhone />
+                        </div>
+                        <div className="ml-4 min-w-0">
+                            <p className="text-sm text-gray-500 uppercase tracking-wide">{t('phone_label')}</p>
+                            <a href="tel:+49123456789" className="text-white text-lg font-semibold hover:text-brand-orange cursor-pointer transition-colors">+49 123 456 789</a>
+                        </div>
+                    </div>
+
+                    <div className="bg-brand-gray border border-gray-800 rounded-2xl p-5 flex items-center hover:border-brand-orange/30 transition-colors">
+                        <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-orange shrink-0">
+                            <FaEnvelope />
+                        </div>
+                        <div className="ml-4 min-w-0">
+                            <p className="text-sm text-gray-500 uppercase tracking-wide">Email</p>
+                            <a href="mailto:info@laslo-reifen.de" className="text-white text-lg font-semibold hover:text-brand-orange cursor-pointer transition-colors truncate block">info@laslo-reifen.de</a>
+                        </div>
+                    </div>
+
+                    <div className="bg-brand-gray border border-gray-800 rounded-2xl p-5 flex items-center hover:border-brand-orange/30 transition-colors">
+                        <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-orange shrink-0">
+                            <FaLocationDot />
+                        </div>
+                        <div className="ml-4 min-w-0">
+                            <p className="text-sm text-gray-500 uppercase tracking-wide">{t('address_label')}</p>
+                            <p className="text-white text-lg font-semibold">München, Deutschland</p>
+                        </div>
+                    </div>
+                </motion.div>
+
+                {/* Socials + Map */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+                    <div className="bg-brand-gray border border-gray-800 rounded-2xl p-6 flex flex-col justify-center">
+                        <p className="text-gray-500 text-sm mb-4">{t('social_label')}</p>
+                        <div className="flex space-x-4">
+                            <a href="https://www.instagram.com/laslo.reifen?igsh=MXZxZDBvdWN5Y2oxNw==" target="_blank" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><FaInstagram /></a>
+                            <a href="https://www.facebook.com/share/17uXyhRbgV/" target="_blank" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><FaFacebookF /></a>
+                            <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><FaLinkedinIn /></a>
+                        </div>
+                    </div>
+
+                    {/* Map Iframe */}
+                    <div className="lg:col-span-2 bg-brand-gray border border-gray-800 rounded-2xl p-6">
+                        <label className="block text-sm font-medium text-gray-400 mb-3">{t('storage_label')}</label>
+                        <div className="w-full h-48 rounded-lg overflow-hidden border border-gray-700 relative bg-gray-900 shadow-lg">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2557.1858568962843!2d10.677126112318389!3d50.1389548714157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a24ba30c2e3e71%3A0x8616c280ec7b4e5c!2sReifen%20Nik-M%C3%BCller%20KG!5e0!3m2!1sde!2sde!4v1769803670619!5m2!1sde!2sde"
+                                width="100%"
+                                height="100%"
+                                style={{ border: 0 }}
+                                allowFullScreen
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                            ></iframe>
+
+                            <div className="absolute inset-0 pointer-events-none flex items-center justify-center bg-black/10">
+                                <a href="https://maps.app.goo.gl/qLoQAAP91YKz1nNJ8" target="_blank" className="pointer-events-auto bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-4 py-2 rounded-full text-xs font-bold border border-white/20 transition-all flex items-center">
+                                    <FaMapLocationDot className="mr-2" /> In Google Maps öffnen
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
