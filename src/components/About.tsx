@@ -262,7 +262,7 @@ const About = () => {
                             </div>
                         </TabsContent>
 
-                        {/* ── Tab 3: "Unsere Partner" – partners grid ── */}
+                        {/* ── Tab 3: "Verfügbare Marken" – brands grid ── */}
                         <TabsContent
                             value="tab-3"
                             className="flex flex-col gap-8"
