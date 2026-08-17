@@ -16,6 +16,14 @@ const EASE_SINE: [number, number, number, number] = [0.37, 0, 0.63, 1];
 const BOUNCE_DURATION = 2.6;
 const SPRING = { stiffness: 110, damping: 20, mass: 0.7 };
 
+/** Shared timing so both eyes blink in perfect sync. */
+const blinkTransition = {
+    duration: 7.4,
+    times: [0, 0.3, 0.325, 0.35, 0.6, 0.72, 0.745, 0.77, 1],
+    repeat: Infinity,
+    ease: 'easeInOut' as const,
+};
+
 /** Vertical hover loop; `delay` phase-shifts a limb for follow-through. */
 const hover = (amplitude: number, delay = 0) => ({
     animate: { y: [0, -amplitude, 0] },
@@ -29,13 +37,13 @@ const hover = (amplitude: number, delay = 0) => ({
 });
 
 /**
- * Comic mechanic robot – cap, denim dungarees, tool pocket – on a continuous
- * hover loop with lagging secondary motion, squash & stretch, a reactive
- * ground shadow and pointer tracking.
+ * Mechanic robot – cap, denim dungarees, tool pocket, articulated hard-surface
+ * limbs – on a continuous hover loop with lagging secondary motion, squash &
+ * stretch, a reactive ground shadow and pointer tracking.
  */
 export function MechanicRobot({
     className,
-    label = 'Comic-Roboter als Mechaniker mit Mütze und Latzhose',
+    label = 'Roboter-Mechaniker mit Mütze und Latzhose',
 }: MechanicRobotProps) {
     const wrapRef = useRef<HTMLDivElement>(null);
     const reduceMotion = useReducedMotion();
@@ -74,9 +82,14 @@ export function MechanicRobot({
 
     return (
         <div ref={wrapRef} className={cn('relative w-full flex items-center justify-center', className)}>
-            {/* ambient backlight */}
-            <div className="absolute w-[70%] aspect-square rounded-full bg-brand-orange opacity-[0.07] blur-[90px] pointer-events-none" />
-            <div className="absolute w-[45%] aspect-square rounded-full bg-white opacity-[0.03] blur-[70px] pointer-events-none" />
+            {/* ambient backdrop: vignette + layered glow for depth and contrast */}
+            <div
+                className="absolute inset-0 pointer-events-none"
+                style={{ background: 'radial-gradient(58% 58% at 50% 36%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 100%)' }}
+            />
+            <div className="absolute w-[80%] aspect-square rounded-full bg-brand-orange opacity-[0.11] blur-[110px] pointer-events-none" />
+            <div className="absolute w-[42%] aspect-square rounded-full bg-sky-400 opacity-[0.05] blur-[85px] translate-x-10 -translate-y-8 pointer-events-none" />
+            <div className="absolute w-[38%] aspect-square rounded-full bg-white opacity-[0.045] blur-[65px] -translate-x-6 pointer-events-none" />
 
             <svg
                 viewBox="0 0 400 540"
@@ -86,45 +99,51 @@ export function MechanicRobot({
             >
                 <defs>
                     <linearGradient id="mr-shell" x1="0.15" y1="0" x2="0.85" y2="1">
-                        <stop offset="0%" stopColor="#5e636b" />
-                        <stop offset="26%" stopColor="#2b2e34" />
-                        <stop offset="60%" stopColor="#121417" />
-                        <stop offset="100%" stopColor="#050506" />
+                        <stop offset="0%" stopColor="#868d97" />
+                        <stop offset="12%" stopColor="#3a3e46" />
+                        <stop offset="55%" stopColor="#0e1013" />
+                        <stop offset="100%" stopColor="#020203" />
                     </linearGradient>
                     <linearGradient id="mr-shellSoft" x1="0.2" y1="0" x2="0.8" y2="1">
-                        <stop offset="0%" stopColor="#4e535a" />
-                        <stop offset="45%" stopColor="#1d2024" />
-                        <stop offset="100%" stopColor="#08090a" />
+                        <stop offset="0%" stopColor="#6c737c" />
+                        <stop offset="16%" stopColor="#2b2e33" />
+                        <stop offset="52%" stopColor="#141619" />
+                        <stop offset="100%" stopColor="#040506" />
                     </linearGradient>
                     <linearGradient id="mr-denim" x1="0.25" y1="0" x2="0.75" y2="1">
-                        <stop offset="0%" stopColor="#5480c4" />
-                        <stop offset="38%" stopColor="#35578f" />
-                        <stop offset="100%" stopColor="#152540" />
+                        <stop offset="0%" stopColor="#71a0e0" />
+                        <stop offset="22%" stopColor="#3f6499" />
+                        <stop offset="62%" stopColor="#223e6a" />
+                        <stop offset="100%" stopColor="#0e1c33" />
                     </linearGradient>
                     <linearGradient id="mr-denimDeep" x1="0.2" y1="0" x2="0.8" y2="1">
-                        <stop offset="0%" stopColor="#42679f" />
-                        <stop offset="50%" stopColor="#274370" />
-                        <stop offset="100%" stopColor="#0f1c2f" />
+                        <stop offset="0%" stopColor="#5480bd" />
+                        <stop offset="20%" stopColor="#2c4c80" />
+                        <stop offset="58%" stopColor="#1b3358" />
+                        <stop offset="100%" stopColor="#091324" />
                     </linearGradient>
                     <linearGradient id="mr-cap" x1="0.28" y1="0" x2="0.72" y2="1">
-                        <stop offset="0%" stopColor="#5a88ce" />
-                        <stop offset="42%" stopColor="#2e4f88" />
-                        <stop offset="100%" stopColor="#13233c" />
+                        <stop offset="0%" stopColor="#6f9de0" />
+                        <stop offset="30%" stopColor="#33569a" />
+                        <stop offset="65%" stopColor="#1a2e50" />
+                        <stop offset="100%" stopColor="#0c1830" />
                     </linearGradient>
                     <linearGradient id="mr-capBrim" x1="0.3" y1="0" x2="0.7" y2="1">
-                        <stop offset="0%" stopColor="#3d63a3" />
-                        <stop offset="55%" stopColor="#1d3358" />
-                        <stop offset="100%" stopColor="#0b1524" />
+                        <stop offset="0%" stopColor="#4c74b8" />
+                        <stop offset="40%" stopColor="#1d3358" />
+                        <stop offset="100%" stopColor="#070f1e" />
                     </linearGradient>
                     <linearGradient id="mr-metal" x1="0" y1="0" x2="0.5" y2="1">
-                        <stop offset="0%" stopColor="#eef1f5" />
-                        <stop offset="45%" stopColor="#aeb6bf" />
-                        <stop offset="100%" stopColor="#6b727b" />
+                        <stop offset="0%" stopColor="#ffffff" />
+                        <stop offset="35%" stopColor="#c5cbd3" />
+                        <stop offset="70%" stopColor="#8a919b" />
+                        <stop offset="100%" stopColor="#565c65" />
                     </linearGradient>
                     <linearGradient id="mr-boot" x1="0.2" y1="0" x2="0.8" y2="1">
-                        <stop offset="0%" stopColor="#454a52" />
-                        <stop offset="45%" stopColor="#1a1d21" />
-                        <stop offset="100%" stopColor="#050607" />
+                        <stop offset="0%" stopColor="#5a616a" />
+                        <stop offset="18%" stopColor="#24272c" />
+                        <stop offset="55%" stopColor="#121316" />
+                        <stop offset="100%" stopColor="#020303" />
                     </linearGradient>
                     <radialGradient id="mr-face" cx="0.5" cy="0.4" r="0.7">
                         <stop offset="0%" stopColor="#15181c" />
@@ -177,8 +196,8 @@ export function MechanicRobot({
                             <path d="M202 330 h13 v52 h-13 Z" fill="#ffffff" fillOpacity="0.08" />
                             <rect x="146" y="374" width="56" height="14" rx="6" fill="url(#mr-denim)" />
                             <rect x="198" y="374" width="56" height="14" rx="6" fill="url(#mr-denim)" />
-                            <path d="M144 384 h58 v22 c0 17 -14 27 -30 27 c-17 0 -30 -10 -30 -27 Z" fill="url(#mr-boot)" />
-                            <path d="M198 384 h58 v22 c0 17 -13 27 -30 27 c-16 0 -30 -10 -30 -27 Z" fill="url(#mr-boot)" />
+                            <path d="M144 384 h58 v22 c0 17 -14 27 -30 27 c-17 0 -30 -10 -30 -27 Z" fill="url(#mr-boot)" stroke="#000000" strokeOpacity="0.5" strokeWidth="1.4" />
+                            <path d="M198 384 h58 v22 c0 17 -13 27 -30 27 c-16 0 -30 -10 -30 -27 Z" fill="url(#mr-boot)" stroke="#000000" strokeOpacity="0.5" strokeWidth="1.4" />
                             <ellipse cx="172" cy="429" rx="32" ry="10" fill="#0a0b0c" />
                             <ellipse cx="228" cy="429" rx="32" ry="10" fill="#0a0b0c" />
                             <path d="M150 394 h44" stroke="#ffffff" strokeOpacity="0.12" strokeWidth="3.4" strokeLinecap="round" />
@@ -186,32 +205,47 @@ export function MechanicRobot({
                             <ellipse cx="160" cy="400" rx="12" ry="9" fill="#ffffff" fillOpacity="0.07" />
                         </motion.g>
 
-                        {/* ══ ARMS (slight lag + sway) ══ */}
+                        {/* ══ ARMS: one smooth tapered limb per side, held slightly off the body,
+                             jointed only at the shoulder socket (slight lag + sway) ══ */}
                         <motion.g
                             fill="url(#mr-shellSoft)"
+                            stroke="#000000"
+                            strokeOpacity="0.45"
+                            strokeWidth="1.2"
                             style={{ transformBox: 'view-box', transformOrigin: '200px 250px' }}
                             animate={reduceMotion ? undefined : { y: [0, -3, 0], rotate: [0, 1.1, 0] }}
                             transition={{ duration: BOUNCE_DURATION, ease: EASE_SINE, repeat: Infinity, repeatType: 'loop', delay: 0.13 }}
                         >
-                            <rect x="93" y="226" width="38" height="62" rx="19" transform="rotate(-14 112 257)" />
-                            <rect x="85" y="270" width="31" height="70" rx="15.5" transform="rotate(-7 100 305)" />
-                            <g transform="rotate(-12 99 358)">
-                                <ellipse cx="99" cy="358" rx="19" ry="22" />
-                                <path d="M89 368 v12 M99 371 v13 M109 368 v11" stroke="#000" strokeOpacity="0.7" strokeWidth="3.4" strokeLinecap="round" />
-                                <ellipse cx="94" cy="350" rx="8" ry="9" fill="#ffffff" fillOpacity="0.12" />
+                            {/* left shoulder socket – the one joint that stays anchored to the torso */}
+                            <ellipse cx="115" cy="223" rx="13" ry="11" fill="url(#mr-metal)" stroke="#000000" strokeOpacity="0.3" strokeWidth="1" />
+                            {/* left upper arm, held out from the torso for a natural gap under the arm */}
+                            <rect x="91" y="226" width="30" height="60" rx="15" transform="rotate(-14 106 256)" />
+                            {/* left forearm, overlapping the bicep so the limb reads as one piece */}
+                            <rect x="83" y="270" width="24" height="66" rx="12" transform="rotate(-7 95 303)" />
+                            {/* left gripper */}
+                            <g transform="rotate(-12 93 354)">
+                                <ellipse cx="93" cy="354" rx="17" ry="19" />
+                                <path d="M84 363 v10 M93 366 v11 M102 363 v9" stroke="#000" strokeOpacity="0.7" strokeWidth="3" strokeLinecap="round" />
+                                <ellipse cx="89" cy="346" rx="7" ry="8" fill="#ffffff" fillOpacity="0.12" stroke="none" />
                             </g>
-                            <rect x="269" y="226" width="38" height="62" rx="19" transform="rotate(14 288 257)" />
-                            <rect x="284" y="268" width="31" height="66" rx="15.5" transform="rotate(9 299 301)" />
-                            <g transform="rotate(13 301 352)">
-                                <ellipse cx="301" cy="352" rx="19" ry="22" />
-                                <path d="M291 362 v11 M301 365 v13 M311 362 v12" stroke="#000" strokeOpacity="0.7" strokeWidth="3.4" strokeLinecap="round" />
-                                <ellipse cx="296" cy="344" rx="8" ry="9" fill="#ffffff" fillOpacity="0.12" />
+
+                            {/* right shoulder socket */}
+                            <ellipse cx="285" cy="223" rx="13" ry="11" fill="url(#mr-metal)" stroke="#000000" strokeOpacity="0.3" strokeWidth="1" />
+                            {/* right upper arm */}
+                            <rect x="279" y="226" width="30" height="60" rx="15" transform="rotate(14 294 256)" />
+                            {/* right forearm */}
+                            <rect x="293" y="270" width="24" height="62" rx="12" transform="rotate(9 305 301)" />
+                            {/* right gripper */}
+                            <g transform="rotate(12 307 354)">
+                                <ellipse cx="307" cy="354" rx="17" ry="19" />
+                                <path d="M316 363 v10 M307 366 v11 M298 363 v9" stroke="#000" strokeOpacity="0.7" strokeWidth="3" strokeLinecap="round" />
+                                <ellipse cx="311" cy="346" rx="7" ry="8" fill="#ffffff" fillOpacity="0.12" stroke="none" />
                             </g>
                         </motion.g>
 
                         {/* ══ TORSO ══ */}
                         <motion.g style={{ x: torsoX }}>
-                            <path d="M108 268 C108 220 146 198 200 198 C254 198 292 220 292 268 C292 318 262 352 200 352 C138 352 108 318 108 268 Z" fill="url(#mr-shell)" />
+                            <path d="M108 268 C108 220 146 198 200 198 C254 198 292 220 292 268 C292 318 262 352 200 352 C138 352 108 318 108 268 Z" fill="url(#mr-shell)" stroke="#000000" strokeOpacity="0.5" strokeWidth="1.5" />
                             <path d="M152 204 C170 216 230 216 248 204 C230 198 170 198 152 204 Z" fill="#000" fillOpacity="0.5" />
                             <ellipse cx="164" cy="240" rx="50" ry="34" fill="url(#mr-gloss)" />
                             <path d="M286 252 C291 270 290 294 282 312 C288 292 288 270 282 254 Z" fill="#ffffff" fillOpacity="0.20" />
@@ -264,39 +298,46 @@ export function MechanicRobot({
                         <motion.g {...anim(5, 0.05)}>
                             <motion.g style={{ x: headX, y: headY, rotate: headTilt, transformBox: 'view-box', transformOrigin: '200px 200px' }}>
                                 {/* ear pads */}
-                                <rect x="86" y="106" width="34" height="62" rx="17" fill="url(#mr-shellSoft)" />
+                                <rect x="86" y="106" width="34" height="62" rx="17" fill="url(#mr-shellSoft)" stroke="#000000" strokeOpacity="0.45" strokeWidth="1.2" />
                                 <rect x="94" y="118" width="15" height="38" rx="7.5" fill="url(#mr-metal)" fillOpacity="0.5" />
-                                <rect x="280" y="106" width="34" height="62" rx="17" fill="url(#mr-shellSoft)" />
+                                <rect x="280" y="106" width="34" height="62" rx="17" fill="url(#mr-shellSoft)" stroke="#000000" strokeOpacity="0.45" strokeWidth="1.2" />
                                 <rect x="291" y="118" width="15" height="38" rx="7.5" fill="url(#mr-metal)" fillOpacity="0.35" />
 
                                 {/* helmet */}
-                                <ellipse cx="200" cy="124" rx="92" ry="76" fill="url(#mr-shell)" />
+                                <ellipse cx="200" cy="124" rx="92" ry="76" fill="url(#mr-shell)" stroke="#000000" strokeOpacity="0.5" strokeWidth="1.6" />
                                 <ellipse cx="200" cy="124" rx="92" ry="76" fill="url(#mr-gloss)" />
                                 <path d="M288 100 C294 116 294 142 286 162 C292 140 292 116 284 102 Z" fill="#ffffff" fillOpacity="0.22" />
 
                                 {/* face screen */}
                                 <ellipse cx="200" cy="134" rx="71" ry="52" fill="url(#mr-face)" />
-                                <ellipse cx="200" cy="134" rx="71" ry="52" fill="none" stroke="#ffffff" strokeOpacity="0.07" strokeWidth="2" />
+                                <ellipse cx="200" cy="134" rx="71" ry="52" fill="none" stroke="#dfe6ee" strokeOpacity="0.3" strokeWidth="1.8" />
 
                                 {/* face: bloom pass + crisp pass, blinking together */}
-                                <motion.g
-                                    style={{ x: faceX, y: faceY, transformBox: 'view-box', transformOrigin: '200px 128px' }}
-                                    animate={reduceMotion ? undefined : { scaleY: [1, 1, 0.08, 1, 1, 1, 0.08, 1, 1] }}
-                                    transition={{
-                                        duration: 7.4,
-                                        times: [0, 0.3, 0.325, 0.35, 0.6, 0.72, 0.745, 0.77, 1],
-                                        repeat: Infinity,
-                                        ease: 'easeInOut',
-                                    }}
-                                >
-                                    <g filter="url(#mr-bloom)" opacity="0.55">
+                                <motion.g style={{ x: faceX, y: faceY }}>
+                                    {/* left eye: scales around its own center, so nothing drifts */}
+                                    <motion.g
+                                        style={{ transformBox: 'fill-box', transformOrigin: '50% 50%' }}
+                                        animate={reduceMotion ? undefined : { scaleY: [1, 1, 0.08, 1, 1, 1, 0.08, 1, 1] }}
+                                        transition={blinkTransition}
+                                    >
+                                        <g filter="url(#mr-bloom)" opacity="0.55">
+                                            <ellipse cx="173" cy="128" rx="13" ry="15.5" fill="#ffffff" />
+                                        </g>
                                         <ellipse cx="173" cy="128" rx="13" ry="15.5" fill="#ffffff" />
+                                        <ellipse cx="169" cy="122" rx="4.6" ry="5.4" fill="#ffffff" />
+                                    </motion.g>
+                                    {/* right eye: identical blink, own center, stays in sync */}
+                                    <motion.g
+                                        style={{ transformBox: 'fill-box', transformOrigin: '50% 50%' }}
+                                        animate={reduceMotion ? undefined : { scaleY: [1, 1, 0.08, 1, 1, 1, 0.08, 1, 1] }}
+                                        transition={blinkTransition}
+                                    >
+                                        <g filter="url(#mr-bloom)" opacity="0.55">
+                                            <ellipse cx="227" cy="128" rx="13" ry="15.5" fill="#ffffff" />
+                                        </g>
                                         <ellipse cx="227" cy="128" rx="13" ry="15.5" fill="#ffffff" />
-                                    </g>
-                                    <ellipse cx="173" cy="128" rx="13" ry="15.5" fill="#ffffff" />
-                                    <ellipse cx="227" cy="128" rx="13" ry="15.5" fill="#ffffff" />
-                                    <ellipse cx="169" cy="122" rx="4.6" ry="5.4" fill="#ffffff" />
-                                    <ellipse cx="223" cy="122" rx="4.6" ry="5.4" fill="#ffffff" />
+                                        <ellipse cx="223" cy="122" rx="4.6" ry="5.4" fill="#ffffff" />
+                                    </motion.g>
                                 </motion.g>
                                 <motion.g style={{ x: faceX, y: faceY }}>
                                     <path d="M176 158 Q200 178 224 158" stroke="#ffffff" strokeWidth="8" strokeLinecap="round" fill="none" filter="url(#mr-bloom)" opacity="0.55" />
