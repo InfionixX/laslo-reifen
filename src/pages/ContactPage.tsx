@@ -102,7 +102,7 @@ const ContactPage = () => {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="p-8 md:p-12 w-full h-full flex flex-col justify-center bg-brand-gray/50 rounded-3xl border border-gray-800 shadow-xl relative order-3 lg:order-2"
                     >
-                        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.05] rounded-3xl"></div>
+                        <div className="absolute inset-0 bg-[url('/grafics/pictures/_textures/carbon-fibre.png')] opacity-[0.05] rounded-3xl"></div>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative z-10">
                             <div className="space-y-6">
                                 <div>

@@ -85,34 +85,14 @@ const AnimatedCanvas: React.FC = () => {
 };
 
 // ---------------------------------------------------------------------------
-// Tire & wheel image set for the 3D marquee
+// Tire & wheel image set for the 3D marquee.
+// Lokal unter public/grafics/pictures/_hero – bewusst nicht von Unsplash
+// gehotlinkt, da dort einzelne Fotos ohne Vorwarnung verschwinden können.
 // ---------------------------------------------------------------------------
-const tireWheelImages = [
-    'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1626814974079-fe0b52e5e1a7?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1611859266238-4b98091d9d9b?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1606577924006-27d39b132ae2?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1615529328331-f8917597711f?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1597007066540-47b440296e2f?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1542362567-b07e54358753?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1600712242805-5f78671b24da?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=400&h=300&fit=crop',
-];
+const tireWheelImages = Array.from(
+    { length: 24 },
+    (_, i) => `/grafics/pictures/_hero/hero-${String(i + 1).padStart(2, '0')}.webp`,
+);
 
 // ---------------------------------------------------------------------------
 // Main Hero Section

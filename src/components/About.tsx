@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import {
-    Award, Users, Handshake,
+    Award, Users, BadgeCheck,
     Network, Globe, Truck, Tag, MessageCircle, ShieldCheck, ShoppingCart, Zap,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -63,15 +63,15 @@ const BenefitRow = ({ icon, title, desc }: BenefitItem) => (
 );
 
 // ---------------------------------------------------------------------------
-// Partner card
+// Brand card
 // ---------------------------------------------------------------------------
-interface PartnerItem {
+interface BrandItem {
     name: string;
     category: string;
     accent: string;
 }
 
-const PartnerCard = ({ name, category, accent }: PartnerItem) => (
+const BrandCard = ({ name, category, accent }: BrandItem) => (
     <Card className="group cursor-pointer hover:border-brand-orange/40 hover:bg-brand-orange/5 hover:-translate-y-0.5 transition-all duration-300 py-0 gap-0">
         <div className="p-5 flex flex-col items-center justify-center min-h-[110px] text-center">
             {/* Colored brand initial badge */}
@@ -105,8 +105,8 @@ const About = () => {
         { icon: <Zap className="h-4 w-4" />, title: t('benefit_8_title'), desc: t('benefit_8_desc') },
     ];
 
-    // Partner brands for Tab 3
-    const partners: PartnerItem[] = [
+    // Available brands for Tab 3
+    const brands: BrandItem[] = [
         { name: 'Michelin', category: 'Reifen', accent: '#e63946' },
         { name: 'Bridgestone', category: 'Reifen', accent: '#e85d04' },
         { name: 'Continental', category: 'Reifen & Felgen', accent: '#fca311' },
@@ -124,7 +124,7 @@ const About = () => {
     const tabs = [
         { value: 'tab-1', icon: <Award className="h-4 w-4 shrink-0" />, label: t('about_tab1_label') },
         { value: 'tab-2', icon: <Users className="h-4 w-4 shrink-0" />, label: t('about_tab2_label') },
-        { value: 'tab-3', icon: <Handshake className="h-4 w-4 shrink-0" />, label: t('about_tab3_label') },
+        { value: 'tab-3', icon: <BadgeCheck className="h-4 w-4 shrink-0" />, label: t('about_tab3_label') },
     ];
 
     return (
@@ -280,10 +280,10 @@ const About = () => {
                                 </p>
                             </div>
 
-                            {/* Partner grid */}
+                            {/* Brand grid */}
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-                                {partners.map((partner) => (
-                                    <PartnerCard key={partner.name} {...partner} />
+                                {brands.map((brand) => (
+                                    <BrandCard key={brand.name} {...brand} />
                                 ))}
                             </div>
 

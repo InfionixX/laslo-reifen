@@ -6,13 +6,29 @@ header("Content-Type: application/json");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data = json_decode(file_get_contents("php://input"));
 
-    if (!empty($data->name) && !empty($data->email) && !empty($data->message)) {
-        $to = "info@laslo-reifen.de"; // Replace with actual email
-        $subject = "Neue Anfrage: " . $data->subject;
+    if (!empty($data->name) && !empty($data->email) && !empty($data->message) && !empty($data->phone)) {
+        // Server-side plausibility check – the client rules are only a convenience.
+        if (!filter_var($data->email, FILTER_VALIDATE_EMAIL)) {
+            http_response_code(400);
+            echo json_encode(["message" => "Invalid email address"]);
+            exit;
+        }
+
+        $to = "laszlo@magyar-gumis.de";
+        // Strip CR/LF from anything that ends up in a header (injection guard).
+        $safeSubject = str_replace(array("\r", "\n"), " ", (string) ($data->subject ?? ""));
+        $safeEmail = str_replace(array("\r", "\n"), "", (string) $data->email);
+
+        $subject = "Neue Anfrage: " . $safeSubject;
         $body = "Name: " . $data->name . "\n";
-        $body .= "Email: " . $data->email . "\n\n";
-        $body .= "Nachricht:\n" . $data->message;
-        $headers = "From: " . $data->email;
+        $body .= "Email: " . $data->email . "\n";
+        $body .= "Telefon: " . ($data->dialCode ?? "") . " " . $data->phone . "\n";
+        if (!empty($data->hsn) || !empty($data->tsn)) {
+            $body .= "HSN (2.1): " . ($data->hsn ?? "") . "\n";
+            $body .= "TSN (2.2): " . ($data->tsn ?? "") . "\n";
+        }
+        $body .= "\nNachricht:\n" . $data->message;
+        $headers = "From: " . $safeEmail;
 
         if (mail($to, $subject, $body, $headers)) {
             http_response_code(200);

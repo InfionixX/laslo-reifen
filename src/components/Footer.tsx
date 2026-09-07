@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { FaInstagram, FaFacebookF } from 'react-icons/fa';
 import { GiCarWheel } from 'react-icons/gi';
 import { useModal } from '../context/ModalContext';
+import SocialLinks from './ui/social-links';
 
 const Footer = () => {
     const { t } = useTranslation();
@@ -21,6 +21,12 @@ const Footer = () => {
                         <p className="text-gray-500 max-w-sm">
                             {t('footer_desc')}
                         </p>
+
+                        {/* Social profiles */}
+                        <div className="mt-6">
+                            <h4 className="text-white font-bold mb-3 uppercase text-sm tracking-wider">{t('social_label')}</h4>
+                            <SocialLinks variant="solid" iconClassName="text-lg" />
+                        </div>
                     </div>
                     <div>
                         <h4 className="text-white font-bold mb-4 uppercase text-sm tracking-wider">{t('footer_links')}</h4>
@@ -36,15 +42,13 @@ const Footer = () => {
                         <ul className="space-y-2">
                             <li><button onClick={() => openModal('impressum')} className="text-gray-500 hover:text-brand-orange transition-colors text-sm text-left">Impressum</button></li>
                             <li><button onClick={() => openModal('privacy')} className="text-gray-500 hover:text-brand-orange transition-colors text-sm text-left">Datenschutz</button></li>
+                            <li><button onClick={() => openModal('widerruf')} className="text-gray-500 hover:text-brand-orange transition-colors text-sm text-left">Widerrufsbelehrung</button></li>
                         </ul>
                     </div>
                 </div>
-                <div className="border-t border-gray-900 pt-8 flex flex-col md:flex-row justify-between items-center">
-                    <p className="text-gray-600 text-sm">&copy; 2023 Laslo Reifen. All rights reserved.</p>
-                    <div className="flex space-x-6 mt-4 md:mt-0 text-gray-600 text-sm">
-                        <a href="https://www.instagram.com/laslo.reifen?igsh=MXZxZDBvdWN5Y2oxNw==" target="_blank" className="hover:text-brand-orange"><FaInstagram className="text-lg" /></a>
-                        <a href="https://www.facebook.com/share/17uXyhRbgV/" target="_blank" className="hover:text-brand-orange"><FaFacebookF className="text-lg" /></a>
-                    </div>
+                <div className="border-t border-gray-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p className="text-gray-600 text-sm">&copy; 2026 Magyar Gumis. Alle Rechte vorbehalten.</p>
+                    <a href="mailto:laszlo@magyar-gumis.de" className="text-gray-600 hover:text-brand-orange transition-colors text-sm">laszlo@magyar-gumis.de</a>
                 </div>
             </div>
         </footer>

@@ -13,7 +13,7 @@ const Reviews = () => {
             company: "",
             content: t('review_1_text'),
             rating: 5,
-            avatar: 'https://images.unsplash.com/photo-1578844251758-2f71da64c96f?w=500&q=80',
+            avatar: '/grafics/pictures/_reviews/reviewer-1.webp',
         },
         {
             id: 2,
@@ -22,7 +22,7 @@ const Reviews = () => {
             company: "",
             content: t('review_2_text'),
             rating: 5,
-            avatar: 'https://images.unsplash.com/photo-1549419137-ee1375d86242?w=500&q=80',
+            avatar: '/grafics/pictures/_reviews/reviewer-2.webp',
         },
         {
             id: 3,
@@ -31,7 +31,7 @@ const Reviews = () => {
             company: "",
             content: t('review_3_text'),
             rating: 5,
-            avatar: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=500&q=80',
+            avatar: '/grafics/pictures/_reviews/reviewer-3.webp',
         }
     ];
 
@@ -52,7 +52,7 @@ const Reviews = () => {
             testimonials={testimonials}
             logo={Logo}
             trustedCompanies={["Michelin", "Continental", "Pirelli", "Goodyear", "Bridgestone"]}
-            trustedCompaniesTitle="Partner & Top-Marken"
+            trustedCompaniesTitle={t('trusted_brands_title')}
         />
     );
 };

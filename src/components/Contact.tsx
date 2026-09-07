@@ -1,23 +1,77 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
-import { motion } from 'framer-motion';
-import { FaPhone, FaEnvelope, FaLocationDot, FaInstagram, FaFacebookF, FaLinkedinIn, FaMapLocationDot, FaPaperPlane, FaCircleCheck } from 'react-icons/fa6';
+import { useForm, useWatch } from 'react-hook-form';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaPhone, FaEnvelope, FaLocationDot, FaPaperPlane, FaCircleCheck, FaCircleInfo } from 'react-icons/fa6';
 import TypewriterText from './TypewriterText';
+import Modal from './Modal';
 import MechanicRobot from './ui/mechanic-robot';
 
 type FormData = {
     name: string;
     email: string;
+    dialCode: string;
+    phone: string;
     subject: string;
+    hsn: string;
+    tsn: string;
     message: string;
 };
 
+/** Country dial codes, Laslo's core markets first. */
+const DIAL_CODES = [
+    { iso: 'DE', code: '+49' },
+    { iso: 'HU', code: '+36' },
+    { iso: 'AT', code: '+43' },
+    { iso: 'CH', code: '+41' },
+    { iso: 'SK', code: '+421' },
+    { iso: 'CZ', code: '+420' },
+    { iso: 'PL', code: '+48' },
+    { iso: 'RO', code: '+40' },
+    { iso: 'HR', code: '+385' },
+    { iso: 'SI', code: '+386' },
+    { iso: 'RS', code: '+381' },
+    { iso: 'NL', code: '+31' },
+    { iso: 'BE', code: '+32' },
+    { iso: 'FR', code: '+33' },
+    { iso: 'IT', code: '+39' },
+    { iso: 'ES', code: '+34' },
+    { iso: 'GB', code: '+44' },
+];
+
+/** Subjects that require the vehicle key numbers to make a useful quote. */
+const VEHICLE_SUBJECTS = ['Tires', 'Rims'];
+
+/* Plausibility patterns – kept next to the form they guard. */
+const NAME_PATTERN = /^\p{L}[\p{L}\s'’.-]{1,59}$/u;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/;
+const PHONE_PATTERN = /^\d[\d\s/-]{4,16}$/;
+const HSN_PATTERN = /^\d{4}$/;
+const TSN_PATTERN = /^[A-Za-z0-9]{3}$/;
+
+/** Inline validation message, styled like the rest of the form. */
+const FieldError = ({ message }: { message?: string }) =>
+    message ? <span className="text-red-500 text-xs mt-1 block">{message}</span> : null;
+
 const Contact = () => {
     const { t } = useTranslation();
-    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormData>();
+    const {
+        register,
+        handleSubmit,
+        reset,
+        control,
+        formState: { errors, isSubmitting },
+    } = useForm<FormData>({
+        // Hidden HSN/TSN inputs must not submit stale values or block validation.
+        shouldUnregister: true,
+        defaultValues: { dialCode: '+49', subject: 'General' },
+    });
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const [submitError, setSubmitError] = useState('');
+    const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+
+    const subject = useWatch({ control, name: 'subject' });
+    const showVehicleFields = VEHICLE_SUBJECTS.includes(subject);
 
     const onSubmit = async (data: FormData) => {
         setSubmitError('');
@@ -96,29 +150,68 @@ const Contact = () => {
                                 <div>
                                     <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_name')}</label>
                                     <input
-                                        {...register('name', { required: true })}
+                                        {...register('name', {
+                                            required: t('err_required'),
+                                            pattern: { value: NAME_PATTERN, message: t('err_name_invalid') },
+                                        })}
                                         type="text"
+                                        autoComplete="name"
+                                        aria-invalid={!!errors.name}
                                         className="w-full bg-brand-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
                                         placeholder="John Doe"
                                     />
-                                    {errors.name && <span className="text-red-500 text-xs">Pflichtfeld</span>}
+                                    <FieldError message={errors.name?.message} />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_email')}</label>
                                     <input
-                                        {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
+                                        {...register('email', {
+                                            required: t('err_required'),
+                                            pattern: { value: EMAIL_PATTERN, message: t('err_email_invalid') },
+                                        })}
                                         type="email"
+                                        autoComplete="email"
+                                        aria-invalid={!!errors.email}
                                         className="w-full bg-brand-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
                                         placeholder="john@example.com"
                                     />
-                                    {errors.email && <span className="text-red-500 text-xs">Gültige Email erforderlich</span>}
+                                    <FieldError message={errors.email?.message} />
                                 </div>
                             </div>
+
+                            {/* Phone: dial code dropdown + number, always required */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_phone')}</label>
+                                <div className="flex gap-3">
+                                    <select
+                                        {...register('dialCode', { required: true })}
+                                        aria-label={t('form_dial_code')}
+                                        className="select-chevron w-32 sm:w-36 shrink-0 bg-brand-dark border border-gray-700 rounded-lg pl-4 py-3 text-white focus:outline-none focus:border-brand-orange transition-all"
+                                    >
+                                        {DIAL_CODES.map(({ iso, code }) => (
+                                            <option key={iso} value={code}>{iso} {code}</option>
+                                        ))}
+                                    </select>
+                                    <input
+                                        {...register('phone', {
+                                            required: t('err_required'),
+                                            pattern: { value: PHONE_PATTERN, message: t('err_phone_invalid') },
+                                        })}
+                                        type="tel"
+                                        autoComplete="tel-national"
+                                        aria-invalid={!!errors.phone}
+                                        className="flex-1 min-w-0 bg-brand-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
+                                        placeholder="151 23456789"
+                                    />
+                                </div>
+                                <FieldError message={errors.phone?.message} />
+                            </div>
+
                             <div>
                                 <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_subject')}</label>
                                 <select
                                     {...register('subject')}
-                                    className="w-full bg-brand-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-orange transition-all"
+                                    className="select-chevron w-full bg-brand-dark border border-gray-700 rounded-lg pl-4 py-3 text-white focus:outline-none focus:border-brand-orange transition-all"
                                 >
                                     <option value="General">{t('opt_general')}</option>
                                     <option value="Tires">{t('opt_tires')}</option>
@@ -126,15 +219,78 @@ const Contact = () => {
                                     <option value="Partner">{t('opt_partner')}</option>
                                 </select>
                             </div>
+
+                            {/* HSN/TSN: only relevant for tire and rim enquiries */}
+                            <AnimatePresence initial={false}>
+                                {showVehicleFields && (
+                                    <motion.div
+                                        key="hsn-tsn"
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: 'auto' }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        transition={{ duration: 0.28, ease: 'easeInOut' }}
+                                        className="overflow-hidden"
+                                    >
+                                        <div className="flex items-center justify-between mb-2">
+                                            <label className="block text-sm font-medium text-gray-400">{t('form_hsn_tsn')}</label>
+                                            <button
+                                                type="button"
+                                                onClick={() => setIsInfoModalOpen(true)}
+                                                className="text-brand-orange text-sm font-medium hover:text-orange-400 hover:underline transition-all cursor-pointer flex items-center gap-1"
+                                            >
+                                                <FaCircleInfo className="text-xs" />
+                                                {t('form_hsn_tsn_more_info')}
+                                            </button>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-6">
+                                            <div>
+                                                <input
+                                                    {...register('hsn', {
+                                                        required: t('err_required'),
+                                                        pattern: { value: HSN_PATTERN, message: t('err_hsn_invalid') },
+                                                    })}
+                                                    type="text"
+                                                    inputMode="numeric"
+                                                    maxLength={4}
+                                                    aria-invalid={!!errors.hsn}
+                                                    className="w-full bg-brand-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600 uppercase"
+                                                    placeholder={t('form_hsn')}
+                                                />
+                                                <FieldError message={errors.hsn?.message} />
+                                            </div>
+                                            <div>
+                                                <input
+                                                    {...register('tsn', {
+                                                        required: t('err_required'),
+                                                        pattern: { value: TSN_PATTERN, message: t('err_tsn_invalid') },
+                                                    })}
+                                                    type="text"
+                                                    maxLength={3}
+                                                    aria-invalid={!!errors.tsn}
+                                                    className="w-full bg-brand-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600 uppercase"
+                                                    placeholder={t('form_tsn')}
+                                                />
+                                                <FieldError message={errors.tsn?.message} />
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
                             <div>
                                 <label className="block text-sm font-medium text-gray-400 mb-2">{t('form_message')}</label>
                                 <textarea
-                                    {...register('message', { required: true })}
+                                    {...register('message', {
+                                        required: t('err_required'),
+                                        minLength: { value: 10, message: t('err_message_invalid') },
+                                        maxLength: { value: 2000, message: t('err_message_too_long') },
+                                    })}
                                     rows={4}
+                                    aria-invalid={!!errors.message}
                                     className="w-full bg-brand-dark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange transition-all placeholder-gray-600"
                                     placeholder="..."
                                 ></textarea>
-                                {errors.message && <span className="text-red-500 text-xs">Nachricht erforderlich</span>}
+                                <FieldError message={errors.message?.message} />
                             </div>
 
                             {submitError && <div className="text-red-500 text-sm">{submitError}</div>}
@@ -170,7 +326,7 @@ const Contact = () => {
                         </div>
                         <div className="ml-4 min-w-0">
                             <p className="text-sm text-gray-500 uppercase tracking-wide">{t('phone_label')}</p>
-                            <a href="tel:+49123456789" className="text-white text-lg font-semibold hover:text-brand-orange cursor-pointer transition-colors">+49 123 456 789</a>
+                            <a href="tel:+4915171561144" className="text-white text-lg font-semibold hover:text-brand-orange cursor-pointer transition-colors">+49 1517 1561144</a>
                         </div>
                     </div>
 
@@ -180,7 +336,7 @@ const Contact = () => {
                         </div>
                         <div className="ml-4 min-w-0">
                             <p className="text-sm text-gray-500 uppercase tracking-wide">Email</p>
-                            <a href="mailto:info@laslo-reifen.de" className="text-white text-lg font-semibold hover:text-brand-orange cursor-pointer transition-colors truncate block">info@laslo-reifen.de</a>
+                            <a href="mailto:laszlo@magyar-gumis.de" className="text-white text-lg font-semibold hover:text-brand-orange cursor-pointer transition-colors truncate block">laszlo@magyar-gumis.de</a>
                         </div>
                     </div>
 
@@ -190,44 +346,11 @@ const Contact = () => {
                         </div>
                         <div className="ml-4 min-w-0">
                             <p className="text-sm text-gray-500 uppercase tracking-wide">{t('address_label')}</p>
-                            <p className="text-white text-lg font-semibold">München, Deutschland</p>
+                            <p className="text-white text-lg font-semibold">Franken, Bayern</p>
                         </div>
                     </div>
                 </motion.div>
 
-                {/* Socials + Map */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-                    <div className="bg-brand-gray border border-gray-800 rounded-2xl p-6 flex flex-col justify-center">
-                        <p className="text-gray-500 text-sm mb-4">{t('social_label')}</p>
-                        <div className="flex space-x-4">
-                            <a href="https://www.instagram.com/laslo.reifen?igsh=MXZxZDBvdWN5Y2oxNw==" target="_blank" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><FaInstagram /></a>
-                            <a href="https://www.facebook.com/share/17uXyhRbgV/" target="_blank" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><FaFacebookF /></a>
-                            <a href="#" className="w-10 h-10 rounded-full bg-gray-800 hover:bg-brand-orange flex items-center justify-center text-white transition-colors"><FaLinkedinIn /></a>
-                        </div>
-                    </div>
-
-                    {/* Map Iframe */}
-                    <div className="lg:col-span-2 bg-brand-gray border border-gray-800 rounded-2xl p-6">
-                        <label className="block text-sm font-medium text-gray-400 mb-3">{t('storage_label')}</label>
-                        <div className="w-full h-48 rounded-lg overflow-hidden border border-gray-700 relative bg-gray-900 shadow-lg">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2557.1858568962843!2d10.677126112318389!3d50.1389548714157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a24ba30c2e3e71%3A0x8616c280ec7b4e5c!2sReifen%20Nik-M%C3%BCller%20KG!5e0!3m2!1sde!2sde!4v1769803670619!5m2!1sde!2sde"
-                                width="100%"
-                                height="100%"
-                                style={{ border: 0 }}
-                                allowFullScreen
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                            ></iframe>
-
-                            <div className="absolute inset-0 pointer-events-none flex items-center justify-center bg-black/10">
-                                <a href="https://maps.app.goo.gl/qLoQAAP91YKz1nNJ8" target="_blank" className="pointer-events-auto bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-4 py-2 rounded-full text-xs font-bold border border-white/20 transition-all flex items-center">
-                                    <FaMapLocationDot className="mr-2" /> In Google Maps öffnen
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             {/* Toast Notification */}
@@ -238,6 +361,16 @@ const Contact = () => {
                     <p className="text-sm text-gray-400">{t('toast_msg')}</p>
                 </div>
             </div>
+
+            {/* HSN/TSN Info Modal */}
+            <Modal isOpen={isInfoModalOpen} onClose={() => setIsInfoModalOpen(false)} title={t('form_modal_title')} maxWidth="max-w-4xl">
+                <div className="flex flex-col items-center">
+                    <p className="mb-6 text-gray-300 text-lg text-center leading-relaxed max-w-2xl">
+                        {t('form_hsn_tsn_info')}
+                    </p>
+                    <img src="/grafics/pictures/_contact-page/_info/fahrzeugschein-hsn-tsn.png" alt={t('form_modal_title')} className="w-full rounded-xl border border-gray-600 shadow-2xl" />
+                </div>
+            </Modal>
         </section>
     );
 };

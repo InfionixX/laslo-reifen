@@ -167,7 +167,7 @@ export function AnimatedTestimonials({
                 style={{ zIndex: activeIndex === index ? 10 : 0, pointerEvents: activeIndex === index ? 'auto' : 'none' }}
               >
                 <div className="bg-brand-gray/50 border border-gray-800 shadow-xl rounded-2xl p-8 h-full flex flex-col relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.05] pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-[url('/grafics/pictures/_textures/carbon-fibre.png')] opacity-[0.05] pointer-events-none"></div>
                   
                   <div className="mb-6 flex gap-1 relative z-10">
                     {Array(testimonial.rating)

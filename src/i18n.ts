@@ -65,8 +65,16 @@ const resources = {
             opt_tires: "Reifen Angebot",
             opt_rims: "Felgen Beratung",
             opt_partner: "Händler werden",
+            form_dial_code: "Ländervorwahl",
             form_submit: "Nachricht senden",
-            storage_label: "Unsere Lagerräumlichkeiten.",
+            err_required: "Pflichtfeld",
+            err_name_invalid: "Bitte geben Sie einen gültigen Namen ein (mind. 2 Zeichen, keine Ziffern).",
+            err_email_invalid: "Bitte geben Sie eine gültige E-Mail-Adresse ein (z. B. name@domain.de).",
+            err_phone_invalid: "Bitte geben Sie eine gültige Telefonnummer ein (5–17 Ziffern, ohne Vorwahl).",
+            err_hsn_invalid: "Die HSN besteht aus genau 4 Ziffern.",
+            err_tsn_invalid: "Die TSN besteht aus genau 3 Zeichen.",
+            err_message_invalid: "Bitte geben Sie mindestens 10 Zeichen ein.",
+            err_message_too_long: "Bitte maximal 2000 Zeichen eingeben.",
             footer_desc: "Ihr zuverlässiger Partner für die Vermittlung von hochwertigen Reifen und Felgen in Europa.",
             footer_links: "Quick Links",
             footer_legal: "Rechtliches",
@@ -125,6 +133,25 @@ const resources = {
             benefit_7_desc: "Bequem von zuhause",
             benefit_8_title: "Schnelle Abwicklung",
             benefit_8_desc: "Unkompliziert & zuverlässig",
+            trusted_brands_title: "Verfügbare Top-Marken",
+            cookie_title: "Cookie-Hinweis",
+            cookie_text: "Diese Website verwendet ausschließlich technisch notwendige Cookies, die für den sicheren Betrieb der Seite erforderlich sind. Cookies von Drittanbietern sowie Analyse- oder Tracking-Dienste setzen wir nicht ein.",
+            cookie_legal_note: "Technisch notwendige Cookies sind nach § 25 Abs. 2 Nr. 2 TDDDG einwilligungsfrei. Eine Zustimmung ist daher nicht erforderlich – dieser Hinweis dient allein Ihrer Information.",
+            cookie_ack: "Verstanden",
+            cookie_show_details: "Details anzeigen",
+            cookie_hide_details: "Details ausblenden",
+            cookie_privacy_link: "Datenschutzerklärung",
+            cookie_col_name: "Name",
+            cookie_col_provider: "Anbieter",
+            cookie_col_purpose: "Zweck",
+            cookie_col_duration: "Speicherdauer",
+            cookie_group_necessary: "Technisch notwendig",
+            cookie_session_purpose: "Sitzungsverwaltung des Webservers; hält die Verbindung während Ihres Besuchs aufrecht.",
+            cookie_session_duration: "Sitzung (Löschung beim Schließen des Browsers)",
+            cookie_notice_purpose: "Speichert, dass Sie diesen Hinweis gelesen haben, damit er nicht erneut erscheint.",
+            cookie_notice_duration: "Dauerhaft bis zum Löschen der Browserdaten",
+            cookie_notice_storage: "Lokaler Speicher (kein Cookie)",
+            cookie_no_third_party: "Derzeit sind keine Cookies von Drittanbietern im Einsatz.",
             about_tab3_label: "Verfügbare Marken",
             about_tab3_badge: "Marken",
             about_tab3_title: "Verfügbare Marken",
@@ -199,8 +226,16 @@ const resources = {
             opt_tires: "Gumi ajánlat",
             opt_rims: "Felni tanácsadás",
             opt_partner: "Partner jelentkezés",
+            form_dial_code: "Országhívószám",
             form_submit: "Üzenet küldése",
-            storage_label: "Raktárhelyiségeink.",
+            err_required: "Kötelező mező",
+            err_name_invalid: "Kérjük, adjon meg egy érvényes nevet (min. 2 karakter, számjegyek nélkül).",
+            err_email_invalid: "Kérjük, adjon meg egy érvényes e-mail címet (pl. nev@domain.hu).",
+            err_phone_invalid: "Kérjük, adjon meg egy érvényes telefonszámot (5–17 számjegy, előhívó nélkül).",
+            err_hsn_invalid: "A HSN pontosan 4 számjegyből áll.",
+            err_tsn_invalid: "A TSN pontosan 3 karakterből áll.",
+            err_message_invalid: "Kérjük, adjon meg legalább 10 karaktert.",
+            err_message_too_long: "Kérjük, legfeljebb 2000 karaktert adjon meg.",
             footer_desc: "Megbízható partnere a minőségi gumik és felnik közvetítésében Európában.",
             footer_links: "Gyors Linkek",
             footer_legal: "Jogi",
@@ -259,6 +294,25 @@ const resources = {
             benefit_7_desc: "Kényelmesen otthonról",
             benefit_8_title: "Gyors ügyintézés",
             benefit_8_desc: "Egyszerű & megbízható",
+            trusted_brands_title: "Elérhető top márkák",
+            cookie_title: "Cookie-tájékoztató",
+            cookie_text: "Ez a weboldal kizárólag a működéshez feltétlenül szükséges sütiket használ, amelyek az oldal biztonságos üzemeltetéséhez kellenek. Harmadik féltől származó sütiket, valamint analitikai vagy nyomkövető szolgáltatásokat nem alkalmazunk.",
+            cookie_legal_note: "A technikailag szükséges sütikhez a német TDDDG 25. § (2) bek. 2. pontja szerint nem kell hozzájárulás. Ezért beleegyezés nem szükséges – ez a tájékoztató kizárólag az Ön informálását szolgálja.",
+            cookie_ack: "Értettem",
+            cookie_show_details: "Részletek megjelenítése",
+            cookie_hide_details: "Részletek elrejtése",
+            cookie_privacy_link: "Adatvédelmi nyilatkozat",
+            cookie_col_name: "Név",
+            cookie_col_provider: "Szolgáltató",
+            cookie_col_purpose: "Cél",
+            cookie_col_duration: "Tárolási idő",
+            cookie_group_necessary: "Technikailag szükséges",
+            cookie_session_purpose: "A webszerver munkamenet-kezelése; fenntartja a kapcsolatot a látogatás ideje alatt.",
+            cookie_session_duration: "Munkamenet (törlődik a böngésző bezárásakor)",
+            cookie_notice_purpose: "Eltárolja, hogy elolvasta ezt a tájékoztatót, így az nem jelenik meg újra.",
+            cookie_notice_duration: "Tartós, a böngészőadatok törléséig",
+            cookie_notice_storage: "Helyi tároló (nem süti)",
+            cookie_no_third_party: "Jelenleg nincsenek harmadik féltől származó sütik használatban.",
             about_tab3_label: "Elérhető márkák",
             about_tab3_badge: "Márkák",
             about_tab3_title: "Elérhető márkák",
@@ -273,14 +327,56 @@ const resources = {
     }
 };
 
+export type AppLanguage = 'de' | 'hu';
+
+/**
+ * Standardsprache je Domain. Der Markenname wechselt über brand_1/brand_2
+ * ohnehin mit der Sprache mit, sodass magyar-gumis.* als „MAGYAR GUMIS“ und
+ * reifen-laslo.* als „LASLO REIFEN“ erscheint.
+ */
+const DOMAIN_LANGUAGES: Record<string, AppLanguage> = {
+    'magyar-gumis.de': 'hu',
+    'magyar-gumis.eu': 'hu',
+    'reifen-laslo.de': 'de',
+    'reifen-laslo.eu': 'de',
+};
+
+/** Greift bei localhost, Vorschau-Deployments und unbekannten Hosts. */
+const FALLBACK_LANGUAGE: AppLanguage = 'de';
+
+/**
+ * Leitet die Startsprache aus dem aufgerufenen Hostnamen ab.
+ * „www.“ wird ignoriert; Subdomains erben die Sprache ihrer Hauptdomain.
+ * Der Abgleich erfolgt an der Punktgrenze, damit ein fremder Host wie
+ * „nicht-magyar-gumis.de“ nicht versehentlich zutrifft.
+ */
+export function detectLanguageFromHost(hostname?: string): AppLanguage {
+    const raw = hostname ?? (typeof window !== 'undefined' ? window.location.hostname : '');
+    if (!raw) return FALLBACK_LANGUAGE;
+
+    const host = raw.toLowerCase().replace(/^www\./, '');
+    for (const [domain, language] of Object.entries(DOMAIN_LANGUAGES)) {
+        if (host === domain || host.endsWith(`.${domain}`)) return language;
+    }
+    return FALLBACK_LANGUAGE;
+}
+
 i18n
     .use(initReactI18next)
     .init({
         resources,
-        lng: "de", // default language
+        lng: detectLanguageFromHost(),
+        fallbackLng: FALLBACK_LANGUAGE,
         interpolation: {
             escapeValue: false // react already safes from xss
         }
     });
+
+/* <html lang> mitführen – wichtig für Screenreader und Suchmaschinen. */
+const syncDocumentLanguage = (language: string) => {
+    if (typeof document !== 'undefined') document.documentElement.lang = language;
+};
+syncDocumentLanguage(i18n.language);
+i18n.on('languageChanged', syncDocumentLanguage);
 
 export default i18n;
