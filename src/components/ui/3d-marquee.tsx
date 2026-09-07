@@ -14,20 +14,11 @@ interface ThreeDMarqueeProps {
   className?: string
 }
 
-const defaultImages = [
-  'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1626814974079-fe0b52e5e1a7?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1611859266238-4b98091d9d9b?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1612544448445-b8232cff3b6c?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1606577924006-27d39b132ae2?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1615529328331-f8917597711f?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=400&h=300&fit=crop',
-  'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&h=300&fit=crop',
-]
+/** Lokale Fallback-Bilder aus public/grafics/pictures/_hero. */
+const defaultImages = Array.from(
+  { length: 12 },
+  (_, i) => `/grafics/pictures/_hero/hero-${String(i + 1).padStart(2, '0')}.webp`,
+)
 
 const ThreeDMarquee = ({
   images = defaultImages,

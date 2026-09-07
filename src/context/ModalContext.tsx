@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 
-type ModalType = 'impressum' | 'privacy' | 'contact' | 'tire' | 'rim' | null;
+type ModalType = 'impressum' | 'privacy' | 'widerruf' | 'contact' | 'tire' | 'rim' | null;
 type ModalData = any;
 
 interface ModalContextType {

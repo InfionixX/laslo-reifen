@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaBars, FaGlobe, FaTimes } from 'react-icons/fa';
 import { GiCarWheel } from 'react-icons/gi';
+import SocialLinks from './ui/social-links';
 
 const Navbar = () => {
     const { t, i18n } = useTranslation();
@@ -63,6 +64,12 @@ const Navbar = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Social profiles – sit right of the language switcher.
+                                `self-center` opts out of the row's baseline alignment. */}
+                            <div className="flex items-center self-center pl-4 border-l border-white/10">
+                                <SocialLinks variant="ghost" iconClassName="text-[15px]" className="gap-1" />
+                            </div>
                         </div>
                     </div>
 
@@ -90,6 +97,9 @@ const Navbar = () => {
                         <a href="#contact" className="text-brand-orange font-bold block px-3 py-2 rounded-md text-base font-medium" onClick={() => setMobileMenuOpen(false)}>
                             {t('nav_contact')}
                         </a>
+                        <div className="px-3 pt-3 mt-2 border-t border-gray-800">
+                            <SocialLinks variant="solid" iconClassName="text-lg" />
+                        </div>
                     </div>
                 </div>
             )}

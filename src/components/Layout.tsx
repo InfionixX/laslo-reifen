@@ -3,8 +3,9 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import ImpressumModal from './Modals/ImpressumModal';
 import PrivacyModal from './Modals/PrivacyModal';
+import WiderrufModal from './Modals/WiderrufModal';
 import TireRimModal from './Modals/TireRimModal';
-import ChatWidget from './ChatWidget';
+import CookieNotice from './CookieNotice';
 
 const Layout = () => {
     return (
@@ -18,9 +19,10 @@ const Layout = () => {
             {/* Global Modals */}
             <ImpressumModal />
             <PrivacyModal />
+            <WiderrufModal />
             <TireRimModal />
 
-            <ChatWidget />
+            <CookieNotice />
         </div>
     );
 };
